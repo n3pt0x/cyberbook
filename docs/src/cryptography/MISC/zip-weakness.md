@@ -40,7 +40,7 @@ echo -ne '\x89\x50\x4E\x47\x0D\x0A\x1A\x0A\x00\x00\x00\x0D' > png_header.bin
 
 ```bash
 # bkcrack
-bkcrack -C zip.zip -c 1.jpg -p jpg_header.bin # image encrypt with ZipCrypto Store
+bkcrack -C zip.zip -c file.jpg -p jpg_header.bin # image encrypt with ZipCrypto Store
 
 > Key founded : xxxxxxxx xxxxxxxx xxxxxxxx
 ```
@@ -59,19 +59,21 @@ Its purpose is to verify data integrity after extraction.
 
 ```bash
 # bkcrack
-7z l -slt ch73.zip | grep -i -A 10 "cat2.jpg"
+7z l -slt zip.zip | grep -i -A 10 "file.jpg"
 > CRC = CA4F0BEE # C4 is -1 offset
 ```
 
 ```bash
 # use offset jpeg
 echo "ffd8ffe000104a46494600010101004800480000FFDB004300" | xxd -r -p > jpg_header.bin
-bkcrack -C ch73.zip -c cat1.jpg -p jpg_header3.bin -x -1 CA
+bkcrack -C zip.zip -c file.jpg -p jpg_header3.bin -x -1 CA
 ```
 
 ### 🔑 Master Key cracking
 
-```bash
+::: code-group
+
+```bash [bkcrack]
 # We can get file with key
 bkcrack -C zip.zip -k xxxxxxxx xxxxxxxx xxxxxxxx -c passwd.png -d passwd.png
 
@@ -83,27 +85,33 @@ bkcrack -C zip.zip -k xxxxxxxx xxxxxxxx xxxxxxx -D uncrypted.zip
 bkcrack -C zip.zip -k xxxxxxxx xxxxxxxx xxxxxxx -U uncrypted.zip <password> # encrypted with a new password
 ```
 
-```bash
+```bash [hashcat]
 # hashcat
 echo 'xxxxxxxxxxxxxxxxxxxxxxxx' > hash_pkzip
 hashcat -a 0 -m 20500 -g 100 hash_pkzip rockyou.txt
 ```
 
+:::
+
 ## 💥 Brute Force
 
-```bash
+::: code-group
+
+```bash [fcrackzip]
 # fcrackzip
 fcrackzip -u -v -D -p rockyou.txt zip.zip
 ```
 
-```bash
+```bash [john]
 # john
 zip2john zip.zip > zip_hash
 john --wordlist=rockyou.txt zip_hash
 ```
 
-```bash
+```bash [hashcat]
 # hashcat
-zip2john ch73.zip | cut -d':' -f2 > hashcat_pkzip
+zip2john zip.zip | cut -d':' -f2 > hashcat_pkzip
 hashcat -m 17225 -a 0 -g 100 hashcat_pkzip rockyou.txt # multi mixed (there are : png, txt)
 ```
+
+:::
