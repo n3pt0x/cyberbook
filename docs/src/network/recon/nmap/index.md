@@ -29,7 +29,7 @@ title: "Nmap"
 -PE: Echo | -PP: timestamp | -PM: netmask
 ```
 
-::: details 🕵️‍♂️ Discovery examples
+::: details Discovery examples
 
 ```bash
 nmap -PS22-25,80 $HOST  # SYN ping on specific ports

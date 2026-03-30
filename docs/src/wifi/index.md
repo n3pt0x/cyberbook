@@ -2,7 +2,7 @@
 title: WIFI
 ---
 
-# WIFI
+# 🛜 WIFI
 
 ## Terminologies fundamentals
 
