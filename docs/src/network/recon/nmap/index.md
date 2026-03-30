@@ -1,3 +1,7 @@
+---
+title: "Nmap"
+---
+
 # 👁️​ Nmap
 
 ## 🔍 Scanning Techniques
@@ -71,7 +75,7 @@ nmap -v -sA -p U:53,69,T:20-25,80 # To use ACK on TCP
 --script=<script_name>|<category>
 ```
 
-📘 **[Full NSE cheatsheet ->](/network/recon/nmap/NSE-scripts.md)**
+📘 **[Full NSE cheatsheet ->](/network/recon/nmap/nse-scripts.md)**
 
 ## ⏱️ Timing & Performance
 

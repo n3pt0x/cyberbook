@@ -1,6 +1,7 @@
 ---
 title: "Privilege Escalation"
 ---
+
 # 🧗 Privilege escalation
 
 ## 📚 Resources

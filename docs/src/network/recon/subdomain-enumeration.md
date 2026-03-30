@@ -1,7 +1,3 @@
----
-title: "Subdomain Enumeration"
----
-
 # Subdomain Enumeration
 
 ## 📚 Wordlists

@@ -1,3 +1,7 @@
+---
+title: "NSE Scripts"
+---
+
 # 👁️ Nmap NSE Scripts
 
 ## 📚 Resources

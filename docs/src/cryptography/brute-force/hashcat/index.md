@@ -1,3 +1,7 @@
+---
+title: "Hashcat"
+---
+
 # ♟️ Hashcat
 
 ## 📚 Resource
