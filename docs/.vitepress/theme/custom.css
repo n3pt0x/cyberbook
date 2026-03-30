@@ -28,3 +28,25 @@ html.dark .DocSearch-Button:hover {
   background-color: #1f1f1f;
   color: #fff;
 }
+
+/* Style SUCCESS for ::: tip */
+.custom-block.tip {
+  border-color: var(--vp-c-success-soft);
+  color: var(--vp-custom-block-info-text);
+  background-color: var(--vp-c-success-soft);
+  border: 0px;
+}
+
+.custom-block.tip a,
+.custom-block.tip code {
+  color: var(--vp-c-success-1);
+}
+
+.custom-block.tip a:hover,
+.custom-block.tip a:hover > code {
+  color: var(--vp-c-success-2);
+}
+
+.custom-block.tip code {
+  background-color: var(--vp-c-success-soft);
+}
