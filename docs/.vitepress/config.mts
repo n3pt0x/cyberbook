@@ -8,6 +8,10 @@ export default defineConfig({
   title: "📖 CyberBook",
   cleanUrls: true,
 
+  ignoreDeadLinks: [
+    /\.sh$/
+  ],
+
   themeConfig: {
     search: {
       provider: "local",
