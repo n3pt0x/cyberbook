@@ -7,6 +7,15 @@
 
 ## 🔍 Passive Sources (OSINT)
 
+### Dorking
+
+```bash
+site:"site.com"
+site:"*.site.com"
+site:"*.*.site.com"
+site:"*.site.com" -example.com
+```
+
 ### Certificate Transparency
 
 ```bash
