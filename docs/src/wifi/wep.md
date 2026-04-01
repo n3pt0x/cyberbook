@@ -15,9 +15,7 @@ WEP (Wired Equivalent Privacy) was designed to provide confidentiality similar t
 3. **Keystream** : `RC4(IV + Key)` -> generates a pseudo-random stream (`PRGA`)
 4. **Encryption** : `(Data + ICV) ⊕ Keystream`
 
-::: details
-
-### The Flaws
+::: details The Flaws
 
 | Flaw                        | Why It's Broken                                                                            |
 | --------------------------- | ------------------------------------------------------------------------------------------ |
