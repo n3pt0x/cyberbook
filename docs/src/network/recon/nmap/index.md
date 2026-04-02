@@ -151,10 +151,8 @@ xsltproc target.xml -o target.html
 -iL live_host.txt    # scan with a specific target list
 -iR 100              # scan 100 random hosts
 --exclude $TARGET    # exclude specific host
---dns-server $IP
+--dns-server $NS    # usefull in DMZ to communicate with internal host
 --resume <scan_file> # Resume a scan from the saved output file.
-
---dns-server <ns>      # usefull in DMZ to communicate with internal host
 ```
 
 ## Most used commands
