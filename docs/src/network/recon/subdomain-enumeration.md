@@ -1,6 +1,10 @@
 # Subdomain Enumeration
 
-## 📚 Wordlists
+## 📚 Resources
+
+- [Subdomain Enumeration Guide](https://sidxparab.gitbook.io/subdomain-enumeration-guide)
+
+## Wordlists
 
 - [commonspeak2-wordlists](https://github.com/assetnote/commonspeak2-wordlists)
 - [jhaddix/all.txt](https://gist.github.com/jhaddix/86a06c5dc309d08580a018c66354a056)
