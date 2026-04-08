@@ -32,16 +32,6 @@ The keystream (PRGA) is RC4(IV + Key). If you know the keystream for a given pac
 
 ## 🔍 Reconnaissance & Association
 
-### Find Target and Clients
-
-```bash
-# List all networks
-airodump-ng $interface
-
-# Target specific AP
-airodump-ng -c $channel --bssid $bssid $interface
-```
-
 ### Fake Authentication (if no client)
 
 ::: warning WEP has two authentication modes:
