@@ -48,6 +48,7 @@ hashcat -a <0-7>
 # custom charset (-1 to -4)
 -1 ?l?u?d    # (lower, upper, digit) only
 -2 abcd01234 # just some chars
+-3 ?dABCDEF  # HEX
 ```
 
 ```bash
