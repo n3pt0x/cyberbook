@@ -4,6 +4,15 @@ title: WIFI
 
 # 🛜 WIFI
 
+## 📚 Resources
+
+- [Synacktiv - Pentest WIFI in 2025](https://www.synacktiv.com/en/publications/wireless-infidelity-pentesting-wi-fi-in-2025)
+
+### 🛠️ Tools
+
+- [airgeddon](https://github.com/v1s1t0r1sh3r3/airgeddon)
+- [wifite2](https://github.com/derv82/wifite2)
+
 ## Terminologies fundamentals
 
 ::: details
@@ -172,47 +181,3 @@ airgraph-ng -i capture-01.csv -g CAPR -o out.png
 ```
 
 :::
-
-## wpa_spplicant
-
-::: details wep.conf
-
-```bash
-network={
-    ssid="SSID"
-    key_mgmt=NONE
-    wep_key0=WEP_KEY
-    wep_tx_keyidx=0
-}
-```
-
-:::
-
-::: details wpa.conf
-
-```bash
-network={
-    ssid="SSID"
-    psk="$password"
-}
-```
-
-:::
-
-::: details wpa-eap.conf
-
-```bash
-network={
-  ssid="SSID"
-  key_mgmt=WPA-EAP
-  identity="DOMAIN\User"
-  password="password"
-}
-```
-
-:::
-
-```bash
-wpa_supplicant -i $interface -c file.conf
-sudo dhclient $interface
-```
