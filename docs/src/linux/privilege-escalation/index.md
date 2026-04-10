@@ -60,6 +60,7 @@ ps fauxwww
 # capabilities
 getcap -r / 2>/dev/null
 capsh --print
+cat /proc/self/status | grep Cap
 ```
 
 ```bash

