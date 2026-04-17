@@ -51,11 +51,21 @@ cat /proc/1/status | grep -i "seccomp"
 Check if file are mounted.
 
 ```bash
+# Identify host disks/partitions
 lsblk -f
 fdisk -l
 df -h
 findmnt
 
+# Current mounts
+mount
+cat /proc/self/mountinfo
+
+# Persistent mounts
+cat /etc/fstab
+```
+
+```bash
 mkdir /mnt/host
 mount /dev/sdaX /mnt/host
 ```
