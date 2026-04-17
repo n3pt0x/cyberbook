@@ -84,7 +84,7 @@ pyrit -r handshake-01.cap analyze
 - [hcxpcapngtool (github)](https://github.com/ZerBea/hcxtools)
 
 ```bash
-sudo apt install hcxtool hcxdumptool
+sudo apt install hcxtools hcxdumptool
 ```
 
 :::
@@ -93,9 +93,7 @@ sudo apt install hcxtool hcxdumptool
 
 ```bash
 # Using hcxdumptool (modern method)
-hcxdumptool -i $interface -w capture.pcapng --rds=1
-
-# Let it run for 1-2 minutes, then stop (Ctrl+C)
+hcxdumptool -i $interface -w capture.pcapng --rds=2
 ```
 
 ::: details hcxdumptool advanced
@@ -105,14 +103,14 @@ hcxdumptool -i $interface -w capture.pcapng --rds=1
 hcxdumptool -I $interface
 
 # a = 2.4GHz, b = 5GHz, c = 6GHz, d = 60Ghz
-sudo hcxdumptool -i $interface -c 10a -w capture.pcapng --rds=1 # Channel 10 on 2.4GHz
+sudo hcxdumptool -i $interface -c 10a -w capture.pcapng --rds=2 # Channel 10 on 2.4GHz
 ```
 
 ```bash
 # Scan Specific BSSID
-sudo hcxdumptool -i $interface --rcascan=p --rds=3 # Find target
+sudo hcxdumptool -i $interface --rcascan=p --rds=2 # Find target
 echo "$bssid" | tr -d ':' | xargs -I {} sudo hcxdumptool --bpfc="wlan addr3 {}" > cible.bpf # Create BPF
-sudo hcxdumptool -i $interface -c ${channel}a -w capture.pcapng --bpf=cible.bpf # Capture
+sudo hcxdumptool -i $interface -c ${channel}a -w capture.pcapng --bpf=cible.bpf --red=2 # Capture
 ```
 
 :::
