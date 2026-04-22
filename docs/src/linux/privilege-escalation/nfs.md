@@ -21,13 +21,13 @@ Basic commands to discover and list available NFS shares on a target:
 
 ```bash
 # Enum service
-nmap -p 2049 --script=nfs* <target-ip>
+nmap -p 2049 --script=nfs* $target
 
 # List exported shares on the target
-showmount -e <target-ip>
+showmount -e $target
 
 # Mount the export manually
-sudo mount -t nfs <target-ip>:/shared/folder /mnt/nfs
+sudo mount -t nfs $target:/shared/folder /mnt/nfs
 
 # Use NFSv3 and disable file locking
 sudo mount -t nfs -o nolock,nfsvers=3 $IP:/shared/folder /mnt/nfs
