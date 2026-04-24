@@ -62,7 +62,7 @@ This sends an authentication request and an association request. After this, you
 For long attacks ([Fragmentation](#fragmentation), [ChopChop](#korek-chopchop)), maintain the association:
 
 ```bash
-aireplay-ng -1 1000 -o 1 -q 5 -e $ssid -a $bssid -h $our_mac $interface
+aireplay-ng -1 1000 -o 1 -q 5 -e $essid -a $bssid -h $our_mac $interface
 ```
 
 ::: warning SKA mode
