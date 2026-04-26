@@ -4,7 +4,7 @@
       icon="🔐"
       title="Cryptography"
       description="Encryption, hashing, PKI, and crypto attacks cheatsheets."
-      href="/cryptography/"
+      href="#"
       :is-active="true"
     />
 
@@ -12,7 +12,7 @@
       icon="🐧"
       title="Linux"
       description="Privesc, commands, persistence, and kernel exploits."
-      href="/linux/"
+      href="#"
       :is-active="false"
     />
 
@@ -20,7 +20,15 @@
       icon="🌐"
       title="Network"
       description="Protocols, pivoting, scanning, and traffic analysis."
-      href="/network/"
+      href="#"
+      :is-active="false"
+    />
+    
+    <SectionCard
+      icon="🛜"
+      title="Wifi"
+      description="WEP, WPS, WPA / WPA2, WPA3, Side-Channels."
+      href="/wifi/"
       :is-active="false"
     />
 
@@ -28,7 +36,7 @@
       icon="🎯"
       title="Pentest Basic"
       description="Methodologies, reconnaissance, and exploitation basics."
-      href="/pentest-basic/"
+      href="#"
       :is-active="false"
     />
 
@@ -36,14 +44,7 @@
       icon="🕸️"
       title="Web"
       description="OWASP top 10, API pentesting, and client-side attacks."
-      href="/web/"
-      :is-active="false"
-    />
-
-    <SectionCard
-      title="Windows"
-      description="Active Directory, PowerShell, and Windows internals."
-      href="/windows/"
+      href="#"
       :is-active="false"
     />
   </div>
