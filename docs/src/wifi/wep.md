@@ -34,7 +34,7 @@ The keystream (PRGA) is RC4(IV + Key). If you know the keystream for a given pac
 
 ### Fake Authentication (if no client)
 
-::: warning WEP has two authentication modes:
+::: tip WEP has two authentication modes:
 
 - **`Open`**: The AP accepts any client. The WEP key is only used for encryption, not authentication.
 - **`Shared Key (SKA)`**: The AP sends a challenge, and the client must encrypt it with the WEP key. This requires knowing the key.
@@ -102,7 +102,7 @@ The `#Data` column in airodump-ng shows the IV count. Once it reaches **~20,000 
 aireplay-ng -3 -b $bssid -h $client_mac $interface
 ```
 
-::: warning Note
+::: danger Note
 If no ARP request appears, combine with a deauth to force the client to reconnect.
 :::
 
