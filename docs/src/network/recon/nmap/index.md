@@ -32,9 +32,9 @@ title: "Nmap"
 ::: details Discovery examples
 
 ```bash
-nmap -PS22-25,80 $HOST  # SYN ping on specific ports
-nmap -PR -sn $HOST      # ARP scan (local network)
-nmap -PE -PP $HOST      # Mixed ICMP probes
+nmap -PS22-25,80 $TARGET  # SYN ping on specific ports
+nmap -PR -sn $TARGET      # ARP scan (local network)
+nmap -PE -PP $TARGET      # Mixed ICMP probes
 ```
 
 :::
@@ -116,10 +116,10 @@ nmap -v -sA -p U:53,69,T:20-25,80 # To use ACK on TCP
 
 ```bash
 # 10 Random IPs
-nmap -sS -f -D RND:10 $HOST
+nmap -sS -f -D RND:10 $TARGET
 
 # Random IP and yourself
-nmap -D 10.0.0.1,10.0.0.3,ME $HOST
+nmap -D 10.0.0.1,10.0.0.3,ME $TARGET
 ```
 
 :::
@@ -151,7 +151,7 @@ xsltproc target.xml -o target.html
 -iL live_host.txt    # scan with a specific target list
 -iR 100              # scan 100 random hosts
 --exclude $TARGET    # exclude specific host
---dns-server $NS    # usefull in DMZ to communicate with internal host
+--dns-server $NS     # usefull in DMZ to communicate with internal host
 --resume <scan_file> # Resume a scan from the saved output file.
 ```
 
@@ -171,5 +171,5 @@ nmap -A -p- --min-rate 5000 192.168.1-3.0-100
 nmap -sn 192.168.1.0/24
 
 # Stealth scan with decoys
-nmap -sS -f -D RND:10 -T2 $HOST
+nmap -sS -f -D RND:10 -T2 $TARGET
 ```

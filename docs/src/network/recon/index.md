@@ -28,10 +28,10 @@ nmap -sn -T4 -PE -PM -PS80,443 -PA3389 -PU40125 -PY $TARGET/24
 
 ```bash
 # Slow SYN scan + fragmentation
-nmap -sS -f -p- -T2 --max-retries 2 --scan-delay 500ms $HOST
+nmap -sS -f -p- -T2 --max-retries 2 --scan-delay 500ms $TARGET
 
 # Decoys + random hosts
-nmap -sS -f -D RND:5 -p 80,443,22 --randomize-hosts --max-retry 2 --scan-delay 800ms $HOST
+nmap -sS -f -D RND:5 -p 80,443,22 --randomize-hosts --max-retry 2 --scan-delay 800ms $TARGET
 
 # Silent scan with version detection
 nmap -sV -T2 --version-intensity 0 $TARGET
@@ -60,7 +60,7 @@ nc -nv --source-port 53 $TARGET 50000  # Connect if open
 
 ```bash
 # UDP ping from port 53
-nmap -v -PU53 $HOST
+nmap -v -PU53 $TARGET
 
 # Advanced fragmentation
 nmap -sS --mtu 16 --data-length 30 -p 80,443,22 $TARGET
