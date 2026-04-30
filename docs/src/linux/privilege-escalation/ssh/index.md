@@ -39,7 +39,7 @@ When CA is trusted for root/admin access
 PubkeyAuthentication yes
 PasswordAuthentication yes
 PermitRootLogin prohibit-password
-TrustedUserCAKeys /opt/principal/ssh/ca.pub # HERE
+TrustedUserCAKeys /path/to/ca.pub # HERE
 ```
 
 :::
