@@ -54,9 +54,27 @@ ls -la /proc/self/cwd /proc/self/exe
 ::: code-group
 
 ```bash [Unix]
+# Shows listening TCP/UDP + PIDs
 ss -tulnp
 netstat -tulnp
-ip a ; route -n
+
+# Shows USER, PID (TCP only)
+ss -planet
+netstat -planet
+
+# Interfaces / Routing
+ip a
+ip route show table all
+route -n
+
+# Connection enum
+lsof -i -P -n  # All network connections
+lsof -i :$PORT # Specific port
+lsof -i @$IP   # Specific IP
+
+fuser $PORT/tcp # PID
+
+ps aux | grep $PORT
 ```
 
 ```bash [/proc/self]
