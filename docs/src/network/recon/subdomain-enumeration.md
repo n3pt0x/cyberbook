@@ -3,6 +3,7 @@
 ## 📚 Resources
 
 - [Subdomain Enumeration Guide](https://sidxparab.gitbook.io/subdomain-enumeration-guide)
+- [Tools Collection](https://vault.cyberbook.me/osint/reconnaissance/dns)
 
 ## Wordlists
 
