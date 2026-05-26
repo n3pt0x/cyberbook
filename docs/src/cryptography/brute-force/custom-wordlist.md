@@ -85,17 +85,18 @@ kwprocessor -s 1 --shift-toggled 1 basechars/full.base keymaps/en-us.keymap rout
 ### Hashcat
 
 ```bash
-# Test a rule on a single word
-echo "password" | hashcat -r best64.rule --stdout
+# Mix words from same list in the same list
+hashcat -a 1 pass.list pass.list --stdout > combined.list
+
+# Add chars before/after
+hashcat -a 6 hash.txt dictionnaire.txt ?d?d?s --stdout
+hashcat -a 7 hash.txt ?s?d?d dictionnaire.txt --stdout
 
 # Apply rules to whole wordlist
 hashcat -r best64.rule rockyou.txt --stdout | sort -u > mutated.txt
 
 # Multiple rule files
 hashcat -r best64.rule -r leetspeak.rule rockyou.txt --stdout > mutated.txt
-
-# Default rules location
-ls /usr/share/hashcat/rules/
 ```
 
 ### John the Ripper

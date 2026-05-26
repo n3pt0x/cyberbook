@@ -79,7 +79,6 @@ john --incremental=MyMode hash.txt
 
 ```bash
 # best64 (most effective), leetspeak (1337), dive (aggressive)
-
 john --wordlist=rockyou.txt --rules hash.txt                          # Default rules
 john --wordlist=rockyou.txt --rules=best64 hash.txt                   # Specific ruleset
 john --wordlist=rockyou.txt --rules=best64 --rules=leetspeak hash.txt # Multiple
@@ -89,6 +88,10 @@ john --stdout --rules=best64 < wordlist.txt | head -20                # Test rul
 ## Utils
 
 ```bash
+# List all 2john binary
+locate '*2john*'
+
+# Exemples
 ssh2john id_rsa > ssh.hash
 zip2john secret.zip > zip.hash
 rar2john secret.rar > rar.hash

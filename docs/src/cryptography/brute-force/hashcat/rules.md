@@ -117,6 +117,9 @@ r c so0 si1 se3 ss5 sa@ $2 $0 $2 $4
 ### Basic rule attacks
 
 ```bash
+# Test a rule on a single word
+echo "password" | hashcat -r custom.rule --stdout
+
 # Multiple rule files
 hashcat -a 0 -m 1000 hashes.txt wordlist.txt -r OneRuleToRuleThemAll.rule -r best64.rule
 
