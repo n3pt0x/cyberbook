@@ -4,7 +4,7 @@ title: "Hashcat"
 
 # ♟️ Hashcat
 
-## 📚 Resource
+## 📚 Resources
 
 - [Hashcat documentation](https://hashcat.net/hashcat/)
 - [Hashcat hash types](https://hashcat.net/wiki/doku.php?id=example_hashes)
