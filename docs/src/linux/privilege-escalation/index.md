@@ -163,7 +163,9 @@ echo '<COMMAND>' | sudo -u <user> tee -a file
 ## ⏰ Cron Jobs
 
 ```bash
-ls -la /etc/cron.d/ /etc/cron.hourly/ /etc/cron.daily/
+cat /etc/crontab
+ls -la /etc/cron*
+cat /var/spool/cron/crontabs/*
 systemctl list-timers --all
 ```
 
@@ -177,32 +179,19 @@ touch -- "--checkpoint-action=exec=/bin/sh"
 
 ## 🔐 Searching Credentials & Sensitive Data
 
+- [linux-creds-hunting.sh](/assets/linux-creds-hunting.sh)
+
+### mimipenguin
+
 ```bash
-# To Check
-- logfile
-- command history : # .mysql_history, .bash_history ....
-- db file
-- crontab file
-- /backup /var/backup /var/log /var/mail
+sudo ./mimipenguin.sh
 ```
 
-### Common locations
+### Wi-Fi passwords
 
 ```bash
-# Histories
-cat ~/.bash_history ~/.mysql_history ~/.psql_history 2>/dev/null
-find /home -name ".*_history" -exec cat {} \; 2>/dev/null
-
-# SSH
-cat ~/.ssh/id_rsa ~/.ssh/authorized_keys 2>/dev/null
-find /home -name "id_rsa" -o -name "*.pem" 2>/dev/null
-
-# Web configs
-find /var/www -name ".env" -o -name "wp-config.php" -o -name "config.php" 2>/dev/null
-
-# Backups & logs
-ls -la /var/backups/ /var/log/ /var/mail/ 2>/dev/null
-grep -r -iE 'api|key|pass|user|secret|token|DB_' /var/www /home/* 2>/dev/null
+sudo nmcli dev wifi show-password
+sudo grep -r "psk=" /etc/NetworkManager/system-connections/
 ```
 
 ### 📦 Software Versioning
@@ -214,9 +203,6 @@ pip freeze
 # System packages
 dpkg -l | grep -E "vim|apache|mysql"   # Debian/Ubuntu
 rpm -qa | grep -E "vim|httpd|mysql"    # RHEL/CentOS
-
-# Binaries version
-<binary> --version
 ```
 
 ## 🚀 Misc
