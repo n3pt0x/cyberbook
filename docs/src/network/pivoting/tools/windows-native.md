@@ -13,7 +13,7 @@ Windows environments often have tools like `netsh` (native), `plink.exe` (PuTTY 
 ### Add port forward
 
 ```bash
-netsh interface portproxy add v4tov4 listenport=$LPORT listenaddress=$LHOST connectport=$RPORT connectaddress=$RHOST
+netsh interface portproxy add v4tov4 listenaddress=$LHOST listenport=$LPORT connectaddress=$RHOST connectport=$RPORT
 ```
 
 ### Verify configuration
@@ -25,7 +25,7 @@ netsh interface portproxy show v4tov4
 ### Delete port forward
 
 ```bash
-netsh interface portproxy delete v4tov4 listenport=$LPORT listenaddress=$LHOST
+netsh interface portproxy delete v4tov4 listenaddress=$LHOST listenport=$LPORT
 ```
 
 ### Enable IP forwarding (required for routing)
