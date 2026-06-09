@@ -6,6 +6,8 @@
 
 ## 🛠️ Socat – Swiss Army Knife
 
+- [Socat static binary](https://github.com/ernw/static-toolbox/releases/tag/socat-v1.7.4.4)
+
 ```bash
 # Basic port forwarding
 socat TCP-LISTEN:$LPORT,fork TCP:$RHOST:$RPORT
