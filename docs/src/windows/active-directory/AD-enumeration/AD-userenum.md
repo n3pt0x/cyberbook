@@ -24,3 +24,10 @@ rpcclient -U 'domain\\user%password' $TARGET -c 'enumdomusers'
 # Query specific user info
 rpcclient -U 'domain\\user%password' $TARGET -c 'queryuser username'
 ```
+
+### Impacket
+
+```bash
+impacket-lookupsid -no-pass -users $TARGET
+impacket-samrdump -no-pass $TARGET
+```
