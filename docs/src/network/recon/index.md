@@ -22,6 +22,9 @@ nmap -sn -PS22,80,443 -n 192.168.0.0/20 | grep "Up" | cut -d' ' -f2 > hosts.txt
 
 # Complete network enumeration
 nmap -sn -T4 -PE -PM -PS80,443 -PA3389 -PU40125 -PY $TARGET/24
+
+# AD
+nmap -sn -Pn --open --min-rate 10 -p 53,88,135,139,389,445,464,593,636,3268,3269,3389,5985 -oG scan_output $TARGET
 ```
 
 ## 🕵️ Port Scanning
@@ -75,7 +78,7 @@ nmap -sS --badsum -p 80 $TARGET
 nmap -sI <zombie_ip> -p 80,443 $TARGET
 ```
 
-## 🧅 Anonymization
+## 🧦 SOCKS
 
 ```bash
 # Tor + evasion
