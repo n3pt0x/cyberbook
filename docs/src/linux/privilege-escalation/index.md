@@ -62,10 +62,14 @@ netstat -tulnp
 ss -planet
 netstat -planet
 
-# Interfaces / Routing
+# Interfaces
 ip a
+hostname -I
+
+# Routing
 ip route show table all
 route -n
+netstat -r -n
 
 # Connection enum
 lsof -i -P -n  # All network connections
@@ -78,8 +82,9 @@ ps aux | grep $PORT
 ```
 
 ```bash [/proc/self]
-cat /proc/net/tcp /proc/net/udp /proc/net/unix
-cat /proc/net/route
+cat /proc/net/tcp /proc/net/udp /proc/net/unix # Connection TCP / UDP / Unix sockets
+cat /proc/net/route # List routes
+cat /proc/net/dev   # List interfaces
 ```
 
 :::
