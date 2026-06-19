@@ -209,7 +209,7 @@ network={
 ```
 
 ```bash
-wpa_supplicant -i $interface -c wep.conf
+sudo wpa_supplicant -i $interface -c wep.conf
 sudo dhclient $interface
 ```
 
