@@ -3,6 +3,7 @@
 ## Tools
 
 - [Target Profiling (CUPP)](https://github.com/Mebus/cupp)
+- [username-anarchy](https://github.com/urbanadventurer/username-anarchy)
 - [CeWL](https://github.com/digininja/CeWL)
 - [kwprocessor](https://github.com/hashcat/kwprocessor)
 - [Princeprocessor](https://github.com/hashcat/princeprocessor)
