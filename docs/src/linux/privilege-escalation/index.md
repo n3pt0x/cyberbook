@@ -184,7 +184,7 @@ touch -- "--checkpoint-action=exec=/bin/sh"
 
 ## 🔐 Searching Credentials & Sensitive Data
 
-- [linux-creds-hunting.sh](/assets/linux-creds-hunting.sh)
+- <a href="/assets/linux-creds-hunting.sh" target="_blank" rel="noopener noreferrer">linux-creds-hunting.sh</a>
 
 ### mimipenguin
 
