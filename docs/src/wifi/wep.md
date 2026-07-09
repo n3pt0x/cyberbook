@@ -34,6 +34,8 @@ The keystream (PRGA) is RC4(IV + Key). If you know the keystream for a given pac
 
 ### Fake Authentication (if no client)
 
+- [aircrack-ng.org (doc)](https://www.aircrack-ng.org/doku.php?id=how_to_crack_wep_with_no_clients)
+
 ::: tip WEP has two authentication modes:
 
 - **`Open`**: The AP accepts any client. The WEP key is only used for encryption, not authentication.
@@ -61,9 +63,17 @@ This sends an authentication request and an association request. After this, you
 
 For long attacks ([Fragmentation](#fragmentation), [ChopChop](#korek-chopchop)), maintain the association:
 
-```bash
-aireplay-ng -1 1000 -o 1 -q 5 -e $essid -a $bssid -h $our_mac $interface
+::: code-group
+
+```bash [airecrack-ng]
+aireplay-ng -1 5000 -o 1 -q 5 -e $essid -a $bssid -h $our_mac $interface
 ```
+
+```bash [wifite]
+wifite --wep --require-fakeauth --bssid $bssid
+```
+
+:::
 
 ::: warning SKA mode
 If the AP uses Shared Key mode, fake authentication won't work. You must either:

