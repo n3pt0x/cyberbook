@@ -1,17 +1,10 @@
-# Chisel Pivoting Cheatsheet
+# Chisel Pivoting
 
 **Chisel** is a fast TCP/UDP tunnel over HTTP, secured via SSH. Perfect for firewall traversal and pivoting in red team engagements.
 
 ## Installation
 
 [Chisel (release)](https://github.com/jpillora/chisel/releases)
-
-```bash
-# Download for Linux (attacker/pivot)
-wget https://github.com/jpillora/chisel/releases/latest/download/
-gunzip chisel_x.x.x_linux_amd64.gz
-chmod +x chisel_x.x.x_linux_amd64
-```
 
 ## Basic SOCKS5 Tunnel
 
@@ -104,8 +97,8 @@ Expose a service **from your attack box** to the target's network.
 # Attack Box (Server in reverse mode)
 chisel server --reverse -p $SERVER_PORT
 
-# Pivot Host (Client) - expose attacker's port 4444 as 4444 on pivot
-chisel client $SERVER_IP:$SERVER_PORT R:4444:0.0.0.0:4444
+# Pivot Host (Client) - expose multiples attacker's port
+chisel client $SERVER_IP:$SERVER_PORT R:4444:0.0.0.0:4444 R:9100:127.0.0.1:9100
 ```
 
 **Use case:** You have a listener on your attack box (e.g., reverse shell handler). The target cannot reach you directly. The pivot host exposes your listener to its internal network.

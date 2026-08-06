@@ -209,6 +209,7 @@ AngryOxide is a modern 802.11 attack tool written in Rust. It automates the coll
 **Supported Protocols**: WPA, WPA2, WPA3 (Transition Mode)
 
 **Key Attacks**:
+
 - **PMKID Collection**: Automatically elicits PMKID from APs.
 - **RSN Downgrade**: Attempts to force APs to downgrade to WPA2-CCMP (Probe Response Injection via RogueM2).
 - **Rogue M2**: Collects EAPOL M2 from stations based on Probe Requests.
