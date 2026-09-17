@@ -40,6 +40,8 @@ grep 'categories' /usr/share/nmap/scripts/*.nse | sort | uniq | grep -i '<protoc
 
 # Display script help
 nmap --script-help=<category-name>|<script-name>
+
+--script vulners # print all CVEs known about services.
 ```
 
 ```bash

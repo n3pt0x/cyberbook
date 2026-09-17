@@ -73,6 +73,7 @@ nmap -v -sA -p U:53,69,T:20-25,80 # To use ACK on TCP
 ```bash
 -sC # run specific script on ports discover
 --script=<script_name>|<category>
+--script vulners # print all CVEs known about services.
 ```
 
 📘 **[Full NSE cheatsheet ->](/network/recon/nmap/nse-scripts.md)**
