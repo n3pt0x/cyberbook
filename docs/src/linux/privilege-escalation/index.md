@@ -206,6 +206,7 @@ sudo grep -r "psk=" /etc/NetworkManager/system-connections/
 pip freeze
 
 # System packages
+dpkg -l # check system packages
 dpkg -l | grep -E "vim|apache|mysql"   # Debian/Ubuntu
 rpm -qa | grep -E "vim|httpd|mysql"    # RHEL/CentOS
 ```
