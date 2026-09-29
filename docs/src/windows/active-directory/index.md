@@ -17,6 +17,8 @@ title: "Active Directory"
 - [Local accounts (Microsoft)](https://docs.microsoft.com/en-us/windows/security/identity-protection/access-control/local-accounts)
 - [Default domain user accounts](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-default-user-accounts)
 
+::: details
+
 | Object       | Class                  | Purpose                          | Pentest Relevance                                           |
 | ------------ | ---------------------- | -------------------------------- | ----------------------------------------------------------- |
 | **User**     | `user`                 | Human or service account         | Can authenticate. Check `memberOf`, `SPN`, `UAC`            |
@@ -27,11 +29,15 @@ title: "Active Directory"
 | **Domain**   | `domainDNS`            | The domain itself                | Contains SID, trusts, default groups                        |
 | **GPO**      | `groupPolicyContainer` | Security policy object           | Scripts, privileges (`SeDebugPrivilege`), registry settings |
 
+:::
+
 **Key rule:** Only `User` and `Computer` can authenticate. Groups are **not** principals.
 
 ## Naming Attributes (Identity)
 
 Every object has multiple names. Know which one to use where.
+
+::: details
 
 | Attribute                   | Example                                     | Used For                                   | Immutable? | Notes                              |
 | --------------------------- | ------------------------------------------- | ------------------------------------------ | ---------- | ---------------------------------- |
@@ -42,12 +48,77 @@ Every object has multiple names. Know which one to use where.
 | **objectSid**               | `S-1-5-21-...-1104`                         | Security (ACLs, tokens)                    | ✅ Yes     | **The real security identifier**   |
 | **cn (Common Name)**        | `John Smith`                                | Display, LDAP queries                      | ❌ No      | Not used for authentication        |
 
+:::
+
 :::danger Critical
 
 - `sAMAccountName` = what you use for `net use`, `runas`, or Kerberos tickets.
 - `UPN` = what you use for web apps / Azure.
 - `SID` = what determines **actual rights** in the token.
 
+:::
+
+### UPN - User Principal Name
+
+The **UPN** is the "login" form of an AD user: `user@realm`
+(e.g. `jsmith@domain.local`). Stored in the `userPrincipalName` attribute.
+
+- Closest thing to an email-style identifier.
+- Used for modern logon: web apps, Azure AD, Kerberos with `user@domain`.
+- **Mutable** — can be changed by an admin, which enables the **Shadow UPN** attack.
+
+:::danger Critical
+Use `sAMAccountName` for legacy logon, `runas`, and most tooling.
+Use the UPN when authenticating to **web / Azure** services.
+:::
+
+### DN - Distinguished Name
+
+The full LDAP path of an object:
+
+```
+CN=John Smith,OU=Users,DC=domain,DC=local
+```
+
+- Used in LDAP queries, ACLs, and GPO links.
+- **Mutable** — changes if the object is moved to another OU.
+- Never used for authentication.
+
+### SID - Security Identifier
+
+A **SID** uniquely identifies a security principal. In a domain, it always follows
+the form `S-1-5-21-<domain SID>-<RID>`:
+
+- The **domain SID** (`S-1-5-21-...`) is identical for every object in the domain.
+- The trailing **RID** uniquely identifies the principal within that domain.
+
+**Well-known domain RIDs:**
+
+::: details
+
+| RID   | Principal                   |
+| ----- | --------------------------- |
+| `500` | Administrator               |
+| `501` | Guest                       |
+| `502` | **krbtgt**                  |
+| `512` | Domain Admins               |
+| `513` | Domain Users                |
+| `514` | Domain Guests               |
+| `515` | Domain Computers            |
+| `516` | Domain Controllers          |
+| `518` | Schema Admins               |
+| `519` | Enterprise Admins           |
+| `520` | Group Policy Creator Owners |
+| `526` | Key Admins                  |
+| `527` | Enterprise Key Admins       |
+
+:::
+
+The **domain SID** is required to forge a **Golden Ticket** (it is embedded in the PAC).
+
+:::danger Critical
+The domain SID plus a RID lets you **reconstruct the full SID** of any privileged
+principal from just one query (`whoami /user`, `Get-DomainSID`, etc.).
 :::
 
 ## Groups - Types & Scopes
@@ -84,6 +155,8 @@ Groups are **lists of SIDs**. They have a type and a scope.
 
 ## Default Sensitive Groups
 
+::: details
+
 | Group                      | Scope        | Control Level                       | If Compromised               |
 | -------------------------- | ------------ | ----------------------------------- | ---------------------------- |
 | **Domain Admins**          | Global       | Full control over the domain        | Domain owned                 |
@@ -94,11 +167,15 @@ Groups are **lists of SIDs**. They have a type and a scope.
 | **Cert Publishers**        | Domain Local | Can issue certificates              | AD CS attacks (PKI)          |
 | **Key Admins**             | Domain Local | Manage domain keys                  | GMSA attacks                 |
 
+:::
+
 ## Trusts
 
 - [Microsoft - Trust Types](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/understanding-forest-trusts)
 
 A trust links the authentication systems of two domains, allowing users to access resources in another domain.
+
+::: details
 
 | Trust Type       | Description                                                                       | Pentest Impact                                 |
 | ---------------- | --------------------------------------------------------------------------------- | ---------------------------------------------- |
@@ -107,6 +184,8 @@ A trust links the authentication systems of two domains, allowing users to acces
 | **External**     | Non-transitive trust between two domains in different forests. Uses SID filtering | If SID filtering disabled -> SIDHistory attack |
 | **Tree-root**    | Two-way transitive trust between forest root and new tree root                    | Created by design when adding a new tree       |
 | **Forest**       | Transitive trust between two forest root domains                                  | Compromise one forest -> access to other       |
+
+:::
 
 :::danger Critical for pentesters
 
@@ -182,6 +261,8 @@ S-1-5-21-1275210071-1715567821-725345543-1104
 
 ## Account Types Reference
 
+::: details
+
 | Account Type                  | Object Class                               | Password Managed By    | Typical SPN               | Attack Surface                               |
 | ----------------------------- | ------------------------------------------ | ---------------------- | ------------------------- | -------------------------------------------- |
 | Domain User                   | `user`                                     | User / Admin           | Optional                  | Kerberoast (if SPN), AS-REP (if no pre-auth) |
@@ -189,3 +270,5 @@ S-1-5-21-1275210071-1715567821-725345543-1104
 | Managed Service Account (MSA) | `user`                                     | AD (automatic)         | Set automatically         | Limited (no interactive logon)               |
 | Group MSA (gMSA)              | `user` + `msDS-GroupManagedServiceAccount` | AD (automatic)         | Set automatically         | Read `msDS-ManagedPassword` if privileged    |
 | Service Account (manual)      | `user`                                     | Admin (often weak)     | Manually set              | Kerberoast, password spraying                |
+
+:::
