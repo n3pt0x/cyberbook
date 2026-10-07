@@ -2,7 +2,7 @@
 title: "DHCP"
 ---
 
-# DHCP Spoofing
+# 🎭 DHCP Spoofing
 
 Rogue DHCP server that answers before the legitimate one to assign a malicious gateway or DNS server to victims. Useful to control network configuration from the moment a host joins the network, without waiting for ARP cache poisoning.
 
