@@ -41,7 +41,7 @@ Every object has multiple names. Know which one to use where.
 
 | Attribute                   | Example                                     | Used For                                   | Immutable? | Notes                              |
 | --------------------------- | ------------------------------------------- | ------------------------------------------ | ---------- | ---------------------------------- |
-| **sAMAccountName**          | `jsmith`                                    | Legacy logon (pre-Windows 2000), SPN, ACLs | ❌ No      | **Unique** in domain. Max 20 chars |
+| **sAMAccountName**          | `jsmith` `DOMAIN\USERNAME`                  | Legacy logon (pre-Windows 2000), SPN, ACLs | ❌ No      | **Unique** in domain. Max 20 chars |
 | **userPrincipalName (UPN)** | `jsmith@domain.local`                       | Modern logon, Kerberos, Azure AD           | ❌ No      | Can be changed (Shadow UPN attack) |
 | **distinguishedName (DN)**  | `CN=John Smith,OU=Users,DC=domain,DC=local` | LDAP path reference                        | ❌ No      | Changes if object moves OU         |
 | **objectGUID**              | `{8a7c...}`                                 | Internal AD reference                      | ✅ Yes     | Used by BloodHound internally      |
@@ -58,6 +58,13 @@ Every object has multiple names. Know which one to use where.
 
 :::
 
+::: details sAMAccountName CVE
+
+- [CVE-2021-42278](https://www.sentinelone.com/vulnerability-database/cve-2021-42278/) - noPac
+- [CVE-2021-42287](https://www.fortinet.com/blog/threat-research/cve-2021-42278-cve-2021-42287-from-user-to-domain-admin-60-seconds)
+
+:::
+
 ### UPN - User Principal Name
 
 The **UPN** is the "login" form of an AD user: `user@realm`
@@ -65,7 +72,7 @@ The **UPN** is the "login" form of an AD user: `user@realm`
 
 - Closest thing to an email-style identifier.
 - Used for modern logon: web apps, Azure AD, Kerberos with `user@domain`.
-- **Mutable** — can be changed by an admin, which enables the **Shadow UPN** attack.
+- **Mutable** - can be changed by an admin, which enables the **Shadow UPN** attack.
 
 :::danger Critical
 Use `sAMAccountName` for legacy logon, `runas`, and most tooling.
@@ -81,7 +88,7 @@ CN=John Smith,OU=Users,DC=domain,DC=local
 ```
 
 - Used in LDAP queries, ACLs, and GPO links.
-- **Mutable** — changes if the object is moved to another OU.
+- **Mutable** - changes if the object is moved to another OU.
 - Never used for authentication.
 
 ### SID - Security Identifier

