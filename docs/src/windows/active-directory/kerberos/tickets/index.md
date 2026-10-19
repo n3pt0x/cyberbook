@@ -33,3 +33,9 @@ Do I have the krbtgt key?
 > - [**Silver**](/windows/active-directory/kerberos/tickets/silver-tickets.md) - forges a TGS for one service, needs that service's key.
 > - [**Diamond**](/windows/active-directory/kerberos/tickets/diamond-tickets.md) - modifies a legitimate TGT and re-signs it, needs the krbtgt key.
 > - [**Sapphire**](/windows/active-directory/kerberos/tickets/sapphire-tickets.md) - abuses S4U2Self + U2U, needs only a valid account.
+
+## Convert ticket
+
+```bash
+impacket-ticketConverter ticket.kirbi ticket.ccache
+```
