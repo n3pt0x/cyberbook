@@ -1,4 +1,8 @@
-# Tools
+---
+title: "Tools"
+---
+
+# 🧰 Tools
 
 ## Repos
 
