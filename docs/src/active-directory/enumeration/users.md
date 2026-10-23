@@ -1,8 +1,6 @@
 # AD Users Enumeration
 
-## UserEnum
-
-### Enum - kerbrute
+## Kerbrute
 
 ```bash
 # Validate users against Kerberos
@@ -12,7 +10,7 @@ kerbrute userenum -d domain.lan users.txt --dc $TARGET
 kerbrute bruteuser -d domain.lan -u username -p passlist.txt --dc $TARGET
 ```
 
-### Enum - rpcclient
+## Enum - rpcclient
 
 ```bash
 # No Auth
