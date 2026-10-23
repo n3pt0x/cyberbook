@@ -1,5 +1,6 @@
 import { defineConfig } from "vitepress";
 import { generateSidebar } from "vitepress-sidebar";
+import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -8,9 +9,7 @@ export default defineConfig({
   title: "📖 CyberBook",
   cleanUrls: true,
 
-  ignoreDeadLinks: [
-    /\.sh$/
-  ],
+  ignoreDeadLinks: [/\.sh$/],
 
   themeConfig: {
     search: {
@@ -32,7 +31,13 @@ export default defineConfig({
       capitalizeFirst: true,
       capitalizeEachWords: true,
       useTitleFromFrontmatter: true,
-      useFolderTitleFromIndexFile: true
+      useFolderTitleFromIndexFile: true,
     }),
+  },
+
+  markdown: {
+    config(md) {
+      md.use(tabsMarkdownPlugin);
+    },
   },
 });
