@@ -34,7 +34,7 @@ rusthound --zip -d "$DOMAIN" -i "$DC_IP" -u "$USER@$DOMAIN" -p "$PASSWORD" -o "$
 
 :::
 
-![SharpHound Cheatsheet](/assets/SharpHound_cheatsheet.png){width=500}
+![SharpHound Cheatsheet](/assets/images/SharpHound_cheatsheet.png){width=500}
 
 ## Privesc
 

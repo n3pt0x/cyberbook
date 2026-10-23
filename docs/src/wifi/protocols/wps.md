@@ -140,7 +140,7 @@ Many vendors use predictable PINs based on the MAC address or other hardware ide
 wpspin -A $bssid
 ```
 
-- <a href="/assets/pin_guesser.sh" target="_blank" rel="noopener noreferrer">pin_guesser.sh</a> - a simple script to test all wpspin generated PINs.
+- <a href="/assets/scrits/pin_guesser.sh" target="_blank" rel="noopener noreferrer">pin_guesser.sh</a> - a simple script to test all wpspin generated PINs.
 
 For specific vendors:
 
