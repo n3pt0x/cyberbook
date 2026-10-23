@@ -5,7 +5,7 @@ title: "SSH"
 # 🔑 SSH Privilege Escalation & Hardening
 
 - [ssh-audit](https://github.com/jtesta/ssh-audit)
-- [OpenSSH-Scanner](https-github.com-gotr00t0day-OpenSSH-Scanner)
+- [OpenSSH-Scanner](https://github.com-gotr00t0day-OpenSSH-Scanner)
 
 ## 🔐 Privilege Escalation
 

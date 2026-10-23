@@ -114,7 +114,7 @@ sudo aireplay-ng -0 5 -a $bssid -c $client_mac wlan0mon
 sudo hcxdumptool -i wlan0mon -o capture.pcapng --enable_status=1
 ```
 
-Check this [cheasheet](../wpa-wpa2/wpa-wpa2-eap.md) to view more commands.
+Check this [cheasheet](../protocols/wpa-wpa2/wpa-wpa2-eap.md) to view more commands.
 
 ## 📡 Karma / Mana (Forced Association)
 
