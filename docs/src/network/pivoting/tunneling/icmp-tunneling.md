@@ -28,15 +28,15 @@ make
 ### Server (pivot host – victim)
 
 ```bash
-# Relay incoming ICMP traffic to local SSH (port 22)
-sudo ./ptunnel-ng -r $PIVOT_HOST -R 22
+# Proxy: listen for ICMP, restrict forwarding to local SSH (port 22)
+sudo ./ptunnel-ng -r 127.0.0.1 -R 22
 ```
 
 ### Client (attacker)
 
 ```bash
-# Create local port 2222 that tunnels ICMP to pivot's SSH
-sudo ./ptunnel-ng -p $PIVOT_HOST -l 2222 -R 22
+# Local port 2222 -> ICMP to pivot -> pivot's SSH (127.0.0.1:22)
+sudo ./ptunnel-ng -p $PIVOT_HOST -l 2222 -r 127.0.0.1 -R 22
 ```
 
 ### Use the tunnel (SSH over ICMP)

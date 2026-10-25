@@ -44,7 +44,7 @@ nmap -PE -PP $TARGET      # Mixed ICMP probes
 ```bash
 nmap -p 22,80 | -p 20-25 | -p1-65535
 
---exclude-port $PORT
+--exclude-ports $PORT
 --top-ports=<N>      # Scan N port of top port
 -F                   # fast mode, scan 100 most common port
 -p-                  # scan all ports
@@ -84,10 +84,10 @@ nmap -v -sA -p U:53,69,T:20-25,80 # To use ACK on TCP
 -T0: Paranoid | -T1: Sneaky | -T2: Polite
 -T3: Normal | -T4: Aggressive | -T5: Insane
 
---min-rate <N>          # minimum N packets/seconde
---max-rate <N>          # max N packets/seconde
+--min-rate <N>          # minimum N packets/second
+--max-rate <N>          # max N packets/second
 --scan-delay 500ms      # wait 500ms between each request
---max-rtt-timeout 100ms # limite time of responsing
+--max-rtt-timeout 100ms # max time to wait for a response
 --max-retries <N>       # (default: 10)
 --host-timeout 30m      # Max time per host
 ```
@@ -152,7 +152,7 @@ xsltproc target.xml -o target.html
 -iL live_host.txt    # scan with a specific target list
 -iR 100              # scan 100 random hosts
 --exclude $TARGET    # exclude specific host
---dns-server $NS     # usefull in DMZ to communicate with internal host
+--dns-servers $NS    # useful in DMZ to communicate with internal host
 --resume <scan_file> # Resume a scan from the saved output file.
 ```
 

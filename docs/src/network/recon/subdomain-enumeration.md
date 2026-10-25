@@ -60,7 +60,7 @@ cat wordlist.txt | xargs -P10 -I{} dig {}.$DNS +short | grep -v '^$'
 
 ```bash
 # Format: subdomain.$DNS
-awk '{print $".$DNS"}' subdomains.txt > targets.txt
+sed "s/$/.$DNS/" subdomains.txt > targets.txt
 
 # Run massdns
 ./bin/massdns -r resolvers.txt -t A -o S -w results.txt targets.txt

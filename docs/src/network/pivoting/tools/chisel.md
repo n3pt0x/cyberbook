@@ -97,7 +97,7 @@ Expose a service **from your attack box** to the target's network.
 # Attack Box (Server in reverse mode)
 chisel server --reverse -p $SERVER_PORT
 
-# Pivot Host (Client) - expose multiples attacker's port
+# Pivot Host (Client) - expose multiple attacker ports
 chisel client $SERVER_IP:$SERVER_PORT R:4444:0.0.0.0:4444 R:9100:127.0.0.1:9100
 ```
 

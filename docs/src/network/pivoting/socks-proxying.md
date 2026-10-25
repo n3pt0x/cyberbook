@@ -49,7 +49,7 @@ socks5 $SOCKS_HOST $SOCKS_PORT
 :::
 
 ```bash
-proxychains -f /etc/proxychains.conf curl $URL
+proxychains -f /etc/proxychains4.conf curl $URL
 proxychains nmap -sT -Pn $TARGET_HOST
 ```
 
