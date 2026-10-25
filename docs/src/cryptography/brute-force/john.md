@@ -91,7 +91,7 @@ john --stdout --rules=best64 < wordlist.txt | head -20                # Test rul
 # List all 2john binary
 locate '*2john*'
 
-# Exemples
+# Examples
 ssh2john id_rsa > ssh.hash
 zip2john secret.zip > zip.hash
 rar2john secret.rar > rar.hash

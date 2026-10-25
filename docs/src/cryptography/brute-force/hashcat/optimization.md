@@ -17,6 +17,7 @@ hashcat -b -m <type>  # Benchmark specific hash
 
 # Kernel optimization
 -O                        # Optimize kernel (max 32 chars per password)
+-S                        # Slow candidates mode (needed for rules on slow hashes, e.g. bcrypt/WPA)
 --threads                 # Strong CPU, complex rules | CPU helps generate candidates while GPU cracks
 
 # GPU optimization
@@ -34,7 +35,7 @@ hashcat -b -m <type>  # Benchmark specific hash
 # Hardware monitoring
 --hwmon-disable           # Disable hardware temperature monitoring
 --gpu-watchdog <N>        # GPU watchdog timer (seconds)
---gpu-malloc-threshold 	  # Set GPU memory allocation threshold
+--gpu-malloc-threshold    # Set GPU memory allocation threshold
 
 # Kernel specific
 --kernel-accel <N>        # Kernel acceleration factor (legacy)
@@ -76,12 +77,14 @@ hashcat -m 3200 bcrypt.txt wordlist.txt -w 2 -n 24 -u 12 --gpu-watchdog 30
 
 ### WPA handshake
 
+> Mode `2500` (`.hccapx`) is deprecated since hashcat v6. Convert captures with `hcxpcapngtool -o handshake.hc22000 capture.pcapng` and use mode `22000` instead - see [wifi/protocols/wpa-wpa2](../../../wifi/protocols/wpa-wpa2/index.md).
+
 ```bash
 # Desktop
-hashcat -m 2500 handshake.hccapx wordlist.txt -w 3 -n 64 -u 16 --threads 4
+hashcat -m 22000 handshake.hc22000 wordlist.txt -w 3 -n 64 -u 16 --threads 4
 
 # Laptop (balanced)
-hashcat -m 2500 handshake.hccapx wordlist.txt -w 2 -n 32 -u 16
+hashcat -m 22000 handshake.hc22000 wordlist.txt -w 2 -n 32 -u 16
 ```
 
 ### Mask attacks

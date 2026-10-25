@@ -18,9 +18,11 @@ If the file contained in the archive is a well-known file such as `jquery.min.js
 
 ```bash
 # pkcrack
-pkcrack -C step3.zip -c
-"step3/suspected_website/js/vendor/jquery.1.11.min.js" -P a.zip -p
-"jquery.1.11.min.js" -d decrypted.zip -a
+pkcrack -C step3.zip \
+  -c "step3/suspected_website/js/vendor/jquery.1.11.min.js" \
+  -P a.zip \
+  -p "jquery.1.11.min.js" \
+  -d decrypted.zip -a
 ```
 
 ### 🏷️ MIME Type header file
@@ -42,7 +44,7 @@ echo -ne '\x89\x50\x4E\x47\x0D\x0A\x1A\x0A\x00\x00\x00\x0D' > png_header.bin
 # bkcrack
 bkcrack -C zip.zip -c file.jpg -p jpg_header.bin # image encrypt with ZipCrypto Store
 
-> Key founded : xxxxxxxx xxxxxxxx xxxxxxxx
+> Key found: xxxxxxxx xxxxxxxx xxxxxxxx
 ```
 
 #### 🔎 CRC32 in a ZIP Archive
@@ -66,7 +68,7 @@ Its purpose is to verify data integrity after extraction.
 ```bash
 # use offset jpeg
 echo "ffd8ffe000104a46494600010101004800480000FFDB004300" | xxd -r -p > jpg_header.bin
-bkcrack -C zip.zip -c file.jpg -p jpg_header3.bin -x -1 CA
+bkcrack -C zip.zip -c file.jpg -p jpg_header.bin -x -1 CA
 ```
 
 ### 🔑 Master Key cracking

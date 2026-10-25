@@ -35,7 +35,7 @@
 1 1 | 1
 ```
 
-## Important Properties:
+## Important Properties
 
 - **Commutativity**: `A XOR B = B XOR A`
 - **Associativity**: `(A XOR B) XOR C = A XOR (B XOR C)`
@@ -49,7 +49,7 @@
 
 Convert the file into hexadecimal format. For example, a text file containing the message:
 
-`Hello world, this is my secret message. No body must read this message because it's very secret !`.
+`This is a larger example to test XOR encryption. We need to observe the repeating patterns of the key more clearly.`
 
 #### 2. Example with a Text File:
 
@@ -76,10 +76,10 @@ Example:
 `0x3F` **XOR** `0x54` = `0x6B`
 
 ```r
-0x3F = 1 1 1 1 1 1 1 0
+0x3F = 0 0 1 1 1 1 1 1
 0x54 = 0 1 0 1 0 1 0 0
        ---------------
-0x6B = 1 0 1 0 1 0 1 0
+0x6B = 0 1 1 0 1 0 1 1
 ```
 
 `0x0D` **XOR** `0x68` = `0x65`
@@ -106,7 +106,7 @@ Look for repeating byte patterns in the ciphertext. This can hint at the key len
 
 2. **Recovering the Key**
 
-To recover the key, XOR the repeating values with likely plaintext guesses.
+To recover the key, XOR the repeating values with likely plaintext guesses. The most reliable guess is the **space character** (`0x20`): it's the single most common byte in English text, so whichever ciphertext byte appears most often at a given position (mod key length) is very likely `0x20 XOR <key byte>` at that position.
 
 In this case, we notice frequent appearances of:
 
@@ -116,4 +116,7 @@ In this case, we notice frequent appearances of:
 
 - `0x45` (ASCII `E`)
 
-These repeating values suggest parts of the key.
+XORing each with `0x20` gives `0x79`, `0x6B`, `0x65` - the bytes of the key `"key"`. These repeating values suggest parts of the key.
+
+> [!TIP]
+> Once you have a length hypothesis, split the ciphertext into blocks of that length and XOR each block's most frequent byte with `0x20` to recover each key byte independently.

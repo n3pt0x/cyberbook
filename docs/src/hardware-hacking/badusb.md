@@ -59,6 +59,13 @@ cat script.txt | python2 duckencoder.py -p -l fr > payload.bin
 python2 duck2spark.py -i payload.bin -l 1 -f 2000 -o sketch.ino
 ```
 
+> [!TIP]
+> Most modern distros (Debian 12+, Ubuntu 22.04+, Arch) no longer ship `python2`. If it's not available, run the encoder in a throwaway container instead of installing it system-wide:
+>
+> ```bash
+> docker run --rm -v $(pwd):/data -w /data python:2.7 python duckencoder.py -p -l fr script.txt > payload.bin
+> ```
+
 ### 💾 Memory Management (PROGMEM)
 
 - [DigiKeyboard Library](https://github.com/ArminJo/DigistumpArduino/blob/master/package_digistump_index.json)
@@ -117,7 +124,7 @@ Plug the Adafruit **while holding the BOOT button**.
 ```bash
 sudo mount /dev/sdX1 /mnt
 wget https://github.com/SpacehuhnTech/USBNova/releases/download/1.2.3/USBNova_diy_trinkey_1.2.3.uf2 -O /mnt/USBNova_diy_trinkey_1.2.3.uf2
-sud umount /mnt && sudo eject /dev/sdX
+sudo umount /mnt && sudo eject /dev/sdX
 ```
 
 **3. Setup the script**
@@ -125,7 +132,7 @@ sud umount /mnt && sudo eject /dev/sdX
 Unplug and Trinkey without pressing the BOOT button. A new volume (e.g., `/dev/sdX`) should appear.
 
 ```bash
-sudo mount /dev/sdx /mnt
+sudo mount /dev/sdX /mnt
 
 ls /mnt
 # main_script.txt  preferences.json

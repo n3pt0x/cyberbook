@@ -2,17 +2,13 @@
 
 ### Self-Signed
 
-::: code-group
-
-```bash [openssl]
+```bash
 # Generate Certificate
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
 
 # For socat
 cat key.pem cert.pem > shell.pem
 ```
-
-:::
 
 > **OPSEC**: self-signed certs are detectable by EDR/NDR (identical issuer/subject DN, short validity). Use only in lab or when encryption is a convenience, not an evasion requirement.
 

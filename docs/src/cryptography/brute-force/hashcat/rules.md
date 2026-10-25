@@ -26,12 +26,12 @@ $<X>                 # Append char X (password$1 = password1)
 ^<X>                 # Prepend char X (^1password = 1password)
 s<X><Y>              # Replace X with Y (sa@ = p@ssword)
 @<X>                 # Delete all X (password@a = pssword)
-!<X>                 # Keep only X (password!aeiou = aio)
 
 # Duplicate/Reverse
 d                    # Duplicate (pass -> passpass)
-p                    # Append reversed (pass -> passssap)
-q                    # Duplicate every character? wait no — q<N> block dup
+p<N>                 # Append N extra copies of the word (p2: pass -> passpasspass)
+f                    # Reflect: append the reversed word (pass -> passssap)
+q                    # Duplicate every character (pass -> ppaasss)
 r                    # Reverse (password -> drowssap)
 
 # Rotate
@@ -46,20 +46,28 @@ r                    # Reverse (password -> drowssap)
 ```bash
 # Positional
 i<N><X>              # Insert X at pos N
-o<N>                 # Delete char at pos N
+D<N>                 # Delete char at pos N (D3: password -> passord)
+o<N><X>              # Overwrite char at pos N with X (o3$: password -> pas$word)
 x<N><M>              # Extract substring (pos N, length M)
-'<N>                 # Keep left N chars (truncate)
-"<N>                 # Keep right N chars
+'<N>                 # Keep left N chars (truncate, '6: password -> passwo)
+# No rule to truncate from the right directly - chain reverse+truncate+reverse instead:
+# r '<N> r            # Keep right N chars (reverse, truncate left N, reverse back)
 
 # Memory
-4                    # Save current position
-6                    # Go to saved position
+M                    # Memorize the current word
+4                    # Append the memorized word to the current word
+6                    # Prepend the memorized word to the current word
 
-# Rejection rules (only with -j/-k)
->N                   # Reject if word length > N
-<N                   # Reject if word length < N
-_N                   # Reject if word contains non-existent char? no — check doc
+# Rejection rules (only with -j/-k, not -r)
+>N                   # Reject if word length < N (keeps only candidates longer than N)
+<N                   # Reject if word length > N (keeps only candidates shorter than N)
+_N                   # Reject unless word length is exactly N
+!<X>                 # Reject if word contains char X
+/<X>                 # Reject if word does NOT contain char X
 ```
+
+> [!WARNING]
+> `<` and `>` are counter-intuitive: `<N` rejects *longer* words (keeps short ones), `>N` rejects *shorter* words (keeps long ones) - it's named after which comparison the word must satisfy to survive, not the one that rejects it. Double-check against the [official wiki](https://hashcat.net/wiki/doku.php?id=rule_based_attack) if a filter doesn't behave as expected.
 
 :::
 
