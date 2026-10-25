@@ -218,10 +218,9 @@ Any object that can be **authenticated** by Windows and has a **SID**:
 
 ```php
 S-1-5-21-1275210071-1715567821-725345543-1104
-│ │ │ └───── Domain ID ─────┘ └─ RID ─┘
-│ │ └── SECURITY_NT_AUTHORITY
-│ └── SECURITY_WORLD (well-known)
-└── Revision level
+  │ │ └───── Domain ID ─────┘ └─ RID ─┘
+  │ └── SECURITY_NT_AUTHORITY (5 = NT Authority)
+  └── Revision level (always 1)
 ```
 
 - **Domain ID** = unique per domain (same for all objects in that domain)

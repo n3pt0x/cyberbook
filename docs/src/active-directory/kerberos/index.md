@@ -51,7 +51,7 @@ it never sends its password to a service.
 | **TGS** (Ticket Granting Service) | Issues **service tickets** (TGS) based on a valid TGT.                         |
 | **Client / Principal**            | A user, computer, or service account requesting authentication.                |
 | **Service**                       | A resource identified by an **SPN** (SMB, HTTP, LDAP, MSSQL, …).               |
-| **Realm**                         | The Kerberos equivalent of a domain. Uppercase by convention (`domain.local`). |
+| **Realm**                         | The Kerberos equivalent of a domain. Uppercase by convention (`DOMAIN.LOCAL`). |
 | **krbtgt**                        | Special AD account whose key signs every TGT in the realm.                     |
 
 :::
@@ -91,7 +91,7 @@ encrypted with its own key. The KDC verifies the timestamp and returns two thing
 > Pre-auth prevents an attacker from requesting a TGT for any user and cracking it
 > offline. When pre-auth is **disabled** on an account, the KDC returns an AS-REP
 > encrypted with the user's key without verifying the requester - this is
-> **AS-REP Roasting**. See `as-rep-roasting.md`.
+> **AS-REP Roasting**. See `roasting/asrep-roast.md`.
 
 ### TGS Exchange - obtain a service ticket
 
@@ -283,7 +283,7 @@ The **domain SID** is required to forge Golden Tickets (it is embedded in the PA
 
 RC4 uses the account's NTLM hash directly, which is why Pass-the-Hash works with
 RC4 tickets. AES keys are derived from the plaintext password (via salted string2key)
-and cannot be recovered from the NTLM hash — you need either the password or the AES
+and cannot be recovered from the NTLM hash - you need either the password or the AES
 keys themselves (extracted from NTDS).
 
 > [!warning] Why AES matters for ticket forging

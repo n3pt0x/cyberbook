@@ -2,9 +2,11 @@
 title: "Credential Dumping"
 ---
 
-# Credential Dumping
+# 🔑 Credential Dumping
 
-## Useful tool for dumping LSASS
+> _Common credential sources on a Windows host: LSASS memory, SAM/LSA registry hives, DPAPI-protected blobs, and the NTDS.dit database on a DC._
+
+## 🛠️ Red team alternatives
 
 | Tool           | Description                                   | Repo                                                                             |
 | -------------- | --------------------------------------------- | -------------------------------------------------------------------------------- |
@@ -15,4 +17,4 @@ title: "Credential Dumping"
 | **Pykatz**     | Python implementation (run from Linux)        | [github.com/skelsec/pypykatz](https://github.com/skelsec/pypykatz)               |
 | **HandleKatz** | Handle hijacking for LSASS dump               | [github.com/codewhitesec/HandleKatz](https://github.com/codewhitesec/HandleKatz) |
 
-> The cheatsheets in this folder focus on mimikatz for educational purposes. For real engagements, use the tools above.
+> _These cheatsheets use mimikatz for teaching; prefer the tools above for real engagements._

