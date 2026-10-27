@@ -13,6 +13,7 @@ title: "Hashcat"
 ## 🔍 Hash Types
 
 - [haiti](https://github.com/noraj/haiti)
+- [Name That Hash](https://github.com/bee-san/Name-That-Hash)
 - [hashID](https://github.com/psypanda/hashID)
 
 ```bash

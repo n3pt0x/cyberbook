@@ -9,6 +9,11 @@ title: "BadUSB"
 - [BadUSB Docs](https://docs.spacehuhn.com/badusb/)
 - [Hak5 Rubber Ducky Documentation](https://documentation.hak5.org/hak5-usb-rubber-ducky)
 
+## Tools
+
+- [USBArmyKnife](https://github.com/i-am-shodan/USBArmyKnife)
+- [WiFiQuack](https://github.com/n3pt0x/WiFiQuack)
+
 ## 📟 Digispark Attiny85
 
 ### ⚙️ Setup (udev)

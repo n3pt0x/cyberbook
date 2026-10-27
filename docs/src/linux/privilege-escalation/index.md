@@ -24,6 +24,10 @@ title: "Privilege Escalation"
 - [pspy](https://github.com/DominicBreuker/pspy)
 - [sudo-killer](https://github.com/TH3xACE/SUDO_KILLER)
 
+### Kernel Exploit
+
+- [Linux Kernel Exploitation](https://github.com/xairy/linux-kernel-exploitation/)
+
 ## 🔍 Reconnaissance
 
 ### System & User
