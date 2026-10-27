@@ -1,0 +1,314 @@
+/*
+ * Color themes, picked in the navbar "..." flyout (components/NavBarExtra.vue).
+ * "cyberbook" is the default and lives on bare :root / .dark; the others are
+ * selected through html[data-theme] (see themes.js).
+ * Each theme defines surfaces, text, brand and one accent per discipline
+ * (--cv-*, used by the home page).
+ */
+
+/* CyberBook */
+
+:root {
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f7f8fb;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: #f3f5f9;
+  --vp-c-border: #c9cdd8;
+  --vp-c-divider: #e5e7ee;
+  --vp-c-gutter: #e5e7ee;
+
+  --vp-c-brand-1: #4f46e5;
+  --vp-c-brand-2: #4338ca;
+  --vp-c-brand-3: #4f46e5;
+  --vp-c-brand-soft: rgba(99, 102, 241, 0.14);
+
+  --cv-red: #e11d48;
+  --cv-blue: #0284c7;
+  --cv-green: #059669;
+  --cv-purple: #7c3aed;
+  --cv-amber: #b45309;
+  --cv-teal: #0d9488;
+}
+
+.dark {
+  --vp-c-bg: #0e1016;
+  --vp-c-bg-alt: #0a0c11;
+  --vp-c-bg-elv: #151821;
+  --vp-c-bg-soft: #151821;
+  --vp-c-border: #2f3442;
+  --vp-c-divider: #1f2330;
+  --vp-c-gutter: #000000;
+
+  --vp-c-brand-1: #818cf8;
+  --vp-c-brand-2: #a5b4fc;
+  --vp-c-brand-3: #4f46e5;
+  --vp-c-brand-soft: rgba(129, 140, 248, 0.16);
+
+  --cv-red: #fb7185;
+  --cv-blue: #38bdf8;
+  --cv-green: #34d399;
+  --cv-purple: #a78bfa;
+  --cv-amber: #fbbf24;
+  --cv-teal: #2dd4bf;
+}
+
+/* Shared by every non-default theme */
+
+html[data-theme] {
+  --vp-c-default-soft: color-mix(in srgb, var(--vp-c-text-3) 16%, transparent);
+  --vp-c-brand-soft: color-mix(in srgb, var(--vp-c-brand-1) 15%, transparent);
+}
+
+/* Nord */
+
+html[data-theme="nord"] {
+  --vp-c-bg: #f8f9fb;
+  --vp-c-bg-alt: #eceff4;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: #e5e9f0;
+  --vp-c-border: #c2c9d6;
+  --vp-c-divider: #d8dee9;
+  --vp-c-gutter: #d8dee9;
+  --vp-c-text-1: #2e3440;
+  --vp-c-text-2: #4c566a;
+  --vp-c-text-3: #7b88a1;
+
+  --vp-c-brand-1: #5e81ac;
+  --vp-c-brand-2: #4c6f99;
+  --vp-c-brand-3: #5e81ac;
+
+  --cv-red: #b4434d;
+  --cv-blue: #3b7a91;
+  --cv-green: #5b7f3f;
+  --cv-purple: #8f5f8a;
+  --cv-amber: #a8761a;
+  --cv-teal: #4c8a87;
+}
+
+html.dark[data-theme="nord"] {
+  --vp-c-bg: #2e3440;
+  --vp-c-bg-alt: #272c36;
+  --vp-c-bg-elv: #3b4252;
+  --vp-c-bg-soft: #3b4252;
+  --vp-c-border: #4c566a;
+  --vp-c-divider: #3b4252;
+  --vp-c-gutter: #242933;
+  --vp-c-text-1: #eceff4;
+  --vp-c-text-2: #c0c8d6;
+  --vp-c-text-3: #8691a6;
+
+  --vp-c-brand-1: #88c0d0;
+  --vp-c-brand-2: #a3d0dc;
+  --vp-c-brand-3: #5e81ac;
+
+  --cv-red: #bf616a;
+  --cv-blue: #88c0d0;
+  --cv-green: #a3be8c;
+  --cv-purple: #b48ead;
+  --cv-amber: #ebcb8b;
+  --cv-teal: #8fbcbb;
+}
+
+/* Dracula */
+
+html[data-theme="dracula"] {
+  --vp-c-bg: #fffbeb;
+  --vp-c-bg-alt: #f6f1da;
+  --vp-c-bg-elv: #fffdf4;
+  --vp-c-bg-soft: #f3edd3;
+  --vp-c-border: #cfc9ae;
+  --vp-c-divider: #e8e2c8;
+  --vp-c-gutter: #e8e2c8;
+  --vp-c-text-1: #1f1f1f;
+  --vp-c-text-2: #4a4a5a;
+  --vp-c-text-3: #7d7863;
+
+  --vp-c-brand-1: #644ac9;
+  --vp-c-brand-2: #5236b4;
+  --vp-c-brand-3: #644ac9;
+
+  --cv-red: #cb3a2a;
+  --cv-blue: #036a96;
+  --cv-green: #14710a;
+  --cv-purple: #644ac9;
+  --cv-amber: #a34d14;
+  --cv-teal: #846e15;
+}
+
+html.dark[data-theme="dracula"] {
+  --vp-c-bg: #282a36;
+  --vp-c-bg-alt: #21222c;
+  --vp-c-bg-elv: #343746;
+  --vp-c-bg-soft: #343746;
+  --vp-c-border: #44475a;
+  --vp-c-divider: #353849;
+  --vp-c-gutter: #191a21;
+  --vp-c-text-1: #f8f8f2;
+  --vp-c-text-2: #c5c8d6;
+  --vp-c-text-3: #7b88b8;
+
+  --vp-c-brand-1: #bd93f9;
+  --vp-c-brand-2: #d6b8ff;
+  --vp-c-brand-3: #8b5fd6;
+
+  --cv-red: #ff5555;
+  --cv-blue: #8be9fd;
+  --cv-green: #50fa7b;
+  --cv-purple: #bd93f9;
+  --cv-amber: #ffb86c;
+  --cv-teal: #f1fa8c;
+}
+
+/* Catppuccin (Latte / Mocha) */
+
+html[data-theme="catppuccin"] {
+  --vp-c-bg: #eff1f5;
+  --vp-c-bg-alt: #e6e9ef;
+  --vp-c-bg-elv: #f5f6f9;
+  --vp-c-bg-soft: #e6e9ef;
+  --vp-c-border: #bcc0cc;
+  --vp-c-divider: #ccd0da;
+  --vp-c-gutter: #dce0e8;
+  --vp-c-text-1: #4c4f69;
+  --vp-c-text-2: #5c5f77;
+  --vp-c-text-3: #8c8fa1;
+
+  --vp-c-brand-1: #8839ef;
+  --vp-c-brand-2: #7028d4;
+  --vp-c-brand-3: #8839ef;
+
+  --cv-red: #d20f39;
+  --cv-blue: #1e66f5;
+  --cv-green: #40a02b;
+  --cv-purple: #8839ef;
+  --cv-amber: #df5a00;
+  --cv-teal: #179299;
+}
+
+html.dark[data-theme="catppuccin"] {
+  --vp-c-bg: #1e1e2e;
+  --vp-c-bg-alt: #181825;
+  --vp-c-bg-elv: #313244;
+  --vp-c-bg-soft: #262637;
+  --vp-c-border: #45475a;
+  --vp-c-divider: #313244;
+  --vp-c-gutter: #11111b;
+  --vp-c-text-1: #cdd6f4;
+  --vp-c-text-2: #bac2de;
+  --vp-c-text-3: #7f849c;
+
+  --vp-c-brand-1: #cba6f7;
+  --vp-c-brand-2: #dcc2fa;
+  --vp-c-brand-3: #8839ef;
+
+  --cv-red: #f38ba8;
+  --cv-blue: #89dceb;
+  --cv-green: #a6e3a1;
+  --cv-purple: #cba6f7;
+  --cv-amber: #fab387;
+  --cv-teal: #94e2d5;
+}
+
+/* Gruvbox */
+
+html[data-theme="gruvbox"] {
+  --vp-c-bg: #fbf1c7;
+  --vp-c-bg-alt: #f2e5bc;
+  --vp-c-bg-elv: #f9f5d7;
+  --vp-c-bg-soft: #f2e5bc;
+  --vp-c-border: #d5c4a1;
+  --vp-c-divider: #ebdbb2;
+  --vp-c-gutter: #ebdbb2;
+  --vp-c-text-1: #3c3836;
+  --vp-c-text-2: #504945;
+  --vp-c-text-3: #7c6f64;
+
+  --vp-c-brand-1: #b57614;
+  --vp-c-brand-2: #9a6110;
+  --vp-c-brand-3: #b57614;
+
+  --cv-red: #9d0006;
+  --cv-blue: #076678;
+  --cv-green: #79740e;
+  --cv-purple: #8f3f71;
+  --cv-amber: #af3a03;
+  --cv-teal: #427b58;
+}
+
+html.dark[data-theme="gruvbox"] {
+  --vp-c-bg: #282828;
+  --vp-c-bg-alt: #1d2021;
+  --vp-c-bg-elv: #3c3836;
+  --vp-c-bg-soft: #32302f;
+  --vp-c-border: #504945;
+  --vp-c-divider: #3c3836;
+  --vp-c-gutter: #1d2021;
+  --vp-c-text-1: #ebdbb2;
+  --vp-c-text-2: #d5c4a1;
+  --vp-c-text-3: #928374;
+
+  --vp-c-brand-1: #fabd2f;
+  --vp-c-brand-2: #fcd36a;
+  --vp-c-brand-3: #b57614;
+
+  --cv-red: #fb4934;
+  --cv-blue: #83a598;
+  --cv-green: #b8bb26;
+  --cv-purple: #d3869b;
+  --cv-amber: #fe8019;
+  --cv-teal: #8ec07c;
+}
+
+/* Terminal: monochrome phosphor green */
+
+html[data-theme="terminal"] {
+  --vp-c-bg: #f3faf4;
+  --vp-c-bg-alt: #e8f4ea;
+  --vp-c-bg-elv: #f8fdf9;
+  --vp-c-bg-soft: #e3f1e6;
+  --vp-c-border: #a9cdb1;
+  --vp-c-divider: #cfe5d4;
+  --vp-c-gutter: #cfe5d4;
+  --vp-c-text-1: #0b2512;
+  --vp-c-text-2: #2c5236;
+  --vp-c-text-3: #5f8268;
+
+  --vp-c-brand-1: #0f7a35;
+  --vp-c-brand-2: #0a5f28;
+  --vp-c-brand-3: #0f7a35;
+
+  --cv-red: #0f7a35;
+  --cv-blue: #0f7a35;
+  --cv-green: #0f7a35;
+  --cv-purple: #0f7a35;
+  --cv-amber: #0f7a35;
+  --cv-teal: #0f7a35;
+}
+
+html.dark[data-theme="terminal"] {
+  --vp-c-bg: #050a06;
+  --vp-c-bg-alt: #030604;
+  --vp-c-bg-elv: #0b140d;
+  --vp-c-bg-soft: #0b140d;
+  --vp-c-border: #1c4426;
+  --vp-c-divider: #12301a;
+  --vp-c-gutter: #000000;
+  --vp-c-text-1: #c8f7d2;
+  --vp-c-text-2: #7fbf8e;
+  --vp-c-text-3: #4d7a58;
+
+  --vp-c-brand-1: #3ef07c;
+  --vp-c-brand-2: #8af7ae;
+  --vp-c-brand-3: #16a34a;
+
+  --cv-red: #3ef07c;
+  --cv-blue: #3ef07c;
+  --cv-green: #3ef07c;
+  --cv-purple: #3ef07c;
+  --cv-amber: #3ef07c;
+  --cv-teal: #3ef07c;
+}
+
+html[data-theme="terminal"] {
+  --vp-font-family-base: var(--vp-font-family-mono);
+}

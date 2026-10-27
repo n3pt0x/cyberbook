@@ -95,9 +95,9 @@ const stats = computed(() => {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse 34% 50% at 26% 0%, rgba(220, 38, 38, 0.2), transparent 70%),
-    radial-gradient(ellipse 30% 45% at 76% 4%, rgba(249, 115, 22, 0.14), transparent 70%),
-    radial-gradient(ellipse 30% 35% at 50% 88%, rgba(168, 85, 247, 0.08), transparent 70%);
+    radial-gradient(ellipse 34% 50% at 26% 0%, color-mix(in srgb, var(--cv-red) 20%, transparent), transparent 70%),
+    radial-gradient(ellipse 30% 45% at 76% 4%, color-mix(in srgb, var(--cv-amber) 14%, transparent), transparent 70%),
+    radial-gradient(ellipse 30% 35% at 50% 88%, color-mix(in srgb, var(--cv-purple) 8%, transparent), transparent 70%);
   -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 35%, #000 35%, transparent 100%);
   mask-image: radial-gradient(ellipse 90% 100% at 50% 35%, #000 35%, transparent 100%);
   animation: cv-breathe 9s ease-in-out infinite alternate;
@@ -117,16 +117,16 @@ const stats = computed(() => {
   font-size: 12.5px;
   color: var(--vp-c-text-2);
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, #ef4444 35%, transparent);
-  background: color-mix(in srgb, #ef4444 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cv-red) 35%, transparent);
+  background: color-mix(in srgb, var(--cv-red) 8%, transparent);
 }
 
 .cv-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #ef4444;
-  box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6);
+  background: var(--cv-red);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--cv-red) 60%, transparent);
   animation: cv-ping 2s infinite;
 }
 
@@ -145,7 +145,7 @@ h1 {
 }
 
 .cv-grad {
-  background: linear-gradient(120deg, #ef4444 0%, #f97316 55%, #fbbf24 100%);
+  background: linear-gradient(120deg, var(--cv-red) 0%, var(--cv-amber) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -153,8 +153,8 @@ h1 {
 
 .cv-cursor {
   margin-left: 2px;
-  color: #ef4444;
-  -webkit-text-fill-color: #ef4444;
+  color: var(--cv-red);
+  -webkit-text-fill-color: var(--cv-red);
   animation: cv-blink 1.1s steps(1) infinite;
 }
 
@@ -171,7 +171,7 @@ h1 {
 
 .cv-tagline b {
   font-weight: 400;
-  color: #ef4444;
+  color: var(--cv-red);
   opacity: 0.8;
 }
 
@@ -210,13 +210,13 @@ h1 {
 
 .cv-btn-primary {
   color: #fff;
-  background: linear-gradient(135deg, #dc2626, #f97316);
-  box-shadow: 0 8px 24px -8px rgba(220, 38, 38, 0.7);
+  background: linear-gradient(135deg, var(--cv-red), var(--cv-amber));
+  box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--cv-red) 70%, transparent);
 }
 
 .cv-btn-primary:hover {
   color: #fff;
-  box-shadow: 0 12px 30px -8px rgba(220, 38, 38, 0.9);
+  box-shadow: 0 12px 30px -8px color-mix(in srgb, var(--cv-red) 90%, transparent);
 }
 
 .cv-btn-ghost {
@@ -227,7 +227,7 @@ h1 {
 
 .cv-btn-ghost:hover {
   color: var(--vp-c-text-1);
-  border-color: #ef4444;
+  border-color: var(--cv-red);
 }
 
 .cv-hint {
@@ -257,7 +257,7 @@ kbd {
   background: #0d0d10;
   box-shadow:
     0 30px 60px -30px rgba(0, 0, 0, 0.6),
-    0 0 60px -20px rgba(220, 38, 38, 0.35);
+    0 0 60px -20px color-mix(in srgb, var(--cv-red) 35%, transparent);
 }
 
 .cv-term-bar {
@@ -289,7 +289,10 @@ kbd {
   color: #8b8b93;
 }
 
+/* the window stays dark in light mode: lift the theme accents for contrast */
 .cv-term-body {
+  --term-red: color-mix(in srgb, var(--cv-red) 70%, #fff);
+  --term-green: color-mix(in srgb, var(--cv-green) 70%, #fff);
   padding: 16px 18px 18px;
   font-family: var(--vp-font-family-mono);
   font-size: 13.5px;
@@ -304,7 +307,7 @@ kbd {
 }
 
 .cv-ps {
-  color: #ef4444;
+  color: var(--term-red);
   margin-right: 6px;
 }
 
@@ -313,7 +316,7 @@ kbd {
 }
 
 .cv-ok {
-  color: #22c55e;
+  color: var(--term-green);
   margin-left: 6px;
 }
 .cv-ok:first-child {
@@ -337,6 +340,16 @@ kbd {
   vertical-align: text-bottom;
   background: #d4d4d8;
   animation: cv-blink 1s steps(1) infinite;
+}
+
+/* in dark mode it blends into the theme surfaces */
+.dark .cv-term {
+  background: var(--vp-c-bg-alt);
+}
+
+.dark .cv-term-body {
+  --term-red: var(--cv-red);
+  --term-green: var(--cv-green);
 }
 
 @keyframes cv-typing {
@@ -367,10 +380,10 @@ kbd {
 }
 @keyframes cv-ping {
   70% {
-    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+    box-shadow: 0 0 0 8px transparent;
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    box-shadow: 0 0 0 0 transparent;
   }
 }
 

@@ -1,16 +1,24 @@
-/* Light mode */
-.DocSearch {
-  border-radius: 8px;
-  background: #f6f6f7;
-  color: #7b7b80;
+/* Search button - VitePress 2 renders the local search as .VPNavBarSearchButton
+   (no more .DocSearch-Button); below 768px it is a bare icon, without border. */
+@media (min-width: 768px) {
+  .VPNavBarSearchButton {
+    border: 1px solid var(--vp-c-border);
+    transition:
+      border-color 0.25s,
+      background-color 0.25s,
+      color 0.25s;
+  }
+
+  .VPNavBarSearchButton:hover {
+    border-color: var(--vp-c-brand-1);
+    background-color: var(--vp-c-bg-soft);
+    color: var(--vp-c-text-1);
+  }
 }
 
-.DocSearch-Button {
-  border: 1px solid #d1d5db;
-}
-
-.DocSearch-Button:hover {
-  border-color: #8b92d2;
+/* Links: brand colored (follows the color theme, see themes.css), without underline */
+.vp-doc a {
+  text-decoration: none;
 }
 
 /* "success" custom block (::: success / > [!SUCCESS]) - mirrors the built-in
@@ -40,20 +48,4 @@
 
 .vp-doc .custom-block.success code {
   background-color: var(--vp-custom-block-success-code-bg);
-}
-
-/* Dark mode */
-html.dark .DocSearch {
-  background: #161618;
-  color: #7b7b80;
-}
-
-html.dark .DocSearch-Button {
-  border: 1px solid #333;
-}
-
-html.dark .DocSearch-Button:hover {
-  border-color: #8b92d2;
-  background-color: #1f1f1f;
-  color: #fff;
 }

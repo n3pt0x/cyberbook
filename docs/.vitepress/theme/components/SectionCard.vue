@@ -8,7 +8,7 @@ const props = defineProps({
   href: String,
   // inner markup of a 24x24 stroke SVG
   icon: String,
-  accent: { type: String, default: "#dc2626" },
+  accent: { type: String, default: "var(--vp-c-brand-1)" },
   // subsections ({ label, link }), shown as shortcuts
   children: { type: Array, default: () => [] },
   pages: { type: Number, default: 0 },

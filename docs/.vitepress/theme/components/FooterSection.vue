@@ -18,7 +18,7 @@
   font-size: 0.9rem;
   color: var(--vp-c-text-2);
   border-top: 1px solid transparent;
-  border-image: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.5), transparent) 1;
+  border-image: linear-gradient(90deg, transparent, color-mix(in srgb, var(--cv-red) 50%, transparent), transparent) 1;
 }
 
 .cv-footer-content {
@@ -38,7 +38,7 @@
 }
 
 .cv-footer-brand span {
-  color: #ef4444;
+  color: var(--cv-red);
 }
 
 .cv-footer-note {
