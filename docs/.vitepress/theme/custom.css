@@ -13,6 +13,35 @@
   border-color: #8b92d2;
 }
 
+/* "success" custom block (::: success / > [!SUCCESS]) - mirrors the built-in
+   tip/warning/danger blocks, using VitePress's green scale. */
+:root {
+  --vp-custom-block-success-border: transparent;
+  --vp-custom-block-success-text: var(--vp-c-text-1);
+  --vp-custom-block-success-bg: var(--vp-c-green-soft);
+  --vp-custom-block-success-code-bg: var(--vp-c-green-soft);
+}
+
+.vp-doc .custom-block.success {
+  border-color: var(--vp-custom-block-success-border);
+  color: var(--vp-custom-block-success-text);
+  background-color: var(--vp-custom-block-success-bg);
+}
+
+.vp-doc .custom-block.success a,
+.vp-doc .custom-block.success code {
+  color: var(--vp-c-green-1);
+}
+
+.vp-doc .custom-block.success a:hover,
+.vp-doc .custom-block.success a:hover > code {
+  color: var(--vp-c-green-2);
+}
+
+.vp-doc .custom-block.success code {
+  background-color: var(--vp-custom-block-success-code-bg);
+}
+
 /* Dark mode */
 html.dark .DocSearch {
   background: #161618;

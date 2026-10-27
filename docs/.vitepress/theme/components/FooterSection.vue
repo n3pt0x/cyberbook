@@ -1,35 +1,49 @@
 <template>
   <footer class="cv-footer">
-    <div class="footer-content">
-      <p>© 2026 CyberBook — Red Team Playbook</p>
-      <p class="footer-note">Built with VitePress · Work in progress</p>
+    <div class="cv-footer-content">
+      <p class="cv-footer-brand">📖 Cyber<span>Book</span></p>
+      <p>© 2026 CyberBook - Red Team Playbook</p>
+      <p class="cv-footer-note">
+        Built with VitePress · Work in progress · For authorized testing and education only
+      </p>
     </div>
   </footer>
 </template>
 
 <style scoped>
 .cv-footer {
-  margin-top: 60px;
-  padding: 32px 20px;
+  margin-top: 72px;
+  padding: 32px 24px 8px;
   text-align: center;
   font-size: 0.9rem;
-  border-top: 1px solid rgba(220, 38, 38, 0.15);
-  backdrop-filter: blur(8px);
+  color: var(--vp-c-text-2);
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.5), transparent) 1;
 }
 
-.footer-content {
+.cv-footer-content {
   max-width: 800px;
   margin: 0 auto;
 }
 
-.separator {
-  opacity: 0.3;
-  color: #64748b;
+.cv-footer p {
+  margin: 4px 0;
+  line-height: 1.6;
 }
 
-.footer-note {
+.cv-footer-brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--vp-c-text-1);
+}
+
+.cv-footer-brand span {
+  color: #ef4444;
+}
+
+.cv-footer-note {
+  margin-top: 12px;
   font-size: 0.8rem;
-  opacity: 0.5;
-  margin-top: 16px;
+  opacity: 0.6;
 }
 </style>

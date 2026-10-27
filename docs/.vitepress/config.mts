@@ -2,6 +2,7 @@ import { defineConfig } from "vitepress";
 import { generateSidebar } from "vitepress-sidebar";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 import lightbox from "vitepress-plugin-lightbox";
+import { successPlugin } from "./markdown/success.mts";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -40,6 +41,7 @@ export default defineConfig({
     config(md) {
       md.use(tabsMarkdownPlugin);
       md.use(lightbox, {});
+      md.use(successPlugin);
     },
   },
 });

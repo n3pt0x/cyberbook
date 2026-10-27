@@ -2,6 +2,7 @@
 title: 📖 CyberBook
 titleTemplate: Structured Cybersecurity Knowledge Base
 category: intro
+layout: home
 next: false
 # editLink: false
 # lastUpdated: false
