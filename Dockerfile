@@ -2,6 +2,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# git is needed by VitePress lastUpdated (reads each page's last commit date)
+RUN apk add --no-cache git
+
 COPY package*.json ./
 RUN npm install
 
