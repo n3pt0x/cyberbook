@@ -1,4 +1,8 @@
-# 🪟 Privesc Windows
+---
+title: "Privilege Escalation"
+---
+
+# 🪟 Privilege Escalation
 
 ## 🛠️ Tools
 
