@@ -83,6 +83,8 @@ This produces `<username>.ccache` in the current directory.
 >   "$DOMAIN/$USER:$PASSWORD@$DC_HOST"
 > ```
 
+For on-host forging with Mimikatz / Rubeus, see [tickets index - On-host forging](./index.md#on-host-forging-mimikatz-rubeus).
+
 ### Impersonate a privileged user
 
 By default, `ticketer` embeds the forged user in the PAC. To make the ticket

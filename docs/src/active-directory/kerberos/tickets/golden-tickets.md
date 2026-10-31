@@ -62,6 +62,8 @@ impacket-ticketer -aesKey "$KRBTGT_AES_HASH" \
   $TARGET_USER
 ```
 
+For on-host forging with Mimikatz / Rubeus, see [tickets index - On-host forging](./index.md#on-host-forging-mimikatz-rubeus).
+
 ### Impersonate a privileged user
 
 By default, `ticketer` embeds the forged user in the PAC. To impersonate a Domain

