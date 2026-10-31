@@ -4,6 +4,10 @@
 > Redirect traffic between hosts/networks.
 > Useful in pentesting for pivoting, lateral movement, and firewall bypass.
 
+## 📚 Resources
+
+- [LOTTunnels](https://lottunnels.github.io/) - living-off-the-land catalog of native binaries abusable for tunneling / port-forwarding (the LOLBAS of pivoting).
+
 ## 🛠️ Socat – Swiss Army Knife
 
 - [Socat static binary](https://github.com/ernw/static-toolbox/releases/tag/socat-v1.7.4.4)
