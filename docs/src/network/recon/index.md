@@ -87,3 +87,54 @@ proxychains nmap -sT -Pn -f -T2 -p 80,443,22 --data-length 40 $TARGET
 # Via SOCKS5 proxy
 proxychains nmap -sT -Pn --proxies socks5://127.0.0.1:9050 $TARGET
 ```
+
+## 🔎 Manual Banner Grabbing
+
+> LotL alternative to `nmap -sV` when stealth matters: one TCP connection per service, no scan signature. Also useful when nmap is blocked or missing on the host.
+
+```bash
+# TCP banner (works for SMTP, FTP, SSH, IMAP, POP3, Redis, MySQL...)
+nc -nv $TARGET $PORT
+
+# HTTP head + server header
+curl -sI http://$TARGET | grep -i '^server\|^x-powered-by'
+curl -skI https://$TARGET -H "Host: $VHOST"      # Skip cert check, force vhost
+
+# Minimal HTTP probe (no curl)
+printf 'GET / HTTP/1.0\r\nHost: %s\r\n\r\n' "$TARGET" | nc -nv $TARGET 80
+
+# TLS inspection: cert, SAN, ALPN, cipher
+openssl s_client -connect $TARGET:443 -servername $TARGET </dev/null 2>/dev/null | openssl x509 -noout -text | grep -A1 "Subject:\|DNS:"
+openssl s_client -connect $TARGET:443 -alpn h2,http/1.1 </dev/null 2>/dev/null | grep -iE "subject|issuer|alpn"
+```
+
+```bash
+# Bash /dev/tcp banner (zero binary dropped)
+exec 3<>/dev/tcp/$TARGET/$PORT; cat <&3 &
+```
+
+## 🌐 IPv6 Reconnaissance
+
+> IPv6 is enabled by default on Windows and most Linux distros, yet rarely monitored. Prime surface for internal pivots - `mitm6` relies on this blind spot (see [DHCP spoofing](/network/spoofing/dhcp)).
+
+```bash
+# Nmap IPv6
+nmap -6 -sS $IPV6_TARGET
+nmap -6 -sV -p- fd00::/64                 # Scan a /64 (slow, use targets)
+nmap -6 --script targets-ipv6-multicast-echo -sn $INTERFACE
+
+# Link-local discovery (ping all-nodes multicast)
+ping6 -c 2 -I $INTERFACE ff02::1          # All IPv6 hosts on segment
+ping6 -c 2 -I $INTERFACE ff02::2          # All IPv6 routers
+ip -6 neigh                               # NDP cache (ARP equivalent)
+```
+
+```bash
+# THC-IPv6 suite
+sudo alive6 $INTERFACE                    # Enumerate live IPv6 hosts
+sudo dnsdict6 -4 -t 16 $DOMAIN            # Resolve AAAA + guess subdomains
+sudo thcping6 $INTERFACE $IPV6_TARGET
+```
+
+> [!TIP]
+> Internal DNS often has AAAA records even when the admins think they are "IPv4-only". Query AAAA alongside A: `dig AAAA $HOST @$INTERNAL_DNS`.
