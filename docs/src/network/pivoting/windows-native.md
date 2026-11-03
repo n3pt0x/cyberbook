@@ -158,14 +158,12 @@ unzip ProxifierPE.zip
 xfreerdp /v:$PIVOT_HOST /u:$USER /p:$PASSWORD
 ```
 
-2. On pivot – disable Defender & register DLL
+2. On pivot – whitelist DLL & register
 
 ```bash
-# Stealthier: whitelist only the plugin path instead of killing protection
+# Stealthier: exclude the plugin path only. For full tamper options (disable RT,
+# uninstall, policy), see windows/bypass/defender.md#-exclusions
 Add-MpPreference -ExclusionPath "C:\path\to\SocksOverRDP-Plugin.dll"
-
-# Noisy baseline: disable real-time scanning   # emits Event ID 5001, flagged by most EDR/SIEM
-Set-MpPreference -DisableRealtimeMonitoring $true
 
 # Register plugin (as Administrator)
 regsvr32.exe SocksOverRDP-Plugin.dll
@@ -181,11 +179,9 @@ mstsc.exe /v:$TARGET_HOST
 4. On target – run server
 
 ```bash
-# Stealthier: exclude the server binary rather than removing Defender
+# Stealthier: exclude the server binary only. For disable / uninstall options,
+# see windows/bypass/defender.md
 Add-MpPreference -ExclusionPath "C:\path\to\SocksOverRDP-Server.exe"
-
-# Noisy baseline: remove Defender entirely   # Server only, forces a reboot - very loud
-Uninstall-WindowsFeature -Name Windows-Defender
 
 # Run server as Administrator
 .\SocksOverRDP-Server.exe
